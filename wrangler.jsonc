@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "restore-penistone",
+  "main": "worker/api.js",
+  "compatibility_date": "2026-09-12",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/health"]
+  },
+  "durable_objects": {
+    "bindings": [
+      { "name": "TIPS", "class_name": "TipStore" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["TipStore"] }
+  ]
+}
