@@ -67,3 +67,40 @@ export type HmoPayload = {
   note: string;
   hmos: HmoRecord[];
 };
+
+
+export type PlanningApp = {
+  id: string;
+  ref: string;
+  title: string;
+  address: string;
+  postcode: string;
+  status: string;
+  url: string;
+  lat: number;
+  lng: number;
+};
+
+export type FloodArea = {
+  id: string;
+  label: string;
+  description: string;
+  riverOrSea: string;
+  county: string;
+  fwdCode: string;
+  lat: number;
+  lng: number;
+  url: string;
+};
+
+export type FloodWarning = {
+  id: string;
+  severity: string;
+  severityLevel: number;
+  description: string;
+  message: string;
+  lat: number | null;
+  lng: number | null;
+  url: string;
+  areaName: string;
+};

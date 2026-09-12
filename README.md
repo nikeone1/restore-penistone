@@ -18,6 +18,14 @@ On the site: expand **Moderator (shared code)** at the bottom, enter that code, 
 
 Facebook: Restore never posts. Copy or download the weekly **Restore brief** and paste it into groups yourself. Facebook URLs on tips are stored as links only — never fetched.
 
+## Planning overlay
+
+Toggle **Planning**. Snapshot of Barnsley Planning Explorer public search for Penistone with **S36** postcodes (`public/data/planning-penistone.json`, capped recent sample). Popups link to official ApplicationDetails. Refresh by re-running the public SimpleSearch extract.
+
+## Flood overlay
+
+Toggle **Flood**. Nearby Environment Agency flood **areas** (static snapshot) plus **live** alerts from the EA flood-monitoring API (no key). Attribution: Environment Agency / Open Government Licence.
+
 ## HMO overlay
 
 Toggle **HMO** on the map. Data is from Barnsley’s public licensed HMO PDF ([register](https://www.barnsley.gov.uk/media/zebimlz3/hmo-register.pdf)), **full borough** (~192 properties), geocoded by postcode centroid. Snapshot: `public/data/hmo-penistone.json`. Refresh by re-parsing the PDF. No licence-holder personal details; no third-party scrapes.

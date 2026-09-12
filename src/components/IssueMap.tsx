@@ -1,7 +1,7 @@
 import { CircleMarker, MapContainer, Popup, TileLayer, useMapEvents } from 'react-leaflet';
 import { PENISTONE, isMapped } from '../lib/api';
 import { TYPE_COLOR, TYPE_LABEL, formatWhen, streetLabel } from '../lib/analytics';
-import type { HmoRecord, Report, ReportType } from '../lib/types';
+import type { FloodArea, FloodWarning, HmoRecord, PlanningApp, Report, ReportType } from '../lib/types';
 
 type Props = {
   reports: Report[];
@@ -12,6 +12,11 @@ type Props = {
   pickPoint?: { lat: number; lng: number } | null;
   hmos?: HmoRecord[];
   showHmos?: boolean;
+  planning?: PlanningApp[];
+  showPlanning?: boolean;
+  floodAreas?: FloodArea[];
+  floodWarnings?: FloodWarning[];
+  showFlood?: boolean;
 };
 
 function ClickCatcher({ enabled, onPick }: { enabled: boolean; onPick?: (lat: number, lng: number) => void }) {
@@ -28,7 +33,7 @@ function provenance(report: Report): { label: string; href?: string } {
   return { label: 'FixMyStreet', href: report.url || undefined };
 }
 
-export function IssueMap({ reports, selectedId, onSelect, pickMode = false, onPick, pickPoint, hmos = [], showHmos = false }: Props) {
+export function IssueMap({ reports, selectedId, onSelect, pickMode = false, onPick, pickPoint, hmos = [], showHmos = false, planning = [], showPlanning = false, floodAreas = [], floodWarnings = [], showFlood = false }: Props) {
   const mapped = reports.filter(isMapped);
 
   return (
@@ -39,7 +44,9 @@ export function IssueMap({ reports, selectedId, onSelect, pickMode = false, onPi
           <p className="text-sm text-ink/60">
             {mapped.length} issue pin{mapped.length === 1 ? '' : 's'}
             {showHmos ? ` · ${hmos.length} HMO` : ''}
-            {' '}· FixMyStreet, tips, and HMOs labelled separately
+            {showPlanning ? ` · ${planning.length} planning` : ''}
+            {showFlood ? ` · ${floodWarnings.length} alert / ${floodAreas.length} flood areas` : ''}
+            {' '}· layers labelled separately
           </p>
         </div>
         {pickMode && (
@@ -146,6 +153,78 @@ export function IssueMap({ reports, selectedId, onSelect, pickMode = false, onPi
                   >
                     Public register PDF
                   </a>
+                </Popup>
+              </CircleMarker>
+            ))}
+
+
+          {showPlanning &&
+            planning.map((app) => (
+              <CircleMarker
+                key={app.id}
+                center={[app.lat, app.lng]}
+                radius={8}
+                pathOptions={{ color: '#1a5276', weight: 2, fillColor: '#3498db', fillOpacity: 0.85 }}
+              >
+                <Popup className="restore-popup">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-[#1a5276]">Planning</p>
+                  <p className="mt-1 inline-block rounded-full bg-[#1a5276] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
+                    Barnsley Planning Explorer
+                  </p>
+                  <p className="mt-1 font-semibold leading-snug">{app.ref}</p>
+                  <p className="mt-1 text-sm">{app.title}</p>
+                  <p className="mt-1 text-sm text-ink/70">{app.address}</p>
+                  <p className="text-xs text-ink/50">{app.status}</p>
+                  <a className="mt-1 inline-block text-sm font-semibold text-moss underline" href={app.url} target="_blank" rel="noreferrer">
+                    Open application
+                  </a>
+                </Popup>
+              </CircleMarker>
+            ))}
+          {showFlood &&
+            floodAreas.map((area) => (
+              <CircleMarker
+                key={area.id}
+                center={[area.lat, area.lng]}
+                radius={7}
+                pathOptions={{ color: '#1a5276', weight: 1.5, fillColor: '#5dade2', fillOpacity: 0.45 }}
+              >
+                <Popup className="restore-popup">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-[#2874a6]">Flood area</p>
+                  <p className="mt-1 inline-block rounded-full bg-[#2874a6] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
+                    Environment Agency
+                  </p>
+                  <p className="mt-1 font-semibold leading-snug">{area.label}</p>
+                  <p className="mt-1 text-sm text-ink/70">{area.description}</p>
+                  {area.riverOrSea && <p className="text-xs text-ink/50">{area.riverOrSea}</p>}
+                  {area.url && (
+                    <a className="mt-1 inline-block text-sm font-semibold text-moss underline" href={area.url} target="_blank" rel="noreferrer">
+                      Check for flooding
+                    </a>
+                  )}
+                </Popup>
+              </CircleMarker>
+            ))}
+          {showFlood &&
+            floodWarnings.map((w) => (
+              <CircleMarker
+                key={w.id}
+                center={[w.lat ?? 53.525, w.lng ?? -1.628]}
+                radius={11}
+                pathOptions={{ color: '#7b241c', weight: 3, fillColor: '#e74c3c', fillOpacity: 0.9 }}
+              >
+                <Popup className="restore-popup">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-[#7b241c]">Flood alert</p>
+                  <p className="mt-1 inline-block rounded-full bg-[#c0392b] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
+                    {w.severity}
+                  </p>
+                  <p className="mt-1 font-semibold leading-snug">{w.description || w.areaName}</p>
+                  {w.message && <p className="mt-1 text-sm text-ink/70">{w.message.slice(0, 280)}</p>}
+                  {w.url && (
+                    <a className="mt-1 inline-block text-sm font-semibold text-moss underline" href={w.url} target="_blank" rel="noreferrer">
+                      Official warning
+                    </a>
+                  )}
                 </Popup>
               </CircleMarker>
             ))}

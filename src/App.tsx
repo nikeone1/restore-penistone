@@ -9,7 +9,7 @@ import { TipForm } from './components/TipForm';
 import { WeatherWidget } from './components/WeatherWidget';
 import { WeeklyBrief } from './components/WeeklyBrief';
 import { loadApprovedTips, loadReports } from './lib/api';
-import type { FeedSource, HmoPayload, HmoRecord, Report, ReportType } from './lib/types';
+import type { FeedSource, FloodArea, FloodWarning, HmoPayload, HmoRecord, PlanningApp, Report, ReportType } from './lib/types';
 
 export default function App() {
   const [reports, setReports] = useState<Report[]>([]);
@@ -24,6 +24,11 @@ export default function App() {
   const [pickPoint, setPickPoint] = useState<{ lat: number; lng: number } | null>(null);
   const [hmos, setHmos] = useState<HmoRecord[]>([]);
   const [showHmos, setShowHmos] = useState(true);
+  const [planning, setPlanning] = useState<PlanningApp[]>([]);
+  const [showPlanning, setShowPlanning] = useState(false);
+  const [floodAreas, setFloodAreas] = useState<FloodArea[]>([]);
+  const [floodWarnings, setFloodWarnings] = useState<FloodWarning[]>([]);
+  const [showFlood, setShowFlood] = useState(false);
 
   const refreshTips = useCallback(() => {
     loadApprovedTips()
@@ -52,6 +57,37 @@ export default function App() {
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: HmoPayload) => setHmos(data.hmos || []))
       .catch(() => setHmos([]));
+    fetch('/data/planning-penistone.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: { applications?: PlanningApp[] }) => setPlanning(data.applications || []))
+      .catch(() => setPlanning([]));
+    fetch('/data/flood-areas-penistone.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: { areas?: FloodArea[] }) => setFloodAreas(data.areas || []))
+      .catch(() => setFloodAreas([]));
+    fetch('https://environment.data.gov.uk/flood-monitoring/id/floods?lat=53.525&long=-1.628&dist=25', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: { items?: Array<Record<string, unknown>> }) => {
+        const items = data.items || [];
+        setFloodWarnings(
+          items.map((item, idx) => {
+            const fa = (item.floodArea as Record<string, unknown>) || {};
+            const code = String(fa.fwdCode || fa.notation || '');
+            return {
+              id: String(item['@id'] || `fw-${idx}`),
+              severity: String(item.severity || 'Flood alert'),
+              severityLevel: Number(item.severityLevel || 0),
+              description: String(item.description || ''),
+              message: String(item.message || ''),
+              lat: typeof fa.lat === 'number' ? fa.lat : fa.lat != null ? Number(fa.lat) : null,
+              lng: typeof fa.long === 'number' ? fa.long : fa.long != null ? Number(fa.long) : null,
+              areaName: String(fa.label || fa.county || ''),
+              url: code ? `https://check-for-flooding.service.gov.uk/target-area/${code}` : String(item['@id'] || ''),
+            } as FloodWarning;
+          })
+        );
+      })
+      .catch(() => setFloodWarnings([]));
     return () => ctrl.abort();
   }, []);
 
@@ -99,6 +135,11 @@ export default function App() {
           onPick={(lat, lng) => setPickPoint({ lat, lng })}
           hmos={hmos}
           showHmos={showHmos}
+          planning={planning}
+          showPlanning={showPlanning}
+          floodAreas={floodAreas}
+          floodWarnings={floodWarnings}
+          showFlood={showFlood}
         />
 
         <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-line bg-paper px-4 py-3 text-sm">
@@ -110,8 +151,22 @@ export default function App() {
           >
             HMO {hmos.length}
           </button>
+          <button
+            type="button"
+            onClick={() => setShowPlanning((v) => !v)}
+            className={`rounded-full px-3 py-1 text-xs font-semibold ${showPlanning ? 'bg-[#1a5276] text-paper' : 'bg-stone text-ink/70'}`}
+          >
+            Planning {planning.length}
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowFlood((v) => !v)}
+            className={`rounded-full px-3 py-1 text-xs font-semibold ${showFlood ? 'bg-[#2874a6] text-paper' : 'bg-stone text-ink/70'}`}
+          >
+            Flood {floodWarnings.length}/{floodAreas.length}
+          </button>
           <span className="text-xs text-ink/55">
-            Full Barnsley licensed register ({hmos.length} properties)
+            HMO · Planning (S36 snapshot) · Flood areas + live EA alerts
           </span>
         </div>
 
