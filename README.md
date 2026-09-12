@@ -20,7 +20,7 @@ Facebook: Restore never posts. Copy or download the weekly **Restore brief** and
 
 ## HMO overlay
 
-Toggle **HMO** on the map. Data is from Barnsley’s public licensed HMO PDF ([register](https://www.barnsley.gov.uk/media/zebimlz3/hmo-register.pdf)), filtered to Penistone-area postcodes/villages. Snapshot in `public/data/hmo-penistone.json` (currently 1 property). To refresh: download the PDF, keep only S36 / named Penistone-ward villages, geocode, update the JSON. No third-party scrapes.
+Toggle **HMO** on the map. Data is from Barnsley’s public licensed HMO PDF ([register](https://www.barnsley.gov.uk/media/zebimlz3/hmo-register.pdf)), **full borough** (~192 properties), geocoded by postcode centroid. Snapshot: `public/data/hmo-penistone.json`. Refresh by re-parsing the PDF. No licence-holder personal details; no third-party scrapes.
 
 ## What you get
 

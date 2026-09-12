@@ -111,7 +111,7 @@ export default function App() {
             HMO {hmos.length}
           </button>
           <span className="text-xs text-ink/55">
-            Barnsley licensed register · Penistone-area filter ({hmos.length} listed)
+            Full Barnsley licensed register ({hmos.length} properties)
           </span>
         </div>
 
