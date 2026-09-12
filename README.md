@@ -18,6 +18,10 @@ On the site: expand **Moderator (shared code)** at the bottom, enter that code, 
 
 Facebook: Restore never posts. Copy or download the weekly **Restore brief** and paste it into groups yourself. Facebook URLs on tips are stored as links only — never fetched.
 
+## HMO overlay
+
+Toggle **HMO** on the map. Data is from Barnsley’s public licensed HMO PDF ([register](https://www.barnsley.gov.uk/media/zebimlz3/hmo-register.pdf)), filtered to Penistone-area postcodes/villages. Snapshot in `public/data/hmo-penistone.json` (currently 1 property). To refresh: download the PDF, keep only S36 / named Penistone-ward villages, geocode, update the JSON. No third-party scrapes.
+
 ## What you get
 
 - Leaflet map of live FixMyStreet reports (Railway RSS) plus approved community tips

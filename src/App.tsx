@@ -9,7 +9,7 @@ import { TipForm } from './components/TipForm';
 import { WeatherWidget } from './components/WeatherWidget';
 import { WeeklyBrief } from './components/WeeklyBrief';
 import { loadApprovedTips, loadReports } from './lib/api';
-import type { FeedSource, Report, ReportType } from './lib/types';
+import type { FeedSource, HmoPayload, HmoRecord, Report, ReportType } from './lib/types';
 
 export default function App() {
   const [reports, setReports] = useState<Report[]>([]);
@@ -22,6 +22,8 @@ export default function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [pickMode, setPickMode] = useState(false);
   const [pickPoint, setPickPoint] = useState<{ lat: number; lng: number } | null>(null);
+  const [hmos, setHmos] = useState<HmoRecord[]>([]);
+  const [showHmos, setShowHmos] = useState(true);
 
   const refreshTips = useCallback(() => {
     loadApprovedTips()
@@ -46,6 +48,10 @@ export default function App() {
     loadApprovedTips(ctrl.signal)
       .then(setTips)
       .catch(() => setTips([]));
+    fetch('/data/hmo-penistone.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: HmoPayload) => setHmos(data.hmos || []))
+      .catch(() => setHmos([]));
     return () => ctrl.abort();
   }, []);
 
@@ -91,7 +97,23 @@ export default function App() {
           pickMode={pickMode}
           pickPoint={pickPoint}
           onPick={(lat, lng) => setPickPoint({ lat, lng })}
+          hmos={hmos}
+          showHmos={showHmos}
         />
+
+        <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-line bg-paper px-4 py-3 text-sm">
+          <span className="font-semibold text-moss">Layers</span>
+          <button
+            type="button"
+            onClick={() => setShowHmos((v) => !v)}
+            className={`rounded-full px-3 py-1 text-xs font-semibold ${showHmos ? 'bg-[#5b2c6f] text-paper' : 'bg-stone text-ink/70'}`}
+          >
+            HMO {hmos.length}
+          </button>
+          <span className="text-xs text-ink/55">
+            Barnsley licensed register · Penistone-area filter ({hmos.length} listed)
+          </span>
+        </div>
 
         <StatsPanel reports={combined} activeType={activeType} onType={setActiveType} />
 

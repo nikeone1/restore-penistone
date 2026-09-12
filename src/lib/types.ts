@@ -44,3 +44,26 @@ export type ReportsPayload = {
 };
 
 export type FeedSource = 'railway' | 'restore';
+
+
+export type HmoRecord = {
+  id: string;
+  houseNumber: string;
+  address: string;
+  postcode: string;
+  permitted: number | string;
+  expires: string;
+  lat: number;
+  lng: number;
+  geocode?: string;
+};
+
+export type HmoPayload = {
+  source: string;
+  sourceUrl: string;
+  registerPdf: string;
+  extractedAt: string;
+  filter: string;
+  note: string;
+  hmos: HmoRecord[];
+};

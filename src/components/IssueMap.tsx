@@ -1,7 +1,7 @@
 import { CircleMarker, MapContainer, Popup, TileLayer, useMapEvents } from 'react-leaflet';
 import { PENISTONE, isMapped } from '../lib/api';
 import { TYPE_COLOR, TYPE_LABEL, formatWhen, streetLabel } from '../lib/analytics';
-import type { Report, ReportType } from '../lib/types';
+import type { HmoRecord, Report, ReportType } from '../lib/types';
 
 type Props = {
   reports: Report[];
@@ -10,6 +10,8 @@ type Props = {
   pickMode?: boolean;
   onPick?: (lat: number, lng: number) => void;
   pickPoint?: { lat: number; lng: number } | null;
+  hmos?: HmoRecord[];
+  showHmos?: boolean;
 };
 
 function ClickCatcher({ enabled, onPick }: { enabled: boolean; onPick?: (lat: number, lng: number) => void }) {
@@ -26,7 +28,7 @@ function provenance(report: Report): { label: string; href?: string } {
   return { label: 'FixMyStreet', href: report.url || undefined };
 }
 
-export function IssueMap({ reports, selectedId, onSelect, pickMode = false, onPick, pickPoint }: Props) {
+export function IssueMap({ reports, selectedId, onSelect, pickMode = false, onPick, pickPoint, hmos = [], showHmos = false }: Props) {
   const mapped = reports.filter(isMapped);
 
   return (
@@ -35,7 +37,9 @@ export function IssueMap({ reports, selectedId, onSelect, pickMode = false, onPi
         <div>
           <h2 className="font-display text-xl text-moss">Street map</h2>
           <p className="text-sm text-ink/60">
-            {mapped.length} pin{mapped.length === 1 ? '' : 's'} · FixMyStreet and approved community tips are labelled separately
+            {mapped.length} issue pin{mapped.length === 1 ? '' : 's'}
+            {showHmos ? ` · ${hmos.length} HMO` : ''}
+            {' '}· FixMyStreet, tips, and HMOs labelled separately
           </p>
         </div>
         {pickMode && (
@@ -99,6 +103,53 @@ export function IssueMap({ reports, selectedId, onSelect, pickMode = false, onPi
               </CircleMarker>
             );
           })}
+
+          {showHmos &&
+            hmos.map((hmo) => (
+              <CircleMarker
+                key={hmo.id}
+                center={[hmo.lat, hmo.lng]}
+                radius={10}
+                pathOptions={{
+                  color: '#5b2c6f',
+                  weight: 2.5,
+                  fillColor: '#8e44ad',
+                  fillOpacity: 0.85
+                }}
+              >
+                <Popup className="restore-popup">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-[#5b2c6f]">Licensed HMO</p>
+                  <p className="mt-1 inline-block rounded-full bg-[#5b2c6f] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
+                    Barnsley register
+                  </p>
+                  <p className="mt-1 font-semibold leading-snug">
+                    {hmo.houseNumber}, {hmo.address}
+                  </p>
+                  <p className="mt-1 text-sm text-ink/70">{hmo.postcode}</p>
+                  <p className="text-xs text-ink/50">
+                    Permitted {hmo.permitted} · Expires {hmo.expires}
+                  </p>
+                  <a
+                    className="mt-1 inline-block text-sm font-semibold text-moss underline decoration-line underline-offset-2"
+                    href="https://www.barnsley.gov.uk/services/housing/private-landlords/houses-in-multiple-occupation-hmo/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Council HMO page
+                  </a>
+                  <br />
+                  <a
+                    className="inline-block text-sm font-semibold text-moss underline decoration-line underline-offset-2"
+                    href="https://www.barnsley.gov.uk/media/zebimlz3/hmo-register.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Public register PDF
+                  </a>
+                </Popup>
+              </CircleMarker>
+            ))}
+
           {pickPoint && (
             <CircleMarker
               center={[pickPoint.lat, pickPoint.lng]}

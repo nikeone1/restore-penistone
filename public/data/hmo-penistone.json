@@ -1,0 +1,21 @@
+{
+  "source": "Barnsley Council licensed HMO register",
+  "sourceUrl": "https://www.barnsley.gov.uk/services/housing/private-landlords/houses-in-multiple-occupation-hmo/",
+  "registerPdf": "https://www.barnsley.gov.uk/media/zebimlz3/hmo-register.pdf",
+  "extractedAt": "2026-09-12",
+  "filter": "Penistone area (S36 + named East/West ward villages)",
+  "note": "Only licensed HMOs on the public PDF that match the Penistone-area filter. Refresh by re-parsing the council PDF when it updates.",
+  "hmos": [
+    {
+      "id": "hmo-s36-9re-church-house",
+      "houseNumber": "Church House",
+      "address": "Saville Lane, Thurlstone, Sheffield",
+      "postcode": "S36 9RE",
+      "permitted": 6,
+      "expires": "09/01/2030",
+      "lat": 53.5266907,
+      "lng": -1.6531219,
+      "geocode": "Nominatim postcode centroid S36 9RE"
+    }
+  ]
+}
