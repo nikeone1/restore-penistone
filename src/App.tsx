@@ -26,6 +26,8 @@ export default function App() {
   const [showHmos, setShowHmos] = useState(true);
   const [planning, setPlanning] = useState<PlanningApp[]>([]);
   const [showPlanning, setShowPlanning] = useState(false);
+  const [planningHmo, setPlanningHmo] = useState<PlanningApp[]>([]);
+  const [showPlanningHmo, setShowPlanningHmo] = useState(false);
   const [floodAreas, setFloodAreas] = useState<FloodArea[]>([]);
   const [floodWarnings, setFloodWarnings] = useState<FloodWarning[]>([]);
   const [showFlood, setShowFlood] = useState(false);
@@ -61,6 +63,10 @@ export default function App() {
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: { applications?: PlanningApp[] }) => setPlanning(data.applications || []))
       .catch(() => setPlanning([]));
+    fetch('/data/planning-hmo.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: { applications?: PlanningApp[] }) => setPlanningHmo(data.applications || []))
+      .catch(() => setPlanningHmo([]));
     fetch('/data/flood-areas-penistone.json', { signal: ctrl.signal })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: { areas?: FloodArea[] }) => setFloodAreas(data.areas || []))
@@ -137,6 +143,8 @@ export default function App() {
           showHmos={showHmos}
           planning={planning}
           showPlanning={showPlanning}
+          planningHmo={planningHmo}
+          showPlanningHmo={showPlanningHmo}
           floodAreas={floodAreas}
           floodWarnings={floodWarnings}
           showFlood={showFlood}
@@ -160,13 +168,20 @@ export default function App() {
           </button>
           <button
             type="button"
+            onClick={() => setShowPlanningHmo((v) => !v)}
+            className={`rounded-full px-3 py-1 text-xs font-semibold ${showPlanningHmo ? 'bg-[#6c3483] text-paper' : 'bg-stone text-ink/70'}`}
+          >
+            HMO planning {planningHmo.length}
+          </button>
+          <button
+            type="button"
             onClick={() => setShowFlood((v) => !v)}
             className={`rounded-full px-3 py-1 text-xs font-semibold ${showFlood ? 'bg-[#2874a6] text-paper' : 'bg-stone text-ink/70'}`}
           >
             Flood {floodWarnings.length}/{floodAreas.length}
           </button>
           <span className="text-xs text-ink/55">
-            HMO · Planning (S36 snapshot) · Flood areas + live EA alerts
+            Licensed HMO register ≠ HMO planning ≠ general planning
           </span>
         </div>
 

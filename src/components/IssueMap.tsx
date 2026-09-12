@@ -14,6 +14,8 @@ type Props = {
   showHmos?: boolean;
   planning?: PlanningApp[];
   showPlanning?: boolean;
+  planningHmo?: PlanningApp[];
+  showPlanningHmo?: boolean;
   floodAreas?: FloodArea[];
   floodWarnings?: FloodWarning[];
   showFlood?: boolean;
@@ -45,6 +47,7 @@ export function IssueMap({ reports, selectedId, onSelect, pickMode = false, onPi
             {mapped.length} issue pin{mapped.length === 1 ? '' : 's'}
             {showHmos ? ` · ${hmos.length} HMO` : ''}
             {showPlanning ? ` · ${planning.length} planning` : ''}
+            {showPlanningHmo ? ` · ${planningHmo.length} HMO planning` : ''}
             {showFlood ? ` · ${floodWarnings.length} alert / ${floodAreas.length} flood areas` : ''}
             {' '}· layers labelled separately
           </p>

@@ -2,8 +2,8 @@
   "source": "Barnsley Planning Explorer (public search: Penistone)",
   "sourceUrl": "https://planningexplorer.barnsley.gov.uk/",
   "extractedAt": "2026-09-13",
-  "filter": "Applications matching Penistone search with S36 postcode",
-  "note": "Snapshot from public SimpleSearch. Refresh by re-running search extract. Links open official ApplicationDetails.",
+  "filter": "S36 Penistone-area applications excluding HMO-related descriptions",
+  "note": "Separated from HMO planning. Links to official ApplicationDetails.",
   "applications": [
     {
       "id": "plan-2026-0698",
@@ -14,7 +14,8 @@
       "status": "Under Consideration",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0698",
       "lat": 53.52404,
-      "lng": -1.633429
+      "lng": -1.633429,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0683",
@@ -25,7 +26,8 @@
       "status": "Under Consideration",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0683",
       "lat": 53.523119,
-      "lng": -1.637977
+      "lng": -1.637977,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0615",
@@ -36,7 +38,8 @@
       "status": "Under Consideration",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0615",
       "lat": 53.523415,
-      "lng": -1.623118
+      "lng": -1.623118,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0604",
@@ -47,7 +50,8 @@
       "status": "Prior Approval",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0604",
       "lat": 53.523341,
-      "lng": -1.631233
+      "lng": -1.631233,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0581",
@@ -58,7 +62,8 @@
       "status": "Under Consideration",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0581",
       "lat": 53.5315,
-      "lng": -1.636126
+      "lng": -1.636126,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0526",
@@ -69,7 +74,8 @@
       "status": "Approved",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0526",
       "lat": 53.536716,
-      "lng": -1.625369
+      "lng": -1.625369,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0512",
@@ -80,7 +86,8 @@
       "status": "No Objection",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0512",
       "lat": 53.549918,
-      "lng": -1.66466
+      "lng": -1.66466,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0448",
@@ -91,7 +98,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0448",
       "lat": 53.527001,
-      "lng": -1.628788
+      "lng": -1.628788,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0429",
@@ -102,7 +110,20 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0429",
       "lat": 53.516175,
-      "lng": -1.639167
+      "lng": -1.639167,
+      "kind": "general"
+    },
+    {
+      "id": "plan-2026-0397",
+      "ref": "2026/0397",
+      "title": "Variation of condition 2 of listed building consent application 2025/0244 which relates to 'Mixed use scheme consisting of: Conversion of Grade II listed Coal Drops into Class E re",
+      "address": "trial units (Listed Building Consent) Penistone Coal Drops, Regency House, Land at St Mary's Street, Penistone, Sheffield, S36 6DT",
+      "postcode": "S36 6DT",
+      "status": "Unknown",
+      "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0397",
+      "lat": 53.526751,
+      "lng": -1.630887,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0388",
@@ -113,7 +134,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0388",
       "lat": 53.530904,
-      "lng": -1.626536
+      "lng": -1.626536,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0368",
@@ -124,7 +146,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0368",
       "lat": 53.526271,
-      "lng": -1.631223
+      "lng": -1.631223,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0295",
@@ -135,7 +158,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0295",
       "lat": 53.53172,
-      "lng": -1.626016
+      "lng": -1.626016,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0283",
@@ -146,7 +170,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0283",
       "lat": 53.519422,
-      "lng": -1.631297
+      "lng": -1.631297,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0267",
@@ -156,8 +181,9 @@
       "postcode": "S36 6HT",
       "status": "Granted",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0267",
-      "lat": 53.519542,
-      "lng": -1.631213
+      "lat": 53.519662,
+      "lng": -1.631129,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0258",
@@ -167,8 +193,9 @@
       "postcode": "S36 7EY",
       "status": "Prior Approval",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0258",
-      "lat": 53.537076,
-      "lng": -1.625117
+      "lat": 53.537436,
+      "lng": -1.624865,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0242",
@@ -179,7 +206,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0242",
       "lat": 53.533535,
-      "lng": -1.628429
+      "lng": -1.628429,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0201",
@@ -190,7 +218,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0201",
       "lat": 53.528779,
-      "lng": -1.637054
+      "lng": -1.637054,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0148",
@@ -201,7 +230,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0148",
       "lat": 53.519845,
-      "lng": -1.634325
+      "lng": -1.634325,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0136",
@@ -211,8 +241,9 @@
       "postcode": "S36 7EY",
       "status": "Under Consideration",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0136",
-      "lat": 53.536836,
-      "lng": -1.625285
+      "lat": 53.536956,
+      "lng": -1.625201,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0135",
@@ -222,8 +253,9 @@
       "postcode": "S36 7EY",
       "status": "Under Consideration",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0135",
-      "lat": 53.536956,
-      "lng": -1.625201
+      "lat": 53.537196,
+      "lng": -1.625033,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0132",
@@ -233,8 +265,9 @@
       "postcode": "S36 7EY",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0132",
-      "lat": 53.537196,
-      "lng": -1.625033
+      "lat": 53.537676,
+      "lng": -1.624697,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0063",
@@ -245,7 +278,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0063",
       "lat": 53.523259,
-      "lng": -1.630781
+      "lng": -1.630781,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0054",
@@ -256,7 +290,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0054",
       "lat": 53.525775,
-      "lng": -1.633369
+      "lng": -1.633369,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0037",
@@ -267,7 +302,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0037",
       "lat": 53.525795,
-      "lng": -1.628195
+      "lng": -1.628195,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0033",
@@ -277,8 +313,9 @@
       "postcode": "S36 8HN",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0033",
-      "lat": 53.53184,
-      "lng": -1.625932
+      "lat": 53.53196,
+      "lng": -1.625848,
+      "kind": "general"
     },
     {
       "id": "plan-2026-0007",
@@ -289,7 +326,8 @@
       "status": "Granted",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2026%2F0007",
       "lat": 53.530276,
-      "lng": -1.629876
+      "lng": -1.629876,
+      "kind": "general"
     },
     {
       "id": "plan-2025-1035",
@@ -300,7 +338,8 @@
       "status": "Granted",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F1035",
       "lat": 53.520492,
-      "lng": -1.619705
+      "lng": -1.619705,
+      "kind": "general"
     },
     {
       "id": "plan-2025-1018",
@@ -311,7 +350,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F1018",
       "lat": 53.523611,
-      "lng": -1.616886
+      "lng": -1.616886,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0988",
@@ -322,7 +362,8 @@
       "status": "Under Consideration",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0988",
       "lat": 53.525497,
-      "lng": -1.630717
+      "lng": -1.630717,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0852",
@@ -333,7 +374,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0852",
       "lat": 53.520975,
-      "lng": -1.633546
+      "lng": -1.633546,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0810",
@@ -344,7 +386,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0810",
       "lat": 53.521525,
-      "lng": -1.633979
+      "lng": -1.633979,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0778",
@@ -354,8 +397,9 @@
       "postcode": "S36 6DY",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0778",
-      "lat": 53.525915,
-      "lng": -1.628111
+      "lat": 53.526035,
+      "lng": -1.628027,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0769",
@@ -366,7 +410,8 @@
       "status": "Granted",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0769",
       "lat": 53.523797,
-      "lng": -1.627383
+      "lng": -1.627383,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0739",
@@ -377,7 +422,8 @@
       "status": "Under Consideration",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0739",
       "lat": 53.510975,
-      "lng": -1.685504
+      "lng": -1.685504,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0727",
@@ -387,8 +433,9 @@
       "postcode": "S36 9AW",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0727",
-      "lat": 53.516295,
-      "lng": -1.639083
+      "lat": 53.516415,
+      "lng": -1.638999,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0718",
@@ -399,7 +446,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0718",
       "lat": 53.523511,
-      "lng": -1.627868
+      "lng": -1.627868,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0710",
@@ -410,7 +458,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0710",
       "lat": 53.527492,
-      "lng": -1.633415
+      "lng": -1.633415,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0674",
@@ -420,8 +469,9 @@
       "postcode": "S36 6AU",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0674",
-      "lat": 53.521645,
-      "lng": -1.633895
+      "lat": 53.521765,
+      "lng": -1.633811,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0668",
@@ -431,8 +481,9 @@
       "postcode": "S36 6BZ",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0668",
-      "lat": 53.525617,
-      "lng": -1.630633
+      "lat": 53.525737,
+      "lng": -1.630549,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0655",
@@ -442,8 +493,9 @@
       "postcode": "S36 6BR",
       "status": "Granted",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0655",
-      "lat": 53.523379,
-      "lng": -1.630697
+      "lat": 53.523499,
+      "lng": -1.630613,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0643",
@@ -454,7 +506,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0643",
       "lat": 53.532025,
-      "lng": -1.628457
+      "lng": -1.628457,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0621",
@@ -464,8 +517,9 @@
       "postcode": "S36 6DN",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0621",
-      "lat": 53.52416,
-      "lng": -1.633345
+      "lat": 53.52428,
+      "lng": -1.633261,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0615",
@@ -475,8 +529,9 @@
       "postcode": "S36 6DN",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0615",
-      "lat": 53.52428,
-      "lng": -1.633261
+      "lat": 53.52452,
+      "lng": -1.633093,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0569",
@@ -486,8 +541,9 @@
       "postcode": "S36 6BR",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0569",
-      "lat": 53.523499,
-      "lng": -1.630613
+      "lat": 53.523739,
+      "lng": -1.630445,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0549",
@@ -498,7 +554,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0549",
       "lat": 53.511404,
-      "lng": -1.603154
+      "lng": -1.603154,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0497",
@@ -508,8 +565,9 @@
       "postcode": "S36 6BR",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0497",
-      "lat": 53.523619,
-      "lng": -1.630529
+      "lat": 53.523979,
+      "lng": -1.630277,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0481",
@@ -517,10 +575,11 @@
       "title": "Shelterbelt of mixed native species - all overhanging canopies are pruned back to our side of the palisade metal fence. One Silver Birch is growing through the fence - so this woul",
       "address": "to be pruned back to inside fence-line on heritage trail side and away from Land at Dunstone Heights, Penistone, Barnsley, S36 6GA",
       "postcode": "S36 6GA",
-      "status": "Unknown",
+      "status": "Withdrawn",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0481",
       "lat": 53.521862,
-      "lng": -1.62108
+      "lng": -1.62108,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0446",
@@ -531,7 +590,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0446",
       "lat": 53.525746,
-      "lng": -1.618466
+      "lng": -1.618466,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0338",
@@ -542,18 +602,20 @@
       "status": "Granted",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0338",
       "lat": 53.523757,
-      "lng": -1.665816
+      "lng": -1.665816,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0328",
       "ref": "2025/0328",
-      "title": "Erection of single storey rear extension. 4 Wood View Grange, Penistone, BarnsleyS36 9EG 8 May 2025 Approve with Conditions Final Decision",
+      "title": "Erection of single storey rear extension. 4 Wood View Grange, Penistone, BarnsleyS36 9EG 8 May 2025 Approve with Conditions Final Decision <a class=\"bottom\" title=\"\" data-placement",
       "address": "Erection of single storey rear extension. 4 Wood View Grange, Penistone, BarnsleyS36 9EG 8 May 2025 Approve with Conditi",
       "postcode": "S36 9EG",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0328",
       "lat": 53.528604,
-      "lng": -1.638564
+      "lng": -1.638564,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0286",
@@ -564,7 +626,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0286",
       "lat": 53.529301,
-      "lng": -1.634214
+      "lng": -1.634214,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0284",
@@ -575,7 +638,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0284",
       "lat": 53.516195,
-      "lng": -1.592477
+      "lng": -1.592477,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0270",
@@ -583,10 +647,11 @@
       "title": "Demolition of existing detached garage, erection of a detached double garage, erection of a two-storey side extension, single storey front extension and first floor rear extension,",
       "address": "garage, erection of a 1.8m timber boundary fence and alterations to hard landscaping. 3 Rydal Close, Penistone, Sheffield, S36 8HN",
       "postcode": "S36 8HN",
-      "status": "Unknown",
+      "status": "Decided",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0270",
-      "lat": 53.53196,
-      "lng": -1.625848
+      "lat": 53.5322,
+      "lng": -1.62568,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0254",
@@ -596,8 +661,9 @@
       "postcode": "S36 8HN",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0254",
-      "lat": 53.53208,
-      "lng": -1.625764
+      "lat": 53.53244,
+      "lng": -1.625512,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0248",
@@ -607,8 +673,9 @@
       "postcode": "S36 6AQ",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0248",
-      "lat": 53.519965,
-      "lng": -1.634241
+      "lat": 53.520085,
+      "lng": -1.634157,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0244",
@@ -618,8 +685,9 @@
       "postcode": "S36 6DT",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0244",
-      "lat": 53.526391,
-      "lng": -1.631139
+      "lat": 53.526631,
+      "lng": -1.630971,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0234",
@@ -629,8 +697,9 @@
       "postcode": "S36 8EQ",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0234",
-      "lat": 53.530516,
-      "lng": -1.629708
+      "lat": 53.530756,
+      "lng": -1.62954,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0233",
@@ -640,8 +709,9 @@
       "postcode": "S36 8EQ",
       "status": "Withdrawn",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0233",
-      "lat": 53.530396,
-      "lng": -1.629792
+      "lat": 53.530516,
+      "lng": -1.629708,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0223",
@@ -652,7 +722,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0223",
       "lat": 53.523444,
-      "lng": -1.612589
+      "lng": -1.612589,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0222",
@@ -662,8 +733,9 @@
       "postcode": "S36 6BR",
       "status": "Granted",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0222",
-      "lat": 53.523739,
-      "lng": -1.630445
+      "lat": 53.524219,
+      "lng": -1.630109,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0161",
@@ -673,8 +745,9 @@
       "postcode": "S36 6DT",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0161",
-      "lat": 53.526511,
-      "lng": -1.631055
+      "lat": 53.526871,
+      "lng": -1.630803,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0132",
@@ -684,8 +757,9 @@
       "postcode": "S36 8ER",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0132",
-      "lat": 53.533655,
-      "lng": -1.628345
+      "lat": 53.533775,
+      "lng": -1.628261,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0072",
@@ -696,7 +770,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0072",
       "lat": 53.528037,
-      "lng": -1.626622
+      "lng": -1.626622,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0042",
@@ -707,7 +782,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0042",
       "lat": 53.519585,
-      "lng": -1.628641
+      "lng": -1.628641,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0032",
@@ -718,7 +794,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0032",
       "lat": 53.523617,
-      "lng": -1.633207
+      "lng": -1.633207,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0027",
@@ -729,7 +806,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0027",
       "lat": 53.52628,
-      "lng": -1.62813
+      "lng": -1.62813,
+      "kind": "general"
     },
     {
       "id": "plan-2025-0025",
@@ -739,8 +817,9 @@
       "postcode": "S36 9EF",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2025%2F0025",
-      "lat": 53.528899,
-      "lng": -1.63697
+      "lat": 53.529019,
+      "lng": -1.636886,
+      "kind": "general"
     },
     {
       "id": "plan-2024-1093",
@@ -750,8 +829,9 @@
       "postcode": "S36 6GA",
       "status": "Withdrawn",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F1093",
-      "lat": 53.521982,
-      "lng": -1.620996
+      "lat": 53.522102,
+      "lng": -1.620912,
+      "kind": "general"
     },
     {
       "id": "plan-2024-1054",
@@ -761,8 +841,9 @@
       "postcode": "S36 6BR",
       "status": "Under Consideration",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F1054",
-      "lat": 53.523859,
-      "lng": -1.630361
+      "lat": 53.524459,
+      "lng": -1.629941,
+      "kind": "general"
     },
     {
       "id": "plan-2024-1013",
@@ -773,7 +854,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F1013",
       "lat": 53.528049,
-      "lng": -1.639383
+      "lng": -1.639383,
+      "kind": "general"
     },
     {
       "id": "plan-2024-1008",
@@ -784,7 +866,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F1008",
       "lat": 53.524946,
-      "lng": -1.666847
+      "lng": -1.666847,
+      "kind": "general"
     },
     {
       "id": "plan-2024-1005",
@@ -794,8 +877,9 @@
       "postcode": "S36 8AD",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F1005",
-      "lat": 53.532145,
-      "lng": -1.628373
+      "lat": 53.532265,
+      "lng": -1.628289,
+      "kind": "general"
     },
     {
       "id": "plan-2024-1002",
@@ -805,8 +889,9 @@
       "postcode": "S36 6EX",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F1002",
-      "lat": 53.521095,
-      "lng": -1.633462
+      "lat": 53.521215,
+      "lng": -1.633378,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0985",
@@ -817,7 +902,8 @@
       "status": "Granted",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0985",
       "lat": 53.520232,
-      "lng": -1.625725
+      "lng": -1.625725,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0916",
@@ -828,7 +914,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0916",
       "lat": 53.523193,
-      "lng": -1.621264
+      "lng": -1.621264,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0897",
@@ -839,7 +926,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0897",
       "lat": 53.523596,
-      "lng": -1.638154
+      "lng": -1.638154,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0881",
@@ -849,8 +937,9 @@
       "postcode": "S36 8AD",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0881",
-      "lat": 53.532265,
-      "lng": -1.628289
+      "lat": 53.532505,
+      "lng": -1.628121,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0860",
@@ -861,7 +950,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0860",
       "lat": 53.527635,
-      "lng": -1.630245
+      "lng": -1.630245,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0848",
@@ -872,7 +962,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0848",
       "lat": 53.519546,
-      "lng": -1.627707
+      "lng": -1.627707,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0829",
@@ -883,7 +974,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0829",
       "lat": 53.522642,
-      "lng": -1.628962
+      "lng": -1.628962,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0814",
@@ -894,7 +986,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0814",
       "lat": 53.542804,
-      "lng": -1.644314
+      "lng": -1.644314,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0809",
@@ -904,8 +997,9 @@
       "postcode": "S36 7GA",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0809",
-      "lat": 53.542924,
-      "lng": -1.64423
+      "lat": 53.543044,
+      "lng": -1.644146,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0788",
@@ -915,8 +1009,9 @@
       "postcode": "S36 6AQ",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0788",
-      "lat": 53.520085,
-      "lng": -1.634157
+      "lat": 53.520325,
+      "lng": -1.633989,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0713",
@@ -927,7 +1022,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0713",
       "lat": 53.520568,
-      "lng": -1.621046
+      "lng": -1.621046,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0708",
@@ -937,8 +1033,9 @@
       "postcode": "S36 6UE",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0708",
-      "lat": 53.519705,
-      "lng": -1.628557
+      "lat": 53.519825,
+      "lng": -1.628473,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0682",
@@ -949,7 +1046,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0682",
       "lat": 53.518188,
-      "lng": -1.630313
+      "lng": -1.630313,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0669",
@@ -959,8 +1057,9 @@
       "postcode": "S36 6DF",
       "status": "Granted",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0669",
-      "lat": 53.523731,
-      "lng": -1.616802
+      "lat": 53.523851,
+      "lng": -1.616718,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0605",
@@ -971,7 +1070,8 @@
       "status": "Granted",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0605",
       "lat": 53.520922,
-      "lng": -1.630952
+      "lng": -1.630952,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0585",
@@ -982,7 +1082,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0585",
       "lat": 53.527765,
-      "lng": -1.631753
+      "lng": -1.631753,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0583",
@@ -992,8 +1093,9 @@
       "postcode": "S36 6HD",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0583",
-      "lat": 53.525866,
-      "lng": -1.618382
+      "lat": 53.525986,
+      "lng": -1.618298,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0526",
@@ -1001,10 +1103,11 @@
       "title": "Discharge of conditions 3 (Materials), 5 (Drainage), 6 (Construction Method Statement), 11 (Ground Contamination), 15 (Highways Works), and 16 (Highways Condition Survey) of applic",
       "address": "4-bed dwellings (Outline) (Resubmission of planning application 2012/0801)) Land off Sheffield Road, Penistone, Sheffield, S36 6HH",
       "postcode": "S36 6HH",
-      "status": "Unknown",
+      "status": "Under Consideration",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0526",
       "lat": 53.524934,
-      "lng": -1.617372
+      "lng": -1.617372,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0481",
@@ -1014,8 +1117,9 @@
       "postcode": "S36 6DL",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0481",
-      "lat": 53.523737,
-      "lng": -1.633123
+      "lat": 53.523857,
+      "lng": -1.633039,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0476",
@@ -1025,8 +1129,9 @@
       "postcode": "S36 6DY",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0476",
-      "lat": 53.526035,
-      "lng": -1.628027
+      "lat": 53.526275,
+      "lng": -1.627859,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0465",
@@ -1036,8 +1141,9 @@
       "postcode": "S36 6EX",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0465",
-      "lat": 53.521215,
-      "lng": -1.633378
+      "lat": 53.521455,
+      "lng": -1.63321,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0432",
@@ -1048,7 +1154,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0432",
       "lat": 53.522897,
-      "lng": -1.638914
+      "lng": -1.638914,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0410",
@@ -1058,8 +1165,9 @@
       "postcode": "S36 9ED",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0410",
-      "lat": 53.527612,
-      "lng": -1.633331
+      "lat": 53.527732,
+      "lng": -1.633247,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0352",
@@ -1069,8 +1177,9 @@
       "postcode": "S36 9AD",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0352",
-      "lat": 53.525066,
-      "lng": -1.666763
+      "lat": 53.525186,
+      "lng": -1.666679,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0285",
@@ -1080,8 +1189,9 @@
       "postcode": "S36 9AD",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0285",
-      "lat": 53.525186,
-      "lng": -1.666679
+      "lat": 53.525426,
+      "lng": -1.666511,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0277",
@@ -1091,8 +1201,9 @@
       "postcode": "S36 6AU",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0277",
-      "lat": 53.521765,
-      "lng": -1.633811
+      "lat": 53.522005,
+      "lng": -1.633643,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0232",
@@ -1102,8 +1213,9 @@
       "postcode": "S36 6BR",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0232",
-      "lat": 53.523979,
-      "lng": -1.630277
+      "lat": 53.524699,
+      "lng": -1.629773,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0216",
@@ -1114,7 +1226,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0216",
       "lat": 53.548734,
-      "lng": -1.665439
+      "lng": -1.665439,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0206",
@@ -1125,7 +1238,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0206",
       "lat": 53.53877,
-      "lng": -1.644649
+      "lng": -1.644649,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0161",
@@ -1135,8 +1249,9 @@
       "postcode": "S36 6BS",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0161",
-      "lat": 53.523461,
-      "lng": -1.631149
+      "lat": 53.523581,
+      "lng": -1.631065,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0160",
@@ -1146,8 +1261,9 @@
       "postcode": "S36 8AD",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0160",
-      "lat": 53.532385,
-      "lng": -1.628205
+      "lat": 53.532745,
+      "lng": -1.627953,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0142",
@@ -1157,8 +1273,9 @@
       "postcode": "S36 6BP",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0142",
-      "lat": 53.527755,
-      "lng": -1.630161
+      "lat": 53.527875,
+      "lng": -1.630077,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0136",
@@ -1169,7 +1286,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0136",
       "lat": 53.521957,
-      "lng": -1.619842
+      "lng": -1.619842,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0132",
@@ -1179,8 +1297,9 @@
       "postcode": "S36 6AR",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0132",
-      "lat": 53.5264,
-      "lng": -1.628046
+      "lat": 53.52652,
+      "lng": -1.627962,
+      "kind": "general"
     },
     {
       "id": "plan-2024-0015",
@@ -1190,8 +1309,9 @@
       "postcode": "S36 9EF",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2024%2F0015",
-      "lat": 53.529019,
-      "lng": -1.636886
+      "lat": 53.529259,
+      "lng": -1.636718,
+      "kind": "general"
     },
     {
       "id": "plan-2023-1120",
@@ -1201,8 +1321,9 @@
       "postcode": "S36 8HL",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2023%2F1120",
-      "lat": 53.531024,
-      "lng": -1.626452
+      "lat": 53.531144,
+      "lng": -1.626368,
+      "kind": "general"
     },
     {
       "id": "plan-2023-1041",
@@ -1213,7 +1334,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2023%2F1041",
       "lat": 53.521708,
-      "lng": -1.629287
+      "lng": -1.629287,
+      "kind": "general"
     },
     {
       "id": "plan-2023-1011",
@@ -1223,8 +1345,9 @@
       "postcode": "S36 6LQ",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2023%2F1011",
-      "lat": 53.523716,
-      "lng": -1.63807
+      "lat": 53.523836,
+      "lng": -1.637986,
+      "kind": "general"
     },
     {
       "id": "plan-2023-0990",
@@ -1234,8 +1357,9 @@
       "postcode": "S36 6DN",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2023%2F0990",
-      "lat": 53.5244,
-      "lng": -1.633177
+      "lat": 53.52476,
+      "lng": -1.632925,
+      "kind": "general"
     },
     {
       "id": "plan-2023-0967",
@@ -1245,8 +1369,9 @@
       "postcode": "S36 9FQ",
       "status": "Granted",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2023%2F0967",
-      "lat": 53.511095,
-      "lng": -1.68542
+      "lat": 53.511215,
+      "lng": -1.685336,
+      "kind": "general"
     },
     {
       "id": "plan-2023-0911",
@@ -1256,8 +1381,9 @@
       "postcode": "S36 8AD",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2023%2F0911",
-      "lat": 53.532505,
-      "lng": -1.628121
+      "lat": 53.532985,
+      "lng": -1.627785,
+      "kind": "general"
     },
     {
       "id": "plan-2023-0881",
@@ -1267,8 +1393,9 @@
       "postcode": "S36 6GW",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2023%2F0881",
-      "lat": 53.523017,
-      "lng": -1.63883
+      "lat": 53.523137,
+      "lng": -1.638746,
+      "kind": "general"
     },
     {
       "id": "plan-2023-0876",
@@ -1278,8 +1405,9 @@
       "postcode": "S36 6DT",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2023%2F0876",
-      "lat": 53.526631,
-      "lng": -1.630971
+      "lat": 53.527111,
+      "lng": -1.630635,
+      "kind": "general"
     },
     {
       "id": "plan-2023-0844",
@@ -1290,7 +1418,8 @@
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2023%2F0844",
       "lat": 53.520625,
-      "lng": -1.639658
+      "lng": -1.639658,
+      "kind": "general"
     },
     {
       "id": "plan-2023-0841",
@@ -1300,8 +1429,9 @@
       "postcode": "S36 6EL",
       "status": "Unknown",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2023%2F0841",
-      "lat": 53.523631,
-      "lng": -1.627784
+      "lat": 53.523751,
+      "lng": -1.6277,
+      "kind": "general"
     },
     {
       "id": "plan-2023-0750",
@@ -1312,18 +1442,8 @@
       "status": "Withdrawn",
       "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2023%2F0750",
       "lat": 53.522043,
-      "lng": -1.624186
-    },
-    {
-      "id": "plan-2023-0712",
-      "ref": "2023/0712",
-      "title": "Conversion of domestic garden area to mixed use including garden and short term holiday let/activity space with the erection of detached shepherds hut",
-      "address": "and installation of ground-mounted solar panels (part-retrospective) Castle Hill House, Castle Lane, Penistone, Sheffield, S36 8AN",
-      "postcode": "S36 8AN",
-      "status": "Unknown",
-      "url": "https://planningexplorer.barnsley.gov.uk/Home/ApplicationDetails?planningApplicationNumber=2023%2F0712",
-      "lat": 53.518197,
-      "lng": -1.61879
+      "lng": -1.624186,
+      "kind": "general"
     }
   ]
 }

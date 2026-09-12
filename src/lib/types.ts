@@ -79,6 +79,7 @@ export type PlanningApp = {
   url: string;
   lat: number;
   lng: number;
+  kind?: 'hmo' | 'general';
 };
 
 export type FloodArea = {

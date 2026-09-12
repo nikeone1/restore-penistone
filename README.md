@@ -18,9 +18,12 @@ On the site: expand **Moderator (shared code)** at the bottom, enter that code, 
 
 Facebook: Restore never posts. Copy or download the weekly **Restore brief** and paste it into groups yourself. Facebook URLs on tips are stored as links only — never fetched.
 
-## Planning overlay
+## Planning overlays (separated)
 
-Toggle **Planning**. Snapshot of Barnsley Planning Explorer public search for Penistone with **S36** postcodes (`public/data/planning-penistone.json`, capped recent sample). Popups link to official ApplicationDetails. Refresh by re-running the public SimpleSearch extract.
+- **Planning** — general Penistone/S36 applications (extensions, etc.) in `planning-penistone.json`
+- **HMO planning** — applications matching HMO / house in multiple occupation searches (`planning-hmo.json`), borough-wide. This is **not** the licensed HMO register layer.
+
+Toggle **Planning** for general apps. Snapshot of Barnsley Planning Explorer public search for Penistone with **S36** postcodes (`public/data/planning-penistone.json`, capped recent sample). Popups link to official ApplicationDetails. Refresh by re-running the public SimpleSearch extract.
 
 ## Flood overlay
 
