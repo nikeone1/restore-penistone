@@ -35,7 +35,13 @@ function provenance(report: Report): { label: string; href?: string } {
   return { label: 'FixMyStreet', href: report.url || undefined };
 }
 
-export function IssueMap({ reports, selectedId, onSelect, pickMode = false, onPick, pickPoint, hmos = [], showHmos = false, planning = [], showPlanning = false, floodAreas = [], floodWarnings = [], showFlood = false }: Props) {
+export function IssueMap({
+  reports, selectedId, onSelect, pickMode = false, onPick, pickPoint,
+  hmos = [], showHmos = false,
+  planning = [], showPlanning = false,
+  planningHmo = [], showPlanningHmo = false,
+  floodAreas = [], floodWarnings = [], showFlood = false
+}: Props) {
   const mapped = reports.filter(isMapped);
 
   return (
@@ -184,6 +190,31 @@ export function IssueMap({ reports, selectedId, onSelect, pickMode = false, onPi
                 </Popup>
               </CircleMarker>
             ))}
+          
+          {showPlanningHmo &&
+            planningHmo.map((app) => (
+              <CircleMarker
+                key={app.id}
+                center={[app.lat, app.lng]}
+                radius={9}
+                pathOptions={{ color: '#6c3483', weight: 2.5, fillColor: '#af7ac5', fillOpacity: 0.9 }}
+              >
+                <Popup className="restore-popup">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-[#6c3483]">HMO planning</p>
+                  <p className="mt-1 inline-block rounded-full bg-[#6c3483] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
+                    Not the licence register
+                  </p>
+                  <p className="mt-1 font-semibold leading-snug">{app.ref}</p>
+                  <p className="mt-1 text-sm">{app.title}</p>
+                  <p className="mt-1 text-sm text-ink/70">{app.address}</p>
+                  <p className="text-xs text-ink/50">{app.status}</p>
+                  <a className="mt-1 inline-block text-sm font-semibold text-moss underline" href={app.url} target="_blank" rel="noreferrer">
+                    Open application
+                  </a>
+                </Popup>
+              </CircleMarker>
+            ))}
+
           {showFlood &&
             floodAreas.map((area) => (
               <CircleMarker
