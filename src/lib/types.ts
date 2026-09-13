@@ -122,13 +122,16 @@ export type CollisionRecord = {
   speed_limit: string;
 };
 
-export type CrimeRecord = {
+export type TrafficCamera = {
   id: string;
-  category: string;
-  month: string;
+  name: string;
+  road: string;
+  direction: string;
+  junction: string;
   lat: number;
   lng: number;
-  street: string;
+  url: string;
+  source: string;
 };
 
 export type AirStation = {
