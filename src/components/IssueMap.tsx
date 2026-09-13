@@ -1,5 +1,6 @@
-import type { Layer } from 'leaflet';
-import { CircleMarker, GeoJSON, MapContainer, Popup, TileLayer, useMapEvents } from 'react-leaflet';
+import { useEffect, useRef } from 'react';
+import { geoJSON as leafletGeoJSON, type Layer } from 'leaflet';
+import { CircleMarker, GeoJSON, MapContainer, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { PENISTONE, isMapped } from '../lib/api';
 import { TYPE_COLOR, TYPE_LABEL, formatWhen, streetLabel } from '../lib/analytics';
 import { staleStyle } from '../lib/stale';
@@ -70,7 +71,21 @@ function provenance(report: Report): { label: string; href?: string } {
 function wardPathStyle(feature?: { properties?: { slug?: WardSlug } | null }) {
   const slug = feature?.properties?.slug === 'west' ? 'west' : 'east';
   const style = WARD_STYLE[slug];
-  return { color: style.color, weight: 2.5, fillColor: style.fillColor, fillOpacity: 0.14 };
+  return { color: style.color, weight: 3, fillColor: style.fillColor, fillOpacity: 0.22 };
+}
+
+function FitWardsOnce({ wards }: { wards: WardCollection | null }) {
+  const map = useMap();
+  const done = useRef(false);
+  useEffect(() => {
+    if (done.current || !wards) return;
+    const bounds = leafletGeoJSON(wards).getBounds();
+    if (bounds.isValid()) {
+      map.fitBounds(bounds, { padding: [28, 28], maxZoom: 12 });
+      done.current = true;
+    }
+  }, [map, wards]);
+  return null;
 }
 
 function bindWardPopup(feature: { properties?: Partial<WardProperties> | null }, layer: Layer) {
@@ -168,13 +183,16 @@ export function IssueMap({
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <ClickCatcher enabled={pickMode} onPick={onPick} />
-          {showWards && wards && (
-            <GeoJSON
-              data={wards}
-              style={wardPathStyle}
-              onEachFeature={bindWardPopup}
-            />
-          )}
+          {wards && <FitWardsOnce wards={wards} />}
+          {showWards &&
+            wards?.features.map((feature) => (
+              <GeoJSON
+                key={feature.properties.slug}
+                data={feature}
+                style={wardPathStyle(feature)}
+                onEachFeature={bindWardPopup}
+              />
+            ))}
           {showStale &&
             stale.map((item) => {
               const heat = staleStyle(item.tier);
