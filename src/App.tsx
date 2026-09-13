@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { CouncillorsPanel } from './components/CouncillorsPanel';
 import { Header } from './components/Header';
 import { IssueMap } from './components/IssueMap';
 import { ModPanel } from './components/ModPanel';
@@ -9,7 +10,23 @@ import { TipForm } from './components/TipForm';
 import { WeatherWidget } from './components/WeatherWidget';
 import { WeeklyBrief } from './components/WeeklyBrief';
 import { loadApprovedTips, loadReports } from './lib/api';
-import type { AirStation, CollisionRecord, FeedSource, FloodArea, FloodWarning, HmoPayload, HmoRecord, PlanningApp, Report, ReportType, TrafficCamera } from './lib/types';
+import { staleReports } from './lib/stale';
+import type {
+  AirStation,
+  CollisionRecord,
+  Councillor,
+  CouncillorsPayload,
+  FeedSource,
+  FloodArea,
+  FloodWarning,
+  HmoPayload,
+  HmoRecord,
+  PlanningApp,
+  Report,
+  ReportType,
+  TrafficCamera,
+  WardCollection
+} from './lib/types';
 
 export default function App() {
   const [reports, setReports] = useState<Report[]>([]);
@@ -39,6 +56,12 @@ export default function App() {
   const [showProw, setShowProw] = useState(false);
   const [airStations, setAirStations] = useState<AirStation[]>([]);
   const [showAir, setShowAir] = useState(false);
+  const [wards, setWards] = useState<WardCollection | null>(null);
+  const [showWards, setShowWards] = useState(true);
+  const [showStale, setShowStale] = useState(true);
+  const [councillors, setCouncillors] = useState<Councillor[]>([]);
+  const [findMemberUrl, setFindMemberUrl] = useState('https://barnsleymbc.moderngov.co.uk/mgFindMember.aspx');
+  const [showCouncillors, setShowCouncillors] = useState(true);
 
   const refreshTips = useCallback(() => {
     loadApprovedTips()
@@ -95,6 +118,17 @@ export default function App() {
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: { stations?: AirStation[] }) => setAirStations(data.stations || []))
       .catch(() => setAirStations([]));
+    fetch('/data/wards-penistone.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: WardCollection) => setWards(data))
+      .catch(() => setWards(null));
+    fetch('/data/councillors-penistone.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: CouncillorsPayload) => {
+        setCouncillors(data.councillors || []);
+        if (data.findMemberUrl) setFindMemberUrl(data.findMemberUrl);
+      })
+      .catch(() => setCouncillors([]));
     fetch('https://environment.data.gov.uk/flood-monitoring/id/floods?lat=53.525&long=-1.628&dist=25', { signal: ctrl.signal })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: { items?: Array<Record<string, unknown>> }) => {
@@ -126,6 +160,7 @@ export default function App() {
     () => (activeType === 'all' ? combined : combined.filter((r) => r.type === activeType)),
     [combined, activeType]
   );
+  const stale = useMemo(() => staleReports(combined), [combined]);
   const selected = combined.find((r) => r.id === selectedId) ?? null;
 
   return (
@@ -180,10 +215,37 @@ export default function App() {
           showProw={showProw}
           airStations={airStations}
           showAir={showAir}
+          wards={wards}
+          showWards={showWards}
+          stale={stale}
+          showStale={showStale}
+          councillors={councillors}
+          showCouncillors={showCouncillors}
         />
 
         <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-line bg-paper px-4 py-3 text-sm">
           <span className="font-semibold text-moss">Layers</span>
+          <button
+            type="button"
+            onClick={() => setShowWards((v) => !v)}
+            className={`rounded-full px-3 py-1 text-xs font-semibold ${showWards ? 'bg-[#1d4ed8] text-paper' : 'bg-stone text-ink/70'}`}
+          >
+            Wards
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowStale((v) => !v)}
+            className={`rounded-full px-3 py-1 text-xs font-semibold ${showStale ? 'bg-[#c2410c] text-paper' : 'bg-stone text-ink/70'}`}
+          >
+            Stale {stale.length}
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowCouncillors((v) => !v)}
+            className={`rounded-full px-3 py-1 text-xs font-semibold ${showCouncillors ? 'bg-[#2f4a34] text-paper' : 'bg-stone text-ink/70'}`}
+          >
+            Councillors {councillors.length}
+          </button>
           <button
             type="button"
             onClick={() => setShowHmos((v) => !v)}
@@ -225,11 +287,13 @@ export default function App() {
             Air {airStations.length}
           </button>
           <span className="text-xs text-ink/55">
-            Traffic cams are National Highways motorway CCTV (not town-centre cameras).
+            Traffic cams are National Highways motorway CCTV (not town-centre cameras). Stale = open reports older than 14 days.
           </span>
         </div>
 
         <StatsPanel reports={combined} activeType={activeType} onType={setActiveType} />
+
+        <CouncillorsPanel councillors={councillors} findMemberUrl={findMemberUrl} />
 
         <TipForm
           pickMode={pickMode}
@@ -258,7 +322,7 @@ export default function App() {
           <span className="font-display text-sm text-moss">Restore</span>
           {' · '}
           Penistone Insight Hub · FixMyStreet via Railway · community tips stored on this Worker ·
-          weather from Open-Meteo · Facebook posts are pasted by a person from the Restore brief ·
+          weather from Open-Meteo · ward boundaries MapIt / OS / ONS · Facebook posts are pasted by a person from the Restore brief ·
           not affiliated with Barnsley Council
         </p>
       </footer>

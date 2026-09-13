@@ -142,3 +142,53 @@ export type AirStation = {
   url: string;
   pollutant_series?: string;
 };
+
+export type WardSlug = 'east' | 'west';
+
+export type WardCentroid = {
+  lat: number;
+  lng: number;
+};
+
+export type WardProperties = {
+  name: string;
+  slug: WardSlug;
+  gss: string;
+  mapitId: number;
+  mapitUrl?: string;
+  centroid?: WardCentroid;
+};
+
+export type WardCollection = GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon, WardProperties>;
+
+export type Councillor = {
+  id: string;
+  name: string;
+  party: string;
+  ward: string;
+  wardSlug: WardSlug;
+  email: string | null;
+  phone: string | null;
+  profileUrl: string;
+  note?: string;
+};
+
+export type CouncillorsPayload = {
+  source: string;
+  sourceUrl: string;
+  findMemberUrl?: string;
+  extractedAt: string;
+  asOf?: string;
+  note: string;
+  councillors: Councillor[];
+};
+
+export type StaleTier = 'stale' | 'very';
+
+export type StaleReport = {
+  report: Report & { lat: number; lng: number };
+  ageDays: number;
+  tier: StaleTier;
+  ts: number;
+};
+

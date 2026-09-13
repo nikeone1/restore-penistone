@@ -67,3 +67,17 @@ http://127.0.0.1:43173 — FMS from Railway. For tips locally, also run `npx wra
 - **Air** — nearest DEFRA UK-AIR stations
 - Removed: police.uk crime pins (anonymised / fuzzed locations were not useful)
 - Skipped: Barnsley street CCTV (no official open data); NCR EV registry decommissioned; SY speed cameras need FOI snapshot
+
+## Ward boundaries
+
+Toggle **Wards** (on by default). Light-fill polygons for **Penistone East** (GSS E05000989) and **Penistone West** (GSS E05000990) from [mySociety MapIt](https://mapit.mysociety.org/) GeoJSON (`/area/8741.geojson` and `/area/8740.geojson`), simplified into `public/data/wards-penistone.json`.
+
+Attribution: Contains Ordnance Survey data © Crown copyright and database right; Contains National Statistics data © Crown copyright and database right; retrieved via MapIt. The Local Government Boundary Commission for England **Barnsley (Electoral Changes) Order 2025** may revise ward shapes for later elections — this snapshot is the MapIt ward polygons used for the current Penistone East/West seats.
+
+## Stale / unfixed heatmap
+
+Toggle **Stale** (on by default; count on the button). Open FixMyStreet reports already in the live Railway feed, plus approved community tips that have a usable date. Older than **14 days** = stale; older than **45 days** = very stale (larger, warmer halo). Items without a parseable date are skipped. No extra private data.
+
+## Councillor / casework pack
+
+The **Councillors** panel lists sitting Penistone East and West members from the public Barnsley ModernGov directory (`public/data/councillors-penistone.json`, as of 2026-09 after the East by-election). Mailto/tel and “Open council profile” only. **Public Barnsley councillor contacts · not a marked register · no electors.** Map pins sit at approximate ward centroids when the Councillors layer is on. Report popups can name that ward’s councillors via a point-in-polygon check on the MapIt shapes.
