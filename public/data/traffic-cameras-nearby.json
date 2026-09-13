@@ -1,0 +1,107 @@
+{
+  "source": "National Highways traffic CCTV (third-party viewer)",
+  "sourceUrl": "https://www.motorwaycameras.co.uk/",
+  "extractedAt": "2026-09-13",
+  "note": "National Highways motorway/trunk traffic cameras near Penistone/Barnsley. Pins are approximate junction locations, not centimetre-accurate. Not town-centre or Barnsley street CCTV — no official public-space camera open data is published. Live images viewed via motorwaycameras.co.uk, which republishes National Highways traffic CCTV.",
+  "cameras": [
+    {
+      "id": "m1-nb-363",
+      "name": "M1 northbound J36 Barnsley",
+      "road": "M1",
+      "direction": "Northbound",
+      "junction": "J36 Barnsley",
+      "lat": 53.4992,
+      "lng": -1.4568,
+      "url": "https://www.motorwaycameras.co.uk/england/m1/northbound/traffic-camera/363",
+      "source": "National Highways traffic CCTV · viewer via motorwaycameras.co.uk"
+    },
+    {
+      "id": "m1-nb-364",
+      "name": "M1 northbound J37 Barnsley",
+      "road": "M1",
+      "direction": "Northbound",
+      "junction": "J37 Barnsley",
+      "lat": 53.5532,
+      "lng": -1.4802,
+      "url": "https://www.motorwaycameras.co.uk/england/m1/northbound/traffic-camera/364",
+      "source": "National Highways traffic CCTV · viewer via motorwaycameras.co.uk"
+    },
+    {
+      "id": "m1-nb-365",
+      "name": "M1 northbound J37 Barnsley",
+      "road": "M1",
+      "direction": "Northbound",
+      "junction": "J37 Barnsley",
+      "lat": 53.5526,
+      "lng": -1.4784,
+      "url": "https://www.motorwaycameras.co.uk/england/m1/northbound/traffic-camera/365",
+      "source": "National Highways traffic CCTV · viewer via motorwaycameras.co.uk"
+    },
+    {
+      "id": "m1-nb-366",
+      "name": "M1 northbound J37 Barnsley",
+      "road": "M1",
+      "direction": "Northbound",
+      "junction": "J37 Barnsley",
+      "lat": 53.5514,
+      "lng": -1.4798,
+      "url": "https://www.motorwaycameras.co.uk/england/m1/northbound/traffic-camera/366",
+      "source": "National Highways traffic CCTV · viewer via motorwaycameras.co.uk"
+    },
+    {
+      "id": "m1-nb-360",
+      "name": "M1 northbound J35 Sheffield/Rotherham",
+      "road": "M1",
+      "direction": "Northbound",
+      "junction": "J35 Sheffield/Rotherham",
+      "lat": 53.4606,
+      "lng": -1.431,
+      "url": "https://www.motorwaycameras.co.uk/england/m1/northbound/traffic-camera/360",
+      "source": "National Highways traffic CCTV · viewer via motorwaycameras.co.uk"
+    },
+    {
+      "id": "m1-sb-2029",
+      "name": "M1 southbound J36 Hoyland",
+      "road": "M1",
+      "direction": "Southbound",
+      "junction": "J36 Hoyland",
+      "lat": 53.4978,
+      "lng": -1.4552,
+      "url": "https://www.motorwaycameras.co.uk/england/m1/southbound/traffic-camera/2029",
+      "source": "National Highways traffic CCTV · viewer via motorwaycameras.co.uk"
+    },
+    {
+      "id": "m1-sb-377",
+      "name": "M1 southbound J37 Barnsley",
+      "road": "M1",
+      "direction": "Southbound",
+      "junction": "J37 Barnsley",
+      "lat": 53.5508,
+      "lng": -1.4778,
+      "url": "https://www.motorwaycameras.co.uk/england/m1/southbound/traffic-camera/377",
+      "source": "National Highways traffic CCTV · viewer via motorwaycameras.co.uk"
+    },
+    {
+      "id": "m1-sb-1283",
+      "name": "M1 southbound J37 Barnsley",
+      "road": "M1",
+      "direction": "Southbound",
+      "junction": "J37 Barnsley",
+      "lat": 53.552,
+      "lng": -1.4768,
+      "url": "https://www.motorwaycameras.co.uk/england/m1/southbound/traffic-camera/1283",
+      "source": "National Highways traffic CCTV · viewer via motorwaycameras.co.uk"
+    },
+    {
+      "id": "m1-sb-379",
+      "name": "M1 southbound J35A Chapeltown",
+      "road": "M1",
+      "direction": "Southbound",
+      "junction": "J35A Chapeltown",
+      "lat": 53.4744,
+      "lng": -1.444,
+      "url": "https://www.motorwaycameras.co.uk/england/m1/southbound/traffic-camera/379",
+      "source": "National Highways traffic CCTV · viewer via motorwaycameras.co.uk"
+    }
+  ]
+}

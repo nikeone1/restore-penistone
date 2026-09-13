@@ -62,7 +62,8 @@ http://127.0.0.1:43173 — FMS from Railway. For tips locally, also run `npx wra
 ## Extra layers (2026-09-13)
 
 - **Collisions** — DfT STATS19 2025 (Barnsley/Penistone area)
-- **Crime** — police.uk street API (anonymised / fuzzed — not exact addresses)
+- **Traffic cams** — National Highways motorway/trunk traffic CCTV near M1 J35–J37 (Barnsley/Hoyland/Chapeltown). Pins are approximate junction locations. Popups open a live camera page (motorwaycameras.co.uk republishes NH traffic CCTV). This is **not** Barnsley street or town-centre public-space CCTV — that is not published as open data.
 - **Paths** — Barnsley PROW via rowmaps (informational; Definitive Map is legal source)
 - **Air** — nearest DEFRA UK-AIR stations
-- Skipped: general CCTV; NCR EV registry decommissioned; SY speed cameras need FOI snapshot
+- Removed: police.uk crime pins (anonymised / fuzzed locations were not useful)
+- Skipped: Barnsley street CCTV (no official open data); NCR EV registry decommissioned; SY speed cameras need FOI snapshot

@@ -1,7 +1,7 @@
 import { CircleMarker, GeoJSON, MapContainer, Popup, TileLayer, useMapEvents } from 'react-leaflet';
 import { PENISTONE, isMapped } from '../lib/api';
 import { TYPE_COLOR, TYPE_LABEL, formatWhen, streetLabel } from '../lib/analytics';
-import type { AirStation, CollisionRecord, CrimeRecord, FloodArea, FloodWarning, HmoRecord, PlanningApp, Report, ReportType } from '../lib/types';
+import type { AirStation, CollisionRecord, FloodArea, FloodWarning, HmoRecord, PlanningApp, Report, ReportType, TrafficCamera } from '../lib/types';
 
 type Props = {
   reports: Report[];
@@ -21,8 +21,8 @@ type Props = {
   showFlood?: boolean;
   collisions?: CollisionRecord[];
   showCollisions?: boolean;
-  crimes?: CrimeRecord[];
-  showCrime?: boolean;
+  trafficCams?: TrafficCamera[];
+  showTrafficCams?: boolean;
   prow?: GeoJSON.FeatureCollection | null;
   showProw?: boolean;
   airStations?: AirStation[];
@@ -50,11 +50,20 @@ export function IssueMap({
   planningHmo = [], showPlanningHmo = false,
   floodAreas = [], floodWarnings = [], showFlood = false,
   collisions = [], showCollisions = false,
-  crimes = [], showCrime = false,
+  trafficCams = [], showTrafficCams = false,
   prow = null, showProw = false,
   airStations = [], showAir = false
 }: Props) {
   const mapped = reports.filter(isMapped);
+  const overlayPins =
+    (showHmos && hmos.length > 0) ||
+    (showPlanning && planning.length > 0) ||
+    (showPlanningHmo && planningHmo.length > 0) ||
+    (showFlood && (floodAreas.length > 0 || floodWarnings.length > 0)) ||
+    (showCollisions && collisions.length > 0) ||
+    (showTrafficCams && trafficCams.length > 0) ||
+    (showAir && airStations.length > 0) ||
+    (showProw && Boolean(prow));
 
   return (
     <section className="overflow-hidden rounded-2xl border border-line bg-paper shadow-sm">
@@ -67,6 +76,7 @@ export function IssueMap({
             {showPlanning ? ` · ${planning.length} planning` : ''}
             {showPlanningHmo ? ` · ${planningHmo.length} HMO planning` : ''}
             {showFlood ? ` · ${floodWarnings.length} alert / ${floodAreas.length} flood areas` : ''}
+            {showTrafficCams ? ` · ${trafficCams.length} traffic cams` : ''}
             {' '}· layers labelled separately
           </p>
         </div>
@@ -250,22 +260,34 @@ export function IssueMap({
                 </Popup>
               </CircleMarker>
             ))}
-          {showCrime &&
-            crimes.map((c) => (
+          {showTrafficCams &&
+            trafficCams.map((cam) => (
               <CircleMarker
-                key={c.id}
-                center={[c.lat, c.lng]}
-                radius={7}
-                pathOptions={{ color: '#1c2833', weight: 1.5, fillColor: '#566573', fillOpacity: 0.8 }}
+                key={cam.id}
+                center={[cam.lat, cam.lng]}
+                radius={9}
+                pathOptions={{ color: '#a04000', weight: 2, fillColor: '#e67e22', fillOpacity: 0.9 }}
               >
                 <Popup className="restore-popup">
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-[#1c2833]">Crime (fuzzed)</p>
-                  <p className="mt-1 inline-block rounded-full bg-[#922b21] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
-                    Not exact address
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-[#a04000]">Traffic camera</p>
+                  <p className="mt-1 inline-block rounded-full bg-[#ca6f1e] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
+                    National Highways
                   </p>
-                  <p className="mt-1 font-semibold capitalize">{c.category.replace(/-/g, ' ')}</p>
-                  <p className="text-sm text-ink/70">{c.street}</p>
-                  <p className="text-xs text-ink/50">{c.month} · police.uk anonymised map point</p>
+                  <p className="mt-1 font-semibold leading-snug">{cam.name}</p>
+                  <p className="mt-1 text-sm text-ink/70">
+                    {cam.road} {cam.direction} · {cam.junction}
+                  </p>
+                  <p className="text-xs text-ink/50">
+                    National Highways motorway traffic CCTV · not town CCTV · viewer via motorwaycameras.co.uk
+                  </p>
+                  <a
+                    className="mt-1 inline-block text-sm font-semibold text-moss underline decoration-line underline-offset-2"
+                    href={cam.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open live camera
+                  </a>
                 </Popup>
               </CircleMarker>
             ))}
@@ -350,7 +372,7 @@ export function IssueMap({
             />
           )}
         </MapContainer>
-        {mapped.length === 0 && (
+        {mapped.length === 0 && !overlayPins && (
           <div className="absolute inset-0 z-[400] flex items-center justify-center bg-stone/70 px-6 text-center">
             <p className="max-w-sm text-sm text-ink/70">
               The map is ready. Markers appear when FixMyStreet reports or approved community tips have coordinates.

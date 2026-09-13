@@ -9,7 +9,7 @@ import { TipForm } from './components/TipForm';
 import { WeatherWidget } from './components/WeatherWidget';
 import { WeeklyBrief } from './components/WeeklyBrief';
 import { loadApprovedTips, loadReports } from './lib/api';
-import type { AirStation, CollisionRecord, CrimeRecord, FeedSource, FloodArea, FloodWarning, HmoPayload, HmoRecord, PlanningApp, Report, ReportType } from './lib/types';
+import type { AirStation, CollisionRecord, FeedSource, FloodArea, FloodWarning, HmoPayload, HmoRecord, PlanningApp, Report, ReportType, TrafficCamera } from './lib/types';
 
 export default function App() {
   const [reports, setReports] = useState<Report[]>([]);
@@ -33,8 +33,8 @@ export default function App() {
   const [showFlood, setShowFlood] = useState(false);
   const [collisions, setCollisions] = useState<CollisionRecord[]>([]);
   const [showCollisions, setShowCollisions] = useState(false);
-  const [crimes, setCrimes] = useState<CrimeRecord[]>([]);
-  const [showCrime, setShowCrime] = useState(false);
+  const [trafficCams, setTrafficCams] = useState<TrafficCamera[]>([]);
+  const [showTrafficCams, setShowTrafficCams] = useState(true);
   const [prow, setProw] = useState<GeoJSON.FeatureCollection | null>(null);
   const [showProw, setShowProw] = useState(false);
   const [airStations, setAirStations] = useState<AirStation[]>([]);
@@ -83,10 +83,10 @@ export default function App() {
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: { collisions?: CollisionRecord[] }) => setCollisions(data.collisions || []))
       .catch(() => setCollisions([]));
-    fetch('/data/crime-penistone.json', { signal: ctrl.signal })
+    fetch('/data/traffic-cameras-nearby.json', { signal: ctrl.signal })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((data: { crimes?: CrimeRecord[] }) => setCrimes(data.crimes || []))
-      .catch(() => setCrimes([]));
+      .then((data: { cameras?: TrafficCamera[] }) => setTrafficCams(data.cameras || []))
+      .catch(() => setTrafficCams([]));
     fetch('/data/prow-penistone.json', { signal: ctrl.signal })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: GeoJSON.FeatureCollection) => setProw(data))
@@ -174,8 +174,8 @@ export default function App() {
           showFlood={showFlood}
           collisions={collisions}
           showCollisions={showCollisions}
-          crimes={crimes}
-          showCrime={showCrime}
+          trafficCams={trafficCams}
+          showTrafficCams={showTrafficCams}
           prow={prow}
           showProw={showProw}
           airStations={airStations}
@@ -215,8 +215,8 @@ export default function App() {
           <button type="button" onClick={() => setShowCollisions((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${showCollisions ? 'bg-[#922b21] text-paper' : 'bg-stone text-ink/70'}`}>
             Collisions {collisions.length}
           </button>
-          <button type="button" onClick={() => setShowCrime((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${showCrime ? 'bg-[#1c2833] text-paper' : 'bg-stone text-ink/70'}`}>
-            Crime ~{crimes.length}
+          <button type="button" onClick={() => setShowTrafficCams((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${showTrafficCams ? 'bg-[#ca6f1e] text-paper' : 'bg-stone text-ink/70'}`}>
+            Traffic cams {trafficCams.length}
           </button>
           <button type="button" onClick={() => setShowProw((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${showProw ? 'bg-[#196f3d] text-paper' : 'bg-stone text-ink/70'}`}>
             Paths
@@ -225,7 +225,7 @@ export default function App() {
             Air {airStations.length}
           </button>
           <span className="text-xs text-ink/55">
-            Crime pins are anonymised. No public-space CCTV layer.
+            Traffic cams are National Highways motorway CCTV (not town-centre cameras).
           </span>
         </div>
 
