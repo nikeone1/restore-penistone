@@ -1,0 +1,88 @@
+{
+  "source": "DEFRA UK-AIR",
+  "sourceUrl": "https://uk-air.defra.gov.uk/",
+  "extractedAt": "2026-09-13",
+  "note": "Nearest UK-AIR monitoring sites to Penistone. Often outside the town.",
+  "stations": [
+    {
+      "id": "1321",
+      "label": "Barnsley Gawber",
+      "pollutant_series": "Barnsley Gawber-Benzene in air",
+      "lat": 53.56292,
+      "lng": -1.5104359999502086,
+      "url": "https://uk-air.defra.gov.uk/"
+    },
+    {
+      "id": "750",
+      "label": "Barnsley 12",
+      "pollutant_series": "Barnsley 12-Sulphur dioxide in air",
+      "lat": 53.555930000000004,
+      "lng": -1.4851529999510416,
+      "url": "https://uk-air.defra.gov.uk/"
+    },
+    {
+      "id": "786070",
+      "label": "Dewsbury Ashworth Grange",
+      "pollutant_series": "Dewsbury Ashworth Grange-Nitrogen dioxide (air)",
+      "lat": 53.69310399999999,
+      "lng": -1.6371109999460376,
+      "url": "https://uk-air.defra.gov.uk/"
+    },
+    {
+      "id": "2705",
+      "label": "Ladybower",
+      "pollutant_series": "Ladybower-Nitrogen dioxide (air)",
+      "lat": 53.40337,
+      "lng": -1.7520059999422548,
+      "url": "https://uk-air.defra.gov.uk/"
+    },
+    {
+      "id": "788727",
+      "label": "Wakefield Alverthorpe",
+      "pollutant_series": "Wakefield Alverthorpe-Particulate matter less than 10 micro m (aerosol)",
+      "lat": 53.68736,
+      "lng": -1.5222089999498212,
+      "url": "https://uk-air.defra.gov.uk/"
+    },
+    {
+      "id": "2159",
+      "label": "Royston",
+      "pollutant_series": "Royston-5-Methyl Chrysene in PM10 in aerosol",
+      "lat": 53.600277,
+      "lng": -1.4394499999525467,
+      "url": "https://uk-air.defra.gov.uk/"
+    },
+    {
+      "id": "3918",
+      "label": "Sheffield Devonshire Green",
+      "pollutant_series": "Sheffield Devonshire Green-Benzene in air",
+      "lat": 53.378622,
+      "lng": -1.478095999951274,
+      "url": "https://uk-air.defra.gov.uk/"
+    },
+    {
+      "id": "785701",
+      "label": "Sheffield Barnsley Road",
+      "pollutant_series": "Sheffield Barnsley Road-Nitrogen dioxide (air)",
+      "lat": 53.40495,
+      "lng": -1.455814999952008,
+      "url": "https://uk-air.defra.gov.uk/"
+    },
+    {
+      "id": "1357",
+      "label": "Sheffield Centre",
+      "pollutant_series": "Sheffield Centre-Benzene in air",
+      "lat": 53.37772,
+      "lng": -1.4733059999514315,
+      "url": "https://uk-air.defra.gov.uk/"
+    },
+    {
+      "id": "2251",
+      "label": "South Hiendley",
+      "pollutant_series": "South Hiendley-5-Methyl Chrysene in PM10 in aerosol",
+      "lat": 53.611942,
+      "lng": -1.4008419999538186,
+      "url": "https://uk-air.defra.gov.uk/"
+    }
+  ]
+}

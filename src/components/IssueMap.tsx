@@ -1,7 +1,7 @@
-import { CircleMarker, MapContainer, Popup, TileLayer, useMapEvents } from 'react-leaflet';
+import { CircleMarker, GeoJSON, MapContainer, Popup, TileLayer, useMapEvents } from 'react-leaflet';
 import { PENISTONE, isMapped } from '../lib/api';
 import { TYPE_COLOR, TYPE_LABEL, formatWhen, streetLabel } from '../lib/analytics';
-import type { FloodArea, FloodWarning, HmoRecord, PlanningApp, Report, ReportType } from '../lib/types';
+import type { AirStation, CollisionRecord, CrimeRecord, FloodArea, FloodWarning, HmoRecord, PlanningApp, Report, ReportType } from '../lib/types';
 
 type Props = {
   reports: Report[];
@@ -19,6 +19,14 @@ type Props = {
   floodAreas?: FloodArea[];
   floodWarnings?: FloodWarning[];
   showFlood?: boolean;
+  collisions?: CollisionRecord[];
+  showCollisions?: boolean;
+  crimes?: CrimeRecord[];
+  showCrime?: boolean;
+  prow?: GeoJSON.FeatureCollection | null;
+  showProw?: boolean;
+  airStations?: AirStation[];
+  showAir?: boolean;
 };
 
 function ClickCatcher({ enabled, onPick }: { enabled: boolean; onPick?: (lat: number, lng: number) => void }) {
@@ -40,7 +48,11 @@ export function IssueMap({
   hmos = [], showHmos = false,
   planning = [], showPlanning = false,
   planningHmo = [], showPlanningHmo = false,
-  floodAreas = [], floodWarnings = [], showFlood = false
+  floodAreas = [], floodWarnings = [], showFlood = false,
+  collisions = [], showCollisions = false,
+  crimes = [], showCrime = false,
+  prow = null, showProw = false,
+  airStations = [], showAir = false
 }: Props) {
   const mapped = reports.filter(isMapped);
 
@@ -210,6 +222,73 @@ export function IssueMap({
                   <p className="text-xs text-ink/50">{app.status}</p>
                   <a className="mt-1 inline-block text-sm font-semibold text-moss underline" href={app.url} target="_blank" rel="noreferrer">
                     Open application
+                  </a>
+                </Popup>
+              </CircleMarker>
+            ))}
+
+          
+          {showCollisions &&
+            collisions.map((c) => (
+              <CircleMarker
+                key={c.id}
+                center={[c.lat, c.lng]}
+                radius={c.severity_label === 'Fatal' ? 11 : c.severity_label === 'Serious' ? 9 : 6}
+                pathOptions={{
+                  color: '#7b241c',
+                  weight: 1.5,
+                  fillColor: c.severity_label === 'Fatal' ? '#922b21' : c.severity_label === 'Serious' ? '#e74c3c' : '#f5b7b1',
+                  fillOpacity: 0.85
+                }}
+              >
+                <Popup className="restore-popup">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-[#7b241c]">Collision (STATS19)</p>
+                  <p className="mt-1 font-semibold">{c.severity_label}</p>
+                  <p className="text-sm text-ink/70">{c.date} {c.time}</p>
+                  <p className="text-xs text-ink/50">{c.casualties} casualties · {c.vehicles} vehicles · limit {c.speed_limit}</p>
+                  <p className="text-xs text-ink/45 mt-1">DfT open data · injury collisions reported to police</p>
+                </Popup>
+              </CircleMarker>
+            ))}
+          {showCrime &&
+            crimes.map((c) => (
+              <CircleMarker
+                key={c.id}
+                center={[c.lat, c.lng]}
+                radius={7}
+                pathOptions={{ color: '#1c2833', weight: 1.5, fillColor: '#566573', fillOpacity: 0.8 }}
+              >
+                <Popup className="restore-popup">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-[#1c2833]">Crime (fuzzed)</p>
+                  <p className="mt-1 inline-block rounded-full bg-[#922b21] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
+                    Not exact address
+                  </p>
+                  <p className="mt-1 font-semibold capitalize">{c.category.replace(/-/g, ' ')}</p>
+                  <p className="text-sm text-ink/70">{c.street}</p>
+                  <p className="text-xs text-ink/50">{c.month} · police.uk anonymised map point</p>
+                </Popup>
+              </CircleMarker>
+            ))}
+          {showProw && prow && (
+            <GeoJSON
+              data={prow as GeoJSON.FeatureCollection}
+              style={() => ({ color: '#196f3d', weight: 2, opacity: 0.75 })}
+            />
+          )}
+          {showAir &&
+            airStations.map((s) => (
+              <CircleMarker
+                key={s.id}
+                center={[s.lat, s.lng]}
+                radius={10}
+                pathOptions={{ color: '#0e6655', weight: 2, fillColor: '#48c9b0', fillOpacity: 0.85 }}
+              >
+                <Popup className="restore-popup">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-[#0e6655]">Air quality station</p>
+                  <p className="mt-1 font-semibold">{s.label}</p>
+                  <p className="text-xs text-ink/50">DEFRA UK-AIR · may be outside Penistone</p>
+                  <a className="mt-1 inline-block text-sm font-semibold text-moss underline" href={s.url} target="_blank" rel="noreferrer">
+                    UK-AIR
                   </a>
                 </Popup>
               </CircleMarker>

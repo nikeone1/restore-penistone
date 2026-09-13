@@ -9,7 +9,7 @@ import { TipForm } from './components/TipForm';
 import { WeatherWidget } from './components/WeatherWidget';
 import { WeeklyBrief } from './components/WeeklyBrief';
 import { loadApprovedTips, loadReports } from './lib/api';
-import type { FeedSource, FloodArea, FloodWarning, HmoPayload, HmoRecord, PlanningApp, Report, ReportType } from './lib/types';
+import type { AirStation, CollisionRecord, CrimeRecord, FeedSource, FloodArea, FloodWarning, HmoPayload, HmoRecord, PlanningApp, Report, ReportType } from './lib/types';
 
 export default function App() {
   const [reports, setReports] = useState<Report[]>([]);
@@ -31,6 +31,14 @@ export default function App() {
   const [floodAreas, setFloodAreas] = useState<FloodArea[]>([]);
   const [floodWarnings, setFloodWarnings] = useState<FloodWarning[]>([]);
   const [showFlood, setShowFlood] = useState(false);
+  const [collisions, setCollisions] = useState<CollisionRecord[]>([]);
+  const [showCollisions, setShowCollisions] = useState(false);
+  const [crimes, setCrimes] = useState<CrimeRecord[]>([]);
+  const [showCrime, setShowCrime] = useState(false);
+  const [prow, setProw] = useState<GeoJSON.FeatureCollection | null>(null);
+  const [showProw, setShowProw] = useState(false);
+  const [airStations, setAirStations] = useState<AirStation[]>([]);
+  const [showAir, setShowAir] = useState(false);
 
   const refreshTips = useCallback(() => {
     loadApprovedTips()
@@ -71,6 +79,22 @@ export default function App() {
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: { areas?: FloodArea[] }) => setFloodAreas(data.areas || []))
       .catch(() => setFloodAreas([]));
+    fetch('/data/collisions-barnsley-2025.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: { collisions?: CollisionRecord[] }) => setCollisions(data.collisions || []))
+      .catch(() => setCollisions([]));
+    fetch('/data/crime-penistone.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: { crimes?: CrimeRecord[] }) => setCrimes(data.crimes || []))
+      .catch(() => setCrimes([]));
+    fetch('/data/prow-penistone.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: GeoJSON.FeatureCollection) => setProw(data))
+      .catch(() => setProw(null));
+    fetch('/data/air-quality-nearby.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: { stations?: AirStation[] }) => setAirStations(data.stations || []))
+      .catch(() => setAirStations([]));
     fetch('https://environment.data.gov.uk/flood-monitoring/id/floods?lat=53.525&long=-1.628&dist=25', { signal: ctrl.signal })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: { items?: Array<Record<string, unknown>> }) => {
@@ -148,6 +172,14 @@ export default function App() {
           floodAreas={floodAreas}
           floodWarnings={floodWarnings}
           showFlood={showFlood}
+          collisions={collisions}
+          showCollisions={showCollisions}
+          crimes={crimes}
+          showCrime={showCrime}
+          prow={prow}
+          showProw={showProw}
+          airStations={airStations}
+          showAir={showAir}
         />
 
         <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-line bg-paper px-4 py-3 text-sm">
@@ -180,8 +212,20 @@ export default function App() {
           >
             Flood {floodWarnings.length}/{floodAreas.length}
           </button>
+          <button type="button" onClick={() => setShowCollisions((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${showCollisions ? 'bg-[#922b21] text-paper' : 'bg-stone text-ink/70'}`}>
+            Collisions {collisions.length}
+          </button>
+          <button type="button" onClick={() => setShowCrime((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${showCrime ? 'bg-[#1c2833] text-paper' : 'bg-stone text-ink/70'}`}>
+            Crime ~{crimes.length}
+          </button>
+          <button type="button" onClick={() => setShowProw((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${showProw ? 'bg-[#196f3d] text-paper' : 'bg-stone text-ink/70'}`}>
+            Paths
+          </button>
+          <button type="button" onClick={() => setShowAir((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${showAir ? 'bg-[#0e6655] text-paper' : 'bg-stone text-ink/70'}`}>
+            Air {airStations.length}
+          </button>
           <span className="text-xs text-ink/55">
-            Licensed HMO register ≠ HMO planning ≠ general planning
+            Crime pins are anonymised. No public-space CCTV layer.
           </span>
         </div>
 

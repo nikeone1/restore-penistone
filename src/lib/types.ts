@@ -105,3 +105,37 @@ export type FloodWarning = {
   url: string;
   areaName: string;
 };
+
+
+export type CollisionRecord = {
+  id: string;
+  ref: string;
+  lat: number;
+  lng: number;
+  severity: string;
+  severity_label: string;
+  date: string;
+  time: string;
+  casualties: number | string;
+  vehicles: number | string;
+  road: string;
+  speed_limit: string;
+};
+
+export type CrimeRecord = {
+  id: string;
+  category: string;
+  month: string;
+  lat: number;
+  lng: number;
+  street: string;
+};
+
+export type AirStation = {
+  id: string;
+  label: string;
+  lat: number;
+  lng: number;
+  url: string;
+  pollutant_series?: string;
+};

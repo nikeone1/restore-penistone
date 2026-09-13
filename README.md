@@ -57,3 +57,12 @@ http://127.0.0.1:43173 — FMS from Railway. For tips locally, also run `npx wra
 
 - Until Nicky runs the deploy one-liner above, the public URL may still be the older build (map + FMS only).
 - Recurrence (3+ on one street) depends on the short FixMyStreet RSS window plus approved tips.
+
+
+## Extra layers (2026-09-13)
+
+- **Collisions** — DfT STATS19 2025 (Barnsley/Penistone area)
+- **Crime** — police.uk street API (anonymised / fuzzed — not exact addresses)
+- **Paths** — Barnsley PROW via rowmaps (informational; Definitive Map is legal source)
+- **Air** — nearest DEFRA UK-AIR stations
+- Skipped: general CCTV; NCR EV registry decommissioned; SY speed cameras need FOI snapshot
