@@ -1,0 +1,71 @@
+{
+  "source": "Barnsley MBC ModernGov public councillor directory",
+  "sourceUrl": "https://barnsleymbc.moderngov.co.uk/mgMemberIndex.aspx?FN=WARD&VW=LIST",
+  "findMemberUrl": "https://barnsleymbc.moderngov.co.uk/mgFindMember.aspx",
+  "extractedAt": "2026-09-13",
+  "asOf": "2026-09",
+  "note": "Public Barnsley councillor contacts only. Not a marked electoral register. No elector names, addresses, or voting data.",
+  "councillors": [
+    {
+      "id": "east-burnett",
+      "name": "Alex Burnett",
+      "party": "Labour",
+      "ward": "Penistone East",
+      "wardSlug": "east",
+      "email": "cllralexburnett@barnsley.gov.uk",
+      "phone": "01226 772560",
+      "profileUrl": "https://barnsleymbc.moderngov.co.uk/mgUserInfo.aspx?UID=1742"
+    },
+    {
+      "id": "east-nixon",
+      "name": "Frances Nixon",
+      "party": "Labour",
+      "ward": "Penistone East",
+      "wardSlug": "east",
+      "email": "cllrfrancesnixon@barnsley.gov.uk",
+      "phone": "07513 125354",
+      "profileUrl": "https://barnsleymbc.moderngov.co.uk/mgUserInfo.aspx?UID=2074"
+    },
+    {
+      "id": "east-roberts",
+      "name": "John Roberts",
+      "party": "Labour",
+      "ward": "Penistone East",
+      "wardSlug": "east",
+      "email": "cllrjohnroberts@barnsley.gov.uk",
+      "phone": "01226 774486",
+      "profileUrl": "https://barnsleymbc.moderngov.co.uk/mgUserInfo.aspx?UID=1848",
+      "note": "Elected Penistone East by-election 20 Aug 2026 (1,728 votes)."
+    },
+    {
+      "id": "west-bootha-king",
+      "name": "Florentine Bootha-King",
+      "party": "Liberal Democrats",
+      "ward": "Penistone West",
+      "wardSlug": "west",
+      "email": "cllrflorentinebootha-king@barnsley.gov.uk",
+      "phone": "07504 542980",
+      "profileUrl": "https://barnsleymbc.moderngov.co.uk/mgUserInfo.aspx?UID=2092"
+    },
+    {
+      "id": "west-jackson",
+      "name": "Vicky Jackson",
+      "party": "Reform UK",
+      "ward": "Penistone West",
+      "wardSlug": "west",
+      "email": "cllrvickyjackson@barnsley.gov.uk",
+      "phone": "07768 733904",
+      "profileUrl": "https://barnsleymbc.moderngov.co.uk/mgUserInfo.aspx?UID=2093"
+    },
+    {
+      "id": "west-greenhough",
+      "name": "David Greenhough",
+      "party": "Liberal Democrats",
+      "ward": "Penistone West",
+      "wardSlug": "west",
+      "email": "cllrdavidgreenhough@barnsley.gov.uk",
+      "phone": "07810 654922",
+      "profileUrl": "https://barnsleymbc.moderngov.co.uk/mgUserInfo.aspx?UID=1201"
+    }
+  ]
+}

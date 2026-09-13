@@ -1,7 +1,25 @@
+import type { Layer } from 'leaflet';
 import { CircleMarker, GeoJSON, MapContainer, Popup, TileLayer, useMapEvents } from 'react-leaflet';
 import { PENISTONE, isMapped } from '../lib/api';
 import { TYPE_COLOR, TYPE_LABEL, formatWhen, streetLabel } from '../lib/analytics';
-import type { AirStation, CollisionRecord, FloodArea, FloodWarning, HmoRecord, PlanningApp, Report, ReportType, TrafficCamera } from '../lib/types';
+import { staleStyle } from '../lib/stale';
+import { WARD_STYLE, councillorsForWard, wardCentroids, wardForPoint } from '../lib/wards';
+import type {
+  AirStation,
+  CollisionRecord,
+  Councillor,
+  FloodArea,
+  FloodWarning,
+  HmoRecord,
+  PlanningApp,
+  Report,
+  ReportType,
+  StaleReport,
+  TrafficCamera,
+  WardCollection,
+  WardProperties,
+  WardSlug
+} from '../lib/types';
 
 type Props = {
   reports: Report[];
@@ -27,6 +45,12 @@ type Props = {
   showProw?: boolean;
   airStations?: AirStation[];
   showAir?: boolean;
+  wards?: WardCollection | null;
+  showWards?: boolean;
+  stale?: StaleReport[];
+  showStale?: boolean;
+  councillors?: Councillor[];
+  showCouncillors?: boolean;
 };
 
 function ClickCatcher({ enabled, onPick }: { enabled: boolean; onPick?: (lat: number, lng: number) => void }) {
@@ -43,6 +67,44 @@ function provenance(report: Report): { label: string; href?: string } {
   return { label: 'FixMyStreet', href: report.url || undefined };
 }
 
+function wardPathStyle(feature?: { properties?: { slug?: WardSlug } | null }) {
+  const slug = feature?.properties?.slug === 'west' ? 'west' : 'east';
+  const style = WARD_STYLE[slug];
+  return { color: style.color, weight: 2.5, fillColor: style.fillColor, fillOpacity: 0.14 };
+}
+
+function bindWardPopup(feature: { properties?: Partial<WardProperties> | null }, layer: Layer) {
+  const name = feature.properties?.name;
+  const gss = feature.properties?.gss;
+  const slug = feature.properties?.slug === 'west' ? 'west' : 'east';
+  if (!name) return;
+  layer.bindPopup(
+    `<p class="text-[11px] font-semibold uppercase tracking-wide" style="color:${WARD_STYLE[slug].color}">${name}</p>
+     <p class="mt-1 text-xs text-ink/50">MapIt ward · GSS ${gss || ''}</p>`
+  );
+}
+
+function CaseworkHint({
+  report,
+  wards,
+  councillors
+}: {
+  report: Report;
+  wards: WardCollection | null;
+  councillors: Councillor[];
+}) {
+  if (!wards || !councillors.length || report.lat == null || report.lng == null) return null;
+  const ward = wardForPoint(report.lng, report.lat, wards);
+  if (!ward) return null;
+  const members = councillorsForWard(councillors, ward.slug);
+  if (!members.length) return null;
+  return (
+    <p className="mt-2 text-xs text-ink/55">
+      Casework: {ward.name} — {members.map((c) => c.name).join(', ')}
+    </p>
+  );
+}
+
 export function IssueMap({
   reports, selectedId, onSelect, pickMode = false, onPick, pickPoint,
   hmos = [], showHmos = false,
@@ -52,9 +114,14 @@ export function IssueMap({
   collisions = [], showCollisions = false,
   trafficCams = [], showTrafficCams = false,
   prow = null, showProw = false,
-  airStations = [], showAir = false
+  airStations = [], showAir = false,
+  wards = null, showWards = false,
+  stale = [], showStale = false,
+  councillors = [], showCouncillors = false
 }: Props) {
   const mapped = reports.filter(isMapped);
+  const centroids = showCouncillors ? wardCentroids(wards) : [];
+  const staleById = new Map(stale.map((item) => [item.report.id, item]));
   const overlayPins =
     (showHmos && hmos.length > 0) ||
     (showPlanning && planning.length > 0) ||
@@ -63,7 +130,10 @@ export function IssueMap({
     (showCollisions && collisions.length > 0) ||
     (showTrafficCams && trafficCams.length > 0) ||
     (showAir && airStations.length > 0) ||
-    (showProw && Boolean(prow));
+    (showProw && Boolean(prow)) ||
+    (showWards && Boolean(wards)) ||
+    (showStale && stale.length > 0) ||
+    (showCouncillors && centroids.length > 0);
 
   return (
     <section className="overflow-hidden rounded-2xl border border-line bg-paper shadow-sm">
@@ -77,6 +147,8 @@ export function IssueMap({
             {showPlanningHmo ? ` · ${planningHmo.length} HMO planning` : ''}
             {showFlood ? ` · ${floodWarnings.length} alert / ${floodAreas.length} flood areas` : ''}
             {showTrafficCams ? ` · ${trafficCams.length} traffic cams` : ''}
+            {showWards ? ' · wards' : ''}
+            {showStale ? ` · ${stale.length} stale open` : ''}
             {' '}· layers labelled separately
           </p>
         </div>
@@ -92,10 +164,62 @@ export function IssueMap({
           scrollWheelZoom
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · ward boundaries <a href="https://mapit.mysociety.org/">MapIt</a> / OS / ONS'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <ClickCatcher enabled={pickMode} onPick={onPick} />
+          {showWards && wards && (
+            <GeoJSON
+              data={wards}
+              style={wardPathStyle}
+              onEachFeature={bindWardPopup}
+            />
+          )}
+          {showStale &&
+            stale.map((item) => {
+              const heat = staleStyle(item.tier);
+              const type = (item.report.type in TYPE_COLOR ? item.report.type : 'other') as ReportType;
+              return (
+                <CircleMarker
+                  key={`stale:${item.report.id}`}
+                  center={[item.report.lat, item.report.lng]}
+                  radius={heat.radius}
+                  pathOptions={{
+                    color: heat.color,
+                    weight: 1,
+                    fillColor: heat.fillColor,
+                    fillOpacity: heat.fillOpacity
+                  }}
+                  eventHandlers={{ click: () => onSelect(item.report) }}
+                >
+                  <Popup className="restore-popup">
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-[#9a3412]">
+                      Stale open
+                    </p>
+                    <p className="mt-1 inline-block rounded-full bg-[#c2410c] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
+                      {item.tier === 'very' ? `${item.ageDays} days · very stale` : `${item.ageDays} days`}
+                    </p>
+                    <p className="mt-1 text-[11px] font-semibold uppercase tracking-wide" style={{ color: TYPE_COLOR[type] }}>
+                      {TYPE_LABEL[type]}
+                    </p>
+                    <p className="mt-1 font-semibold leading-snug">{item.report.title}</p>
+                    <p className="mt-1 text-sm text-ink/70">{streetLabel(item.report.loc)}</p>
+                    <p className="text-xs text-ink/50">{formatWhen(item.ts)} · {item.ageDays} day{item.ageDays === 1 ? '' : 's'} open</p>
+                    {item.report.url && (
+                      <a
+                        className="mt-1 inline-block text-sm font-semibold text-moss underline decoration-line underline-offset-2"
+                        href={item.report.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Open on FixMyStreet
+                      </a>
+                    )}
+                    <CaseworkHint report={item.report} wards={wards} councillors={councillors} />
+                  </Popup>
+                </CircleMarker>
+              );
+            })}
           {mapped.map((report) => {
             const type = (report.type in TYPE_COLOR ? report.type : 'other') as ReportType;
             const selected = report.id === selectedId;
@@ -122,6 +246,11 @@ export function IssueMap({
                   <p className="mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper" style={{ background: community ? '#2f4a34' : '#5c6b73' }}>
                     {source.label}
                   </p>
+                  {staleById.has(report.id) && (
+                    <p className="mt-1 inline-block rounded-full bg-[#c2410c] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
+                      Stale open · {staleById.get(report.id)?.ageDays} days
+                    </p>
+                  )}
                   <p className="mt-1 font-semibold leading-snug">{report.title}</p>
                   <p className="mt-1 text-sm text-ink/70">{streetLabel(report.loc)}</p>
                   <p className="text-xs text-ink/50">{formatWhen(report.ts)} · {report.area}</p>
@@ -137,6 +266,7 @@ export function IssueMap({
                       {community ? 'Open submitted link' : 'Open on FixMyStreet'}
                     </a>
                   )}
+                  <CaseworkHint report={report} wards={wards} councillors={councillors} />
                 </Popup>
               </CircleMarker>
             );
@@ -364,6 +494,35 @@ export function IssueMap({
               </CircleMarker>
             ))}
 
+          {showCouncillors &&
+            centroids.map((c) => {
+              const style = WARD_STYLE[c.slug];
+              const members = councillorsForWard(councillors, c.slug);
+              return (
+                <CircleMarker
+                  key={`councillor-ward:${c.slug}`}
+                  center={[c.lat, c.lng]}
+                  radius={11}
+                  pathOptions={{ color: style.color, weight: 3, fillColor: style.fillColor, fillOpacity: 0.95 }}
+                >
+                  <Popup className="restore-popup">
+                    <p className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: style.color }}>
+                      {c.name} councillors
+                    </p>
+                    <p className="mt-1 text-xs text-ink/55">Public contacts · not a marked register</p>
+                    <ul className="mt-2 space-y-1">
+                      {members.map((m) => (
+                        <li key={m.id} className="text-sm">
+                          <span className="font-semibold">{m.name}</span>
+                          <span className="text-ink/60"> · {m.party}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </Popup>
+                </CircleMarker>
+              );
+            })}
+
           {pickPoint && (
             <CircleMarker
               center={[pickPoint.lat, pickPoint.lng]}
@@ -372,6 +531,36 @@ export function IssueMap({
             />
           )}
         </MapContainer>
+        {(showWards || showStale) && (
+          <div className="pointer-events-none absolute bottom-3 left-3 z-[400] rounded-xl border border-line bg-paper/95 px-3 py-2 text-[11px] shadow-sm">
+            {showWards && (
+              <>
+                <p className="font-semibold text-ink/70">Wards</p>
+                <p className="mt-1 flex items-center gap-2">
+                  <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: WARD_STYLE.east.fillColor, outline: `2px solid ${WARD_STYLE.east.color}` }} />
+                  Penistone East
+                </p>
+                <p className="mt-0.5 flex items-center gap-2">
+                  <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: WARD_STYLE.west.fillColor, outline: `2px solid ${WARD_STYLE.west.color}` }} />
+                  Penistone West
+                </p>
+              </>
+            )}
+            {showStale && (
+              <>
+                <p className={`font-semibold text-ink/70 ${showWards ? 'mt-2' : ''}`}>Stale open</p>
+                <p className="mt-1 flex items-center gap-2">
+                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#f59e0b]" />
+                  14+ days
+                </p>
+                <p className="mt-0.5 flex items-center gap-2">
+                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#ea580c]" />
+                  45+ days
+                </p>
+              </>
+            )}
+          </div>
+        )}
         {mapped.length === 0 && !overlayPins && (
           <div className="absolute inset-0 z-[400] flex items-center justify-center bg-stone/70 px-6 text-center">
             <p className="max-w-sm text-sm text-ink/70">
