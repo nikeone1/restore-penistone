@@ -1,14 +1,16 @@
-import { useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { geoJSON as leafletGeoJSON, type Layer } from 'leaflet';
-import { CircleMarker, GeoJSON, MapContainer, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
+import { CircleMarker, GeoJSON, MapContainer, Polyline, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { PENISTONE, isMapped } from '../lib/api';
 import { TYPE_COLOR, TYPE_LABEL, formatWhen, streetLabel } from '../lib/analytics';
+import { RECENCY_LEGEND, RECENCY_TIER_LABEL, formatRelative, recencyPinStyle, recencyStrength, recencyTier, reportAgeDays } from '../lib/recency';
 import { staleStyle } from '../lib/stale';
 import { WARD_STYLE, councillorsForWard, wardCentroids, wardForPoint } from '../lib/wards';
 import type {
   AirStation,
   CollisionRecord,
   Councillor,
+  EcoWork,
   FloodArea,
   FloodWarning,
   HmoRecord,
@@ -52,6 +54,8 @@ type Props = {
   showStale?: boolean;
   councillors?: Councillor[];
   showCouncillors?: boolean;
+  ecoWorks?: EcoWork[];
+  showEco?: boolean;
 };
 
 function ClickCatcher({ enabled, onPick }: { enabled: boolean; onPick?: (lat: number, lng: number) => void }) {
@@ -132,9 +136,14 @@ export function IssueMap({
   airStations = [], showAir = false,
   wards = null, showWards = false,
   stale = [], showStale = false,
-  councillors = [], showCouncillors = false
+  councillors = [], showCouncillors = false,
+  ecoWorks = [], showEco = false
 }: Props) {
-  const mapped = reports.filter(isMapped);
+  const mapped = [...reports.filter(isMapped)].sort((a, b) => {
+    const da = reportAgeDays(a) ?? 9999;
+    const db = reportAgeDays(b) ?? 9999;
+    return db - da;
+  });
   const centroids = showCouncillors ? wardCentroids(wards) : [];
   const staleById = new Map(stale.map((item) => [item.report.id, item]));
   const overlayPins =
@@ -148,7 +157,8 @@ export function IssueMap({
     (showProw && Boolean(prow)) ||
     (showWards && Boolean(wards)) ||
     (showStale && stale.length > 0) ||
-    (showCouncillors && centroids.length > 0);
+    (showCouncillors && centroids.length > 0) ||
+    (showEco && ecoWorks.length > 0);
 
   return (
     <section className="overflow-hidden rounded-2xl border border-line bg-paper shadow-sm">
@@ -164,6 +174,7 @@ export function IssueMap({
             {showTrafficCams ? ` · ${trafficCams.length} traffic cams` : ''}
             {showWards ? ' · wards' : ''}
             {showStale ? ` · ${stale.length} stale open` : ''}
+            {showEco ? ` · ${ecoWorks.length} eco works` : ''}
             {' '}· layers labelled separately
           </p>
         </div>
@@ -243,17 +254,21 @@ export function IssueMap({
             const selected = report.id === selectedId;
             const community = report.origin === 'community';
             const source = provenance(report);
+            const ageDays = reportAgeDays(report);
+            const pin = recencyPinStyle(ageDays, { selected, community, typeColor: TYPE_COLOR[type] });
+            const tier = recencyTier(ageDays);
+            const recencyStrong = (recencyStrength(ageDays) >= 0.74);
             return (
               <CircleMarker
                 key={report.id}
                 center={[report.lat, report.lng]}
-                radius={selected ? 12 : community ? 9 : 8}
+                radius={pin.radius}
                 pathOptions={{
-                  color: community ? '#2f4a34' : '#fbf8f1',
-                  weight: community ? 3 : selected ? 3 : 1.5,
+                  color: pin.color,
+                  weight: pin.weight,
+                  opacity: pin.opacity,
                   fillColor: TYPE_COLOR[type],
-                  fillOpacity: selected ? 1 : 0.88,
-                  dashArray: community ? '1 0' : undefined
+                  fillOpacity: pin.fillOpacity
                 }}
                 eventHandlers={{ click: () => onSelect(report) }}
               >
@@ -264,6 +279,13 @@ export function IssueMap({
                   <p className="mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper" style={{ background: community ? '#2f4a34' : '#5c6b73' }}>
                     {source.label}
                   </p>
+                  <p
+                    className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
+                      recencyStrong ? 'bg-moss text-paper' : 'bg-stone text-ink/70'
+                    }`}
+                  >
+                    {RECENCY_TIER_LABEL[tier]} · {formatRelative(report.ts)}
+                  </p>
                   {staleById.has(report.id) && (
                     <p className="mt-1 inline-block rounded-full bg-[#c2410c] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
                       Stale open · {staleById.get(report.id)?.ageDays} days
@@ -271,7 +293,7 @@ export function IssueMap({
                   )}
                   <p className="mt-1 font-semibold leading-snug">{report.title}</p>
                   <p className="mt-1 text-sm text-ink/70">{streetLabel(report.loc)}</p>
-                  <p className="text-xs text-ink/50">{formatWhen(report.ts)} · {report.area}</p>
+                  <p className="text-xs text-ink/50">{formatRelative(report.ts)} · {formatWhen(report.ts)} · {report.area}</p>
                   {report.desc && community && <p className="mt-2 text-sm">{report.desc}</p>}
                   {report.media && <img src={report.media} alt="" />}
                   {source.href && (
@@ -541,6 +563,61 @@ export function IssueMap({
               );
             })}
 
+          {showEco &&
+            ecoWorks.map((work) => {
+              const ongoing = work.status === 'ongoing';
+              const line = work.geometry?.type === 'LineString' ? work.geometry.coordinates.map(([lng, lat]) => [lat, lng] as [number, number]) : null;
+              return (
+                <Fragment key={work.id}>
+                  {line && (
+                    <Polyline
+                      positions={line}
+                      pathOptions={{
+                        color: ongoing ? '#15803d' : '#4d7c0f',
+                        weight: 4,
+                        opacity: 0.82,
+                        dashArray: '8 6'
+                      }}
+                    />
+                  )}
+                  <CircleMarker
+                    center={[work.lat, work.lng]}
+                    radius={ongoing ? 10 : 9}
+                    pathOptions={{
+                      color: ongoing ? '#14532d' : '#3f6212',
+                      weight: 2.5,
+                      fillColor: ongoing ? '#4ade80' : '#a3e635',
+                      fillOpacity: 0.92
+                    }}
+                  >
+                    <Popup className="restore-popup">
+                      <p className="text-[11px] font-semibold uppercase tracking-wide text-[#15803d]">Eco works</p>
+                      <p
+                        className="mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper"
+                        style={{ background: ongoing ? '#15803d' : '#4d7c0f' }}
+                      >
+                        {ongoing ? 'Ongoing' : 'Planned'}
+                      </p>
+                      <p className="mt-1 font-semibold leading-snug">{work.title}</p>
+                      <p className="mt-1 text-sm text-ink/70">{work.summary}</p>
+                      <p className="mt-1 text-xs text-ink/50">{work.area}</p>
+                      <p className="mt-2 text-[11px] text-ink/45">
+                        Public council / biodiversity plans · approximate locations · not live contractor GPS.
+                      </p>
+                      <a
+                        className="mt-1 inline-block text-sm font-semibold text-moss underline decoration-line underline-offset-2"
+                        href={work.sourceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {work.source}
+                      </a>
+                    </Popup>
+                  </CircleMarker>
+                </Fragment>
+              );
+            })}
+
           {pickPoint && (
             <CircleMarker
               center={[pickPoint.lat, pickPoint.lng]}
@@ -549,8 +626,8 @@ export function IssueMap({
             />
           )}
         </MapContainer>
-        {(showWards || showStale) && (
-          <div className="pointer-events-none absolute bottom-3 left-3 z-[400] rounded-xl border border-line bg-paper/95 px-3 py-2 text-[11px] shadow-sm">
+        {(showWards || showStale || mapped.length > 0 || showEco) && (
+          <div className="pointer-events-none absolute bottom-3 left-3 z-[400] max-w-[220px] rounded-xl border border-line bg-paper/95 px-3 py-2 text-[11px] shadow-sm">
             {showWards && (
               <>
                 <p className="font-semibold text-ink/70">Wards</p>
@@ -564,17 +641,52 @@ export function IssueMap({
                 </p>
               </>
             )}
+            {mapped.length > 0 && (
+              <>
+                <p className={`font-semibold text-ink/70 ${showWards ? 'mt-2' : ''}`}>Report age</p>
+                {RECENCY_LEGEND.map((row) => (
+                  <p key={row.tier} className="mt-1 flex items-center gap-2">
+                    <span
+                      className="inline-block shrink-0 rounded-full"
+                      style={{
+                        width: `${5.2 + 7.8 * row.strength}px`,
+                        height: `${5.2 + 7.8 * row.strength}px`,
+                        background: '#c4782a',
+                        opacity: 0.12 + 0.86 * row.strength,
+                        boxShadow: `0 0 0 ${1 + 1.5 * row.strength}px rgba(196, 120, 42, ${0.22 + 0.78 * row.strength})`
+                      }}
+                    />
+                    {row.label}
+                  </p>
+                ))}
+                <p className="mt-1 text-[10px] leading-snug text-ink/45">Type colour stays. Size and fade show age — not the orange stale halo.</p>
+              </>
+            )}
             {showStale && (
               <>
-                <p className={`font-semibold text-ink/70 ${showWards ? 'mt-2' : ''}`}>Stale open</p>
+                <p className={`font-semibold text-ink/70 ${showWards || mapped.length > 0 ? 'mt-2' : ''}`}>Stale open</p>
                 <p className="mt-1 flex items-center gap-2">
                   <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#f59e0b]" />
-                  14+ days
+                  14+ days still open
                 </p>
                 <p className="mt-0.5 flex items-center gap-2">
                   <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#ea580c]" />
                   45+ days
                 </p>
+              </>
+            )}
+            {showEco && (
+              <>
+                <p className={`font-semibold text-ink/70 ${showWards || showStale || mapped.length > 0 ? 'mt-2' : ''}`}>Eco works</p>
+                <p className="mt-1 flex items-center gap-2">
+                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#4ade80]" />
+                  Ongoing
+                </p>
+                <p className="mt-0.5 flex items-center gap-2">
+                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#a3e635]" />
+                  Planned
+                </p>
+                <p className="mt-1 text-[10px] leading-snug text-ink/45">Approximate public plans · not contractor GPS</p>
               </>
             )}
           </div>

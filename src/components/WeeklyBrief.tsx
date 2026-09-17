@@ -1,13 +1,16 @@
 import { useMemo, useState } from 'react';
 import { issuePost, restoreBrief, staleNeeds, streetLabel, topNeedsThisWeek } from '../lib/analytics';
+import { formatRelative, isHotReport } from '../lib/recency';
 import type { Report } from '../lib/types';
+import { NewestStrip } from './NewestStrip';
 
 type Props = {
   reports: Report[];
   selected: Report | null;
+  onSelect?: (report: Report) => void;
 };
 
-export function WeeklyBrief({ reports, selected }: Props) {
+export function WeeklyBrief({ reports, selected, onSelect }: Props) {
   const [mode, setMode] = useState<'brief' | 'issue'>('brief');
   const [copied, setCopied] = useState(false);
   const week = topNeedsThisWeek(reports);
@@ -49,17 +52,29 @@ export function WeeklyBrief({ reports, selected }: Props) {
         <span className="rounded-full bg-moss px-3 py-1 text-xs font-semibold tracking-wide text-paper">RESTORE</span>
       </div>
 
+      {onSelect && (
+        <div className="mt-4">
+          <NewestStrip reports={reports} onSelect={onSelect} limit={5} />
+        </div>
+      )}
+
       <div className="mt-4 rounded-xl bg-stone/50 p-3">
         <h3 className="text-sm font-semibold text-ink/80">Top needs this week</h3>
         {week.length === 0 ? (
           <p className="mt-2 text-sm text-ink/55">No clustered reports in the last 7 days. The live FixMyStreet window may be older than a week.</p>
         ) : (
           <ol className="mt-2 space-y-1 text-sm">
-            {week.slice(0, 5).map((item, i) => (
-              <li key={item.key}>
-                {i + 1}. {item.loc} · {item.count} · {item.latest.origin === 'community' ? 'Community' : 'FixMyStreet'}
-              </li>
-            ))}
+            {week.slice(0, 5).map((item, i) => {
+              const hot = isHotReport(item.latest);
+              return (
+                <li key={item.key}>
+                  {i + 1}. {item.loc} · {item.count} · {item.latest.origin === 'community' ? 'Community' : 'FixMyStreet'}
+                  {' · '}
+                  {hot ? 'New · ' : ''}
+                  latest {formatRelative(item.latest.ts)}
+                </li>
+              );
+            })}
           </ol>
         )}
         {stale.length > 0 && (
