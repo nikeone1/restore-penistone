@@ -5,6 +5,7 @@ import { IssueMap } from './components/IssueMap';
 import { MapViews } from './components/MapViews';
 import { ModPanel } from './components/ModPanel';
 import { NeedsPanel } from './components/NeedsPanel';
+import { NoticesStrip } from './components/NoticesStrip';
 import { WhatsOnStrip } from './components/WhatsOnStrip';
 import { RecurringPanel } from './components/RecurringPanel';
 import { StatsPanel } from './components/StatsPanel';
@@ -67,7 +68,6 @@ export default function App() {
   const [selectedNoticeId, setSelectedNoticeId] = useState<string | null>(null);
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [layers, setLayers] = useState<LayerFlags>(DEFAULT_LAYERS);
-  const [moreLayers, setMoreLayers] = useState(false);
   const [timeframe, setTimeframe] = useState<Timeframe>('all');
 
   const refreshTips = useCallback(() => {
@@ -262,48 +262,6 @@ export default function App() {
           selectedEventId={selectedEventId}
         />
 
-        <MapViews
-          view={view}
-          onView={applyView}
-          layers={layers}
-          onToggleLayer={toggleLayer}
-          moreOpen={moreLayers}
-          onToggleMore={() => setMoreLayers((v) => !v)}
-          counts={{
-            stale: String(stale.length),
-            councillors: String(councillors.length),
-            notices: String(notices.length),
-            events: String(events.length),
-            hmos: String(hmos.length),
-            planning: String(planning.length),
-            planningHmo: String(planningHmo.length),
-            flood: `${floodWarnings.length}/${floodAreas.length}`,
-            collisions: String(collisions.length),
-            trafficCams: String(trafficCams.length),
-            air: String(airStations.length),
-            eco: String(ecoWorks.length)
-          }}
-        />
-
-        {(layers.notices || layers.events) && (
-          <WhatsOnStrip
-            notices={notices}
-            events={events}
-            showNotices={layers.notices}
-            showEvents={layers.events}
-            selectedNoticeId={selectedNoticeId}
-            selectedEventId={selectedEventId}
-            onSelectNotice={(notice) => {
-              setSelectedNoticeId(notice.id);
-              setSelectedEventId(null);
-            }}
-            onSelectEvent={(event) => {
-              setSelectedEventId(event.id);
-              setSelectedNoticeId(null);
-            }}
-          />
-        )}
-
         <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-line bg-paper px-4 py-3 text-sm">
           <span className="font-semibold text-moss">Timeframe</span>
           {TIMEFRAMES.map((key) => (
@@ -322,6 +280,27 @@ export default function App() {
             Newest first in lists. Map pins fade by age (today strongest, then this week, last 30 days, older faded). Type colour stays. Stale (orange halo) is still-open after 14 days — not the same as old.
           </span>
         </div>
+
+        <MapViews
+          view={view}
+          onView={applyView}
+          layers={layers}
+          onToggleLayer={toggleLayer}
+          counts={{
+            stale: String(stale.length),
+            councillors: String(councillors.length),
+            notices: String(notices.length),
+            events: String(events.length),
+            hmos: String(hmos.length),
+            planning: String(planning.length),
+            planningHmo: String(planningHmo.length),
+            flood: `${floodWarnings.length}/${floodAreas.length}`,
+            collisions: String(collisions.length),
+            trafficCams: String(trafficCams.length),
+            air: String(airStations.length),
+            eco: String(ecoWorks.length)
+          }}
+        />
 
         <StatsPanel reports={timed} activeType={activeType} onType={setActiveType} />
 
@@ -345,6 +324,28 @@ export default function App() {
           <RecurringPanel reports={timed} onSelect={(r) => setSelectedId(r.id)} />
           <WeeklyBrief reports={timed} selected={selected} onSelect={(r) => setSelectedId(r.id)} />
         </div>
+
+        {layers.events && (
+          <WhatsOnStrip
+            events={events}
+            selectedEventId={selectedEventId}
+            onSelectEvent={(event) => {
+              setSelectedEventId(event.id);
+              setSelectedNoticeId(null);
+            }}
+          />
+        )}
+
+        {layers.notices && (
+          <NoticesStrip
+            notices={notices}
+            selectedNoticeId={selectedNoticeId}
+            onSelectNotice={(notice) => {
+              setSelectedNoticeId(notice.id);
+              setSelectedEventId(null);
+            }}
+          />
+        )}
 
         <ModPanel onChanged={refreshTips} />
       </main>
