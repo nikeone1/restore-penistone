@@ -252,7 +252,7 @@ export default function App() {
             </button>
           ))}
           <span className="text-xs text-ink/55">
-            Newest first in lists. Map pins from the last 7 days are larger with a moss ring; older pins fade. Stale (orange) is still-open after 14 days — not the same as new.
+            Newest first in lists. Map pins fade by age (today strongest, then this week, last 30 days, older faded). Type colour stays. Stale (orange halo) is still-open after 14 days — not the same as old.
           </span>
         </div>
 

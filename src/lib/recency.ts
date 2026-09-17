@@ -14,7 +14,23 @@ export const TIMEFRAME_LABEL: Record<Timeframe, string> = {
 };
 
 /** Visual recency for map pins. Separate from stale (14+ days still open). */
-export type RecencyTier = 'today' | 'week' | 'fading' | 'older' | 'unknown';
+export type RecencyTier = 'today' | 'week' | 'month' | 'older' | 'unknown';
+
+export const RECENCY_TIER_LABEL: Record<RecencyTier, string> = {
+  today: 'Today',
+  week: 'This week',
+  month: 'Last 30 days',
+  older: 'Older',
+  unknown: 'Date unknown'
+};
+
+/** Legend samples: strength 1 → 0.14 maps to size/opacity in recencyPinStyle. */
+export const RECENCY_LEGEND: { tier: RecencyTier; label: string; strength: number }[] = [
+  { tier: 'today', label: 'Today · strongest', strength: 1 },
+  { tier: 'week', label: 'This week', strength: 0.8 },
+  { tier: 'month', label: 'Last 30 days', strength: 0.46 },
+  { tier: 'older', label: 'Older · faded', strength: 0.14 }
+];
 
 const HOUR_MS = 60 * 60 * 1000;
 
@@ -28,8 +44,46 @@ export function recencyTier(ageDays: number | null): RecencyTier {
   if (ageDays == null) return 'unknown';
   if (ageDays < 1) return 'today';
   if (ageDays < 7) return 'week';
-  if (ageDays < 30) return 'fading';
+  if (ageDays < 30) return 'month';
   return 'older';
+}
+
+function lerp(from: number, to: number, t: number): number {
+  return from + (to - from) * Math.min(1, Math.max(0, t));
+}
+
+function parseHex(hex: string): { r: number; g: number; b: number } | null {
+  const raw = hex.replace('#', '');
+  if (!/^[0-9a-fA-F]{6}$/.test(raw)) return null;
+  return {
+    r: Number.parseInt(raw.slice(0, 2), 16),
+    g: Number.parseInt(raw.slice(2, 4), 16),
+    b: Number.parseInt(raw.slice(4, 6), 16)
+  };
+}
+
+function mixHex(from: string, toward: string, t: number): string {
+  const a = parseHex(from);
+  const b = parseHex(toward);
+  if (!a || !b) return from;
+  const m = Math.min(1, Math.max(0, t));
+  const ch = (x: number, y: number) => Math.round(x + (y - x) * m);
+  const h = (n: number) => n.toString(16).padStart(2, '0');
+  return `#${h(ch(a.r, b.r))}${h(ch(a.g, b.g))}${h(ch(a.b, b.b))}`;
+}
+
+/**
+ * 1 = newest, ~0.14 = oldest. Stepped plateaus at <1 / <7 / <30 / older
+ * with a short ramp inside each band so neighbouring days still differ.
+ */
+export function recencyStrength(ageDays: number | null): number {
+  if (ageDays == null) return 0.14;
+  const d = Math.max(0, ageDays);
+  if (d < 1) return 1;
+  if (d < 7) return lerp(0.88, 0.74, (d - 1) / 6);
+  if (d < 30) return lerp(0.52, 0.38, (d - 7) / 23);
+  if (d < 90) return lerp(0.22, 0.14, (d - 30) / 60);
+  return 0.14;
 }
 
 export function isHotReport(report: Report, now = Date.now()): boolean {
@@ -94,27 +148,42 @@ export function formatRelative(ts: number, now = Date.now()): string {
   return formatWhen(ts);
 }
 
+export type RecencyPinStyle = {
+  radius: number;
+  color: string;
+  weight: number;
+  opacity: number;
+  fillOpacity: number;
+};
+
+/**
+ * Type fill colour is supplied by the caller. Size, stroke and opacity
+ * scale with recency — not with the stale (still-open) heatmap.
+ */
 export function recencyPinStyle(
   ageDays: number | null,
-  opts: { selected?: boolean; community?: boolean } = {}
-): { radius: number; color: string; weight: number; fillOpacity: number } {
-  const { selected = false, community = false } = opts;
-  const tier = recencyTier(ageDays);
-  const hot = tier === 'today' || tier === 'week';
+  opts: { selected?: boolean; community?: boolean; typeColor?: string } = {}
+): RecencyPinStyle {
+  const { selected = false, community = false, typeColor = '#5c6b73' } = opts;
+  const s = recencyStrength(ageDays);
+  let radius = 5.2 + 7.8 * s;
+  let weight = 1 + 3.2 * s;
+  let fillOpacity = 0.12 + 0.86 * s;
+  let opacity = 0.22 + 0.78 * s;
 
-  let radius = 8;
-  if (selected) radius = 12;
-  else if (tier === 'today') radius = 11;
-  else if (tier === 'week') radius = 10;
-  else if (tier === 'fading') radius = community ? 8 : 7;
-  else radius = community ? 7 : 6;
+  if (community) {
+    radius += 0.4;
+    weight += 0.25;
+  }
+  if (selected) {
+    radius += 2;
+    weight += 1;
+    fillOpacity = Math.min(1, fillOpacity + 0.08);
+    opacity = Math.min(1, opacity + 0.08);
+  }
 
-  let color = community ? '#2f4a34' : '#fbf8f1';
-  if (hot) color = '#2f4a34';
-  else if (tier === 'older' || tier === 'unknown') color = community ? '#5c6b73' : '#d7d0c2';
+  const bright = mixHex(typeColor, '#ffffff', 0.4 * s);
+  const color = mixHex(bright, '#8a847a', 0.58 * (1 - s));
 
-  const weight = selected ? 3 : hot ? 3 : community ? 2.5 : 1.25;
-  const fillOpacity = selected ? 1 : hot ? 0.95 : tier === 'fading' ? 0.7 : 0.45;
-
-  return { radius, color, weight, fillOpacity };
+  return { radius, color, weight, opacity, fillOpacity };
 }

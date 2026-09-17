@@ -3,7 +3,7 @@ import { geoJSON as leafletGeoJSON, type Layer } from 'leaflet';
 import { CircleMarker, GeoJSON, MapContainer, Polyline, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { PENISTONE, isMapped } from '../lib/api';
 import { TYPE_COLOR, TYPE_LABEL, formatWhen, streetLabel } from '../lib/analytics';
-import { formatRelative, recencyPinStyle, reportAgeDays } from '../lib/recency';
+import { RECENCY_LEGEND, RECENCY_TIER_LABEL, formatRelative, recencyPinStyle, recencyStrength, recencyTier, reportAgeDays } from '../lib/recency';
 import { staleStyle } from '../lib/stale';
 import { WARD_STYLE, councillorsForWard, wardCentroids, wardForPoint } from '../lib/wards';
 import type {
@@ -139,7 +139,11 @@ export function IssueMap({
   councillors = [], showCouncillors = false,
   ecoWorks = [], showEco = false
 }: Props) {
-  const mapped = reports.filter(isMapped);
+  const mapped = [...reports.filter(isMapped)].sort((a, b) => {
+    const da = reportAgeDays(a) ?? 9999;
+    const db = reportAgeDays(b) ?? 9999;
+    return db - da;
+  });
   const centroids = showCouncillors ? wardCentroids(wards) : [];
   const staleById = new Map(stale.map((item) => [item.report.id, item]));
   const overlayPins =
@@ -251,8 +255,9 @@ export function IssueMap({
             const community = report.origin === 'community';
             const source = provenance(report);
             const ageDays = reportAgeDays(report);
-            const pin = recencyPinStyle(ageDays, { selected, community });
-            const hot = ageDays != null && ageDays < 7;
+            const pin = recencyPinStyle(ageDays, { selected, community, typeColor: TYPE_COLOR[type] });
+            const tier = recencyTier(ageDays);
+            const recencyStrong = (recencyStrength(ageDays) >= 0.74);
             return (
               <CircleMarker
                 key={report.id}
@@ -261,9 +266,9 @@ export function IssueMap({
                 pathOptions={{
                   color: pin.color,
                   weight: pin.weight,
+                  opacity: pin.opacity,
                   fillColor: TYPE_COLOR[type],
-                  fillOpacity: pin.fillOpacity,
-                  dashArray: community ? '1 0' : undefined
+                  fillOpacity: pin.fillOpacity
                 }}
                 eventHandlers={{ click: () => onSelect(report) }}
               >
@@ -274,11 +279,13 @@ export function IssueMap({
                   <p className="mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper" style={{ background: community ? '#2f4a34' : '#5c6b73' }}>
                     {source.label}
                   </p>
-                  {hot && (
-                    <p className="mt-1 inline-block rounded-full bg-moss px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
-                      New · {formatRelative(report.ts)}
-                    </p>
-                  )}
+                  <p
+                    className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
+                      recencyStrong ? 'bg-moss text-paper' : 'bg-stone text-ink/70'
+                    }`}
+                  >
+                    {RECENCY_TIER_LABEL[tier]} · {formatRelative(report.ts)}
+                  </p>
                   {staleById.has(report.id) && (
                     <p className="mt-1 inline-block rounded-full bg-[#c2410c] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
                       Stale open · {staleById.get(report.id)?.ageDays} days
@@ -636,15 +643,23 @@ export function IssueMap({
             )}
             {mapped.length > 0 && (
               <>
-                <p className={`font-semibold text-ink/70 ${showWards ? 'mt-2' : ''}`}>Newer reports</p>
-                <p className="mt-1 flex items-center gap-2">
-                  <span className="inline-block h-3 w-3 rounded-full bg-moss" />
-                  Last 7 days · larger moss ring
-                </p>
-                <p className="mt-0.5 flex items-center gap-2">
-                  <span className="inline-block h-2 w-2 rounded-full bg-[#d7d0c2]" />
-                  Older · smaller, faded
-                </p>
+                <p className={`font-semibold text-ink/70 ${showWards ? 'mt-2' : ''}`}>Report age</p>
+                {RECENCY_LEGEND.map((row) => (
+                  <p key={row.tier} className="mt-1 flex items-center gap-2">
+                    <span
+                      className="inline-block shrink-0 rounded-full"
+                      style={{
+                        width: `${5.2 + 7.8 * row.strength}px`,
+                        height: `${5.2 + 7.8 * row.strength}px`,
+                        background: '#c4782a',
+                        opacity: 0.12 + 0.86 * row.strength,
+                        boxShadow: `0 0 0 ${1 + 1.5 * row.strength}px rgba(196, 120, 42, ${0.22 + 0.78 * row.strength})`
+                      }}
+                    />
+                    {row.label}
+                  </p>
+                ))}
+                <p className="mt-1 text-[10px] leading-snug text-ink/45">Type colour stays. Size and fade show age — not the orange stale halo.</p>
               </>
             )}
             {showStale && (

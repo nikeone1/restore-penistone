@@ -87,7 +87,7 @@ The **Councillors** panel lists sitting Penistone East and West members from the
 **Timeframe** chips: Today · This week · Older · All (default **All**, newest first). Filters the map, stats, Needs, Recurring and Restore brief together.
 
 - Lists of FixMyStreet + approved community tips sort **newest first**. Needs stays priority-ranked and shows a clear **latest** relative time, plus a **Newest reports** strip and a Newest tab.
-- Map pins from the last **7 days** are larger with a moss ring (“hotter”). Older pins shrink and fade. The **Stale** layer is separate: still-open after 14 / 45 days (orange halo). New is not stale.
+- Map pins **fade by age**: today strongest (larger, brighter stroke, higher opacity), this week strong, last 30 days medium, older clearly faded. Type colours stay; size and opacity carry recency. Newest pins draw on top. The **Stale** layer is separate: still-open after 14 / 45 days (orange halo). Age fade is not stale.
 - Relative times use `formatRelative` in `src/lib/recency.ts` on top of existing `ts` / `formatWhen` / `reportTimestamp` helpers.
 
 ## Planned ecological works
