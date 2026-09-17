@@ -181,6 +181,119 @@ function CaseworkHint({
   );
 }
 
+type MapKeyProps = {
+  showWards: boolean;
+  showStale: boolean;
+  showEco: boolean;
+  showNotices: boolean;
+  showEvents: boolean;
+  hasReports: boolean;
+};
+
+function hasMapKey(props: MapKeyProps): boolean {
+  return props.showWards || props.showStale || props.hasReports || props.showEco || props.showNotices || props.showEvents;
+}
+
+function MapKeyBody({ showWards, showStale, showEco, showNotices, showEvents, hasReports }: MapKeyProps) {
+  return (
+    <>
+      {showWards && (
+        <>
+          <p className="font-semibold text-ink/70">Wards</p>
+          <p className="mt-1 flex items-center gap-2">
+            <span
+              className="inline-block h-2.5 w-2.5 rounded-sm"
+              style={{ background: WARD_STYLE.east.fillColor, outline: `2px solid ${WARD_STYLE.east.color}` }}
+            />
+            Penistone East
+          </p>
+          <p className="mt-0.5 flex items-center gap-2">
+            <span
+              className="inline-block h-2.5 w-2.5 rounded-sm"
+              style={{ background: WARD_STYLE.west.fillColor, outline: `2px solid ${WARD_STYLE.west.color}` }}
+            />
+            Penistone West
+          </p>
+        </>
+      )}
+      {hasReports && (
+        <>
+          <p className={`font-semibold text-ink/70 ${showWards ? 'mt-2' : ''}`}>Report age</p>
+          {RECENCY_LEGEND.map((row) => (
+            <p key={row.tier} className="mt-1 flex items-center gap-2">
+              <span
+                className="inline-block shrink-0 rounded-full"
+                style={{
+                  width: `${5.2 + 7.8 * row.strength}px`,
+                  height: `${5.2 + 7.8 * row.strength}px`,
+                  background: '#c4782a',
+                  opacity: 0.12 + 0.86 * row.strength,
+                  boxShadow: `0 0 0 ${1 + 1.5 * row.strength}px rgba(196, 120, 42, ${0.22 + 0.78 * row.strength})`
+                }}
+              />
+              {row.label}
+            </p>
+          ))}
+          <p className="mt-1 text-[10px] leading-snug text-ink/45">
+            Type colour stays. Size and fade show age — not the orange stale halo.
+          </p>
+        </>
+      )}
+      {showStale && (
+        <>
+          <p className={`font-semibold text-ink/70 ${showWards || hasReports ? 'mt-2' : ''}`}>Stale open</p>
+          <p className="mt-1 flex items-center gap-2">
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#f59e0b]" />
+            14+ days still open
+          </p>
+          <p className="mt-0.5 flex items-center gap-2">
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#ea580c]" />
+            45+ days
+          </p>
+        </>
+      )}
+      {showEco && (
+        <>
+          <p className={`font-semibold text-ink/70 ${showWards || showStale || hasReports ? 'mt-2' : ''}`}>Eco works</p>
+          <p className="mt-1 flex items-center gap-2">
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#4ade80]" />
+            Ongoing
+          </p>
+          <p className="mt-0.5 flex items-center gap-2">
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#a3e635]" />
+            Planned
+          </p>
+          <p className="mt-1 text-[10px] leading-snug text-ink/45">Approximate public plans · not contractor GPS</p>
+        </>
+      )}
+      {showNotices && (
+        <>
+          <p className={`font-semibold text-ink/70 ${showWards || showStale || hasReports || showEco ? 'mt-2' : ''}`}>
+            Council notices
+          </p>
+          <p className="mt-1 flex items-center gap-2">
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#14b8a6]" />
+            Town council page
+          </p>
+        </>
+      )}
+      {showEvents && (
+        <>
+          <p
+            className={`font-semibold text-ink/70 ${showWards || showStale || hasReports || showEco || showNotices ? 'mt-2' : ''}`}
+          >
+            Events
+          </p>
+          <p className="mt-1 flex items-center gap-2">
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#f59e0b]" />
+            Public what’s on
+          </p>
+        </>
+      )}
+    </>
+  );
+}
+
 export function IssueMap({
   reports, selectedId, onSelect, pickMode = false, onPick, pickPoint,
   hmos = [], showHmos = false,
@@ -220,6 +333,14 @@ export function IssueMap({
     (showEco && ecoWorks.length > 0) ||
     (showNotices && notices.length > 0) ||
     (showEvents && events.length > 0);
+  const keyProps: MapKeyProps = {
+    showWards,
+    showStale,
+    showEco,
+    showNotices,
+    showEvents,
+    hasReports: mapped.length > 0
+  };
   const selectedNotice = notices.find((notice) => notice.id === selectedNoticeId);
   const selectedEvent = events.find((event) => event.id === selectedEventId);
   const panTarget =
@@ -784,92 +905,13 @@ export function IssueMap({
             />
           )}
         </MapContainer>
-        {(showWards || showStale || mapped.length > 0 || showEco || showNotices || showEvents) && (
-          <div className="pointer-events-none absolute bottom-3 left-3 z-[400] max-w-[220px] rounded-xl border border-line bg-paper/95 px-3 py-2 text-[11px] shadow-sm">
-            {showWards && (
-              <>
-                <p className="font-semibold text-ink/70">Wards</p>
-                <p className="mt-1 flex items-center gap-2">
-                  <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: WARD_STYLE.east.fillColor, outline: `2px solid ${WARD_STYLE.east.color}` }} />
-                  Penistone East
-                </p>
-                <p className="mt-0.5 flex items-center gap-2">
-                  <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: WARD_STYLE.west.fillColor, outline: `2px solid ${WARD_STYLE.west.color}` }} />
-                  Penistone West
-                </p>
-              </>
-            )}
-            {mapped.length > 0 && (
-              <>
-                <p className={`font-semibold text-ink/70 ${showWards ? 'mt-2' : ''}`}>Report age</p>
-                {RECENCY_LEGEND.map((row) => (
-                  <p key={row.tier} className="mt-1 flex items-center gap-2">
-                    <span
-                      className="inline-block shrink-0 rounded-full"
-                      style={{
-                        width: `${5.2 + 7.8 * row.strength}px`,
-                        height: `${5.2 + 7.8 * row.strength}px`,
-                        background: '#c4782a',
-                        opacity: 0.12 + 0.86 * row.strength,
-                        boxShadow: `0 0 0 ${1 + 1.5 * row.strength}px rgba(196, 120, 42, ${0.22 + 0.78 * row.strength})`
-                      }}
-                    />
-                    {row.label}
-                  </p>
-                ))}
-                <p className="mt-1 text-[10px] leading-snug text-ink/45">Type colour stays. Size and fade show age — not the orange stale halo.</p>
-              </>
-            )}
-            {showStale && (
-              <>
-                <p className={`font-semibold text-ink/70 ${showWards || mapped.length > 0 ? 'mt-2' : ''}`}>Stale open</p>
-                <p className="mt-1 flex items-center gap-2">
-                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#f59e0b]" />
-                  14+ days still open
-                </p>
-                <p className="mt-0.5 flex items-center gap-2">
-                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#ea580c]" />
-                  45+ days
-                </p>
-              </>
-            )}
-            {showEco && (
-              <>
-                <p className={`font-semibold text-ink/70 ${showWards || showStale || mapped.length > 0 ? 'mt-2' : ''}`}>Eco works</p>
-                <p className="mt-1 flex items-center gap-2">
-                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#4ade80]" />
-                  Ongoing
-                </p>
-                <p className="mt-0.5 flex items-center gap-2">
-                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#a3e635]" />
-                  Planned
-                </p>
-                <p className="mt-1 text-[10px] leading-snug text-ink/45">Approximate public plans · not contractor GPS</p>
-              </>
-            )}
-            {showNotices && (
-              <>
-                <p className={`font-semibold text-ink/70 ${showWards || showStale || mapped.length > 0 || showEco ? 'mt-2' : ''}`}>
-                  Council notices
-                </p>
-                <p className="mt-1 flex items-center gap-2">
-                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#14b8a6]" />
-                  Town council page
-                </p>
-              </>
-            )}
-            {showEvents && (
-              <>
-                <p className={`font-semibold text-ink/70 ${showWards || showStale || mapped.length > 0 || showEco || showNotices ? 'mt-2' : ''}`}>
-                  Events
-                </p>
-                <p className="mt-1 flex items-center gap-2">
-                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#f59e0b]" />
-                  Public what’s on
-                </p>
-              </>
-            )}
-          </div>
+        {hasMapKey(keyProps) && (
+          <details className="map-key-panel absolute bottom-3 left-3 z-[400] hidden max-w-[200px] rounded-xl border border-line bg-paper/95 text-[11px] shadow-sm md:block">
+            <summary className="cursor-pointer select-none px-3 py-2 font-semibold text-ink/80">Map key</summary>
+            <div className="max-h-36 overflow-y-auto px-3 pb-2">
+              <MapKeyBody {...keyProps} />
+            </div>
+          </details>
         )}
         {mapped.length === 0 && !overlayPins && (
           <div className="absolute inset-0 z-[400] flex items-center justify-center bg-stone/70 px-6 text-center">
@@ -879,6 +921,14 @@ export function IssueMap({
           </div>
         )}
       </div>
+      {hasMapKey(keyProps) && (
+        <details className="map-key-panel border-t border-line px-4 py-2 md:hidden">
+          <summary className="cursor-pointer select-none text-sm font-semibold text-moss">Map key</summary>
+          <div className="mt-2 text-[11px]">
+            <MapKeyBody {...keyProps} />
+          </div>
+        </details>
+      )}
     </section>
   );
 }

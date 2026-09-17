@@ -45,3 +45,22 @@ body {
   border-radius: 8px;
   margin: 8px 0;
 }
+
+/* Collapsed map key — overlay stays off the map on small screens. */
+.map-key-panel > summary {
+  list-style: none;
+}
+
+.map-key-panel > summary::-webkit-details-marker {
+  display: none;
+}
+
+.map-key-panel > summary::after {
+  content: " ▾";
+  font-size: 0.85em;
+  opacity: 0.65;
+}
+
+.map-key-panel:not([open]) > summary::after {
+  content: " ▸";
+}
