@@ -171,7 +171,7 @@ export default function App() {
     () => (activeType === 'all' ? timed : timed.filter((r) => r.type === activeType)),
     [timed, activeType]
   );
-  const stale = useMemo(() => staleReports(combined), [combined]);
+  const stale = useMemo(() => staleReports(timed), [timed]);
   const selected = combined.find((r) => r.id === selectedId) ?? null;
   const timeCounts = useMemo(() => timeframeCounts(combined), [combined]);
 
