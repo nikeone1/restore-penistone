@@ -1,6 +1,6 @@
 # Restore constituency blueprint
 
-Copy this when standing up another UK Restore hub. Penistone is the reference implementation (`nikeone1/restore-penistone`). Keep the product **simple**: live street reports on a map, a few map **views**, curated public overlays — not a switchboard.
+Copy this when standing up another UK Restore hub. Penistone is the reference implementation (`nikeone1/restore-penistone`). Keep the product **simple**: live street reports on a map, always-visible layer pills, optional view shortcuts, curated public overlays.
 
 ## What this product is
 
@@ -10,6 +10,8 @@ A civic insight hub for one parliamentary / local geography (here: Penistone Eas
 - Approved community tips (Cloudflare Worker + Durable Object)
 - Static curated JSON for everything that is not a live feed
 - Legal public sources only
+- Individual layer pills always on the chrome; optional view shortcuts
+- Events / what’s on and council notices as **two separate lists**, not one mixed feed
 - A person pastes the weekly brief into Facebook/X. The app never logs in or scrapes Meta/X.
 
 ## Data classes
@@ -71,7 +73,7 @@ Events: `id`, `title`, `start`, optional `end`, `place`, `area`, optional `lat`/
 
 Geocode public streets/venues with Nominatim. Skip TBC and social-only posts.
 
-7. **Map views.** `src/lib/layers.ts` — keep a **small** set of presets (Overview, Events, Streets, Housing, Travel, Green). Do not put every overlay on the default chrome. FixMyStreet + tips + recency stay on in every view.
+7. **Layers + shortcuts.** `src/lib/layers.ts` — keep **individual layer pills always visible**. Optional view presets (Overview, Events, Streets, Housing, Travel, Green) are shortcuts only; they must not hide the pills. Default Overview matches the original on/off mix plus notices and events. FixMyStreet + tips + recency stay on in every view. Put **What’s on** (events) and **Town Council Notices** as two distinct lists at the bottom of the page — never mix Event and Notice rows in one feed.
 
 ## Deploy path
 

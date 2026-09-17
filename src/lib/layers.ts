@@ -23,12 +23,12 @@ export const MAP_VIEWS = [
   {
     id: 'overview',
     label: 'Overview',
-    hint: 'Wards, notices, events, councillors, stale, eco works'
+    hint: 'Default mix: wards, notices, events, councillors, stale, HMO, traffic cams, eco works'
   },
   {
     id: 'events',
     label: 'Events',
-    hint: 'What’s on plus council notices'
+    hint: 'Events and notices as map pins'
   },
   {
     id: 'streets',
@@ -98,6 +98,8 @@ export const VIEW_LAYERS: Record<ViewId, LayerFlags> = {
     councillors: true,
     notices: true,
     events: true,
+    hmos: true,
+    trafficCams: true,
     eco: true
   },
   events: {

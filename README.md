@@ -18,24 +18,26 @@ On the site: expand **Moderator (shared code)** at the bottom, enter that code, 
 
 Facebook: Restore never posts. Copy or download the weekly **Restore brief** and paste it into groups yourself. Facebook URLs on tips are stored as links only — never fetched.
 
-## Map views
+## Layers and map views
 
-A small set of **map views** replace the old wall of layer pills. FixMyStreet reports, community tips and recency stay on the map in every view.
+Every overlay has its own **layer pill**, always visible (wards, stale, councillors, notices, events, HMO, planning, HMO planning, flood, collisions, traffic cams, paths, air, eco). FixMyStreet reports, community tips and recency stay on the map.
 
-- **Overview** (default) — wards, council notices, events, councillors, stale open reports, eco works
-- **Events** — what’s on plus council notices
+Optional **Shortcuts** apply a preset without hiding the pills:
+
+- **Overview** (default) — wards, notices, events, councillors, stale, licensed HMOs, traffic cams, eco works
+- **Events** — events and council notices as map pins
 - **Streets & reports** — stale, collisions, notices
 - **Housing** — licensed HMOs, planning, HMO planning
 - **Travel & roads** — traffic cams, collisions, public paths, notices
 - **Green & flood** — eco works, flood, paths, air quality
 
-**More layers** still exposes every overlay for power users. It stays collapsed by default.
+**What’s on** (events) and **Town Council Notices** sit as two separate lists at the bottom of the page, not mixed into one feed.
 
 See [docs/CONSTITUENCY-BLUEPRINT.md](docs/CONSTITUENCY-BLUEPRINT.md) to copy this hub to another UK constituency.
 
 ## Town Council notices
 
-Toggle is on in **Overview**, **Streets & reports** and **Travel & roads** (and via More layers). Teal map pins plus a thin list from `public/data/council-notices-penistone.json` — a curated snapshot of the public [News/Notices](https://penistonetowncouncil.gov.uk/news-notices/) page (~23 items: road closures, vacancies, station plans, PACT, elections, etc.).
+Toggle **Notices** (on by default). Teal map pins plus a **Town Council Notices** list at the bottom from `public/data/council-notices-penistone.json` — a curated snapshot of the public [News/Notices](https://penistonetowncouncil.gov.uk/news-notices/) page (~23 items: road closures, vacancies, station plans, PACT, elections, etc.).
 
 Popups paraphrase the official notice and link to it. Pins use an approximate street or venue, not worksite GPS. **No Facebook or X scraping.**
 
@@ -43,7 +45,7 @@ Popups paraphrase the official notice and link to it. Pins use an approximate st
 
 ## Events / what’s on
 
-Amber map pins plus the same thin **What’s on** list as notices (`public/data/events-penistone.json`). Default **on** in Overview and in the **Events** view.
+Amber map pins plus a separate **What’s on** list at the bottom (`public/data/events-penistone.json`). Default **on**. The Events shortcut focuses the map on events and notices; the two lists stay distinct.
 
 Seeded from public pages only: Penistone Town Council (PACT, town assembly, Remembrance pattern), [Penistone Paramount What’s On](https://www.penistoneparamount.co.uk/whatson/live), [Barnsley local markets](https://www.barnsley.gov.uk/services/markets/local-markets/) (Thursday market, Super Saturdays, seasonal markets), [Barnsley events](https://my.barnsley.gov.uk/events/50436/gel-plate-printing) filtered to Penistone Library, [Penistone Show](https://penistoneshow.com/), [Norman Cole Penistone 10k](https://pfrac.co.uk/races/penistone-10k). **No Facebook/X scraping.** Skip TBC items.
 
@@ -67,8 +69,8 @@ Toggle **HMO** on the map. Data is from Barnsley’s public licensed HMO PDF ([r
 ## What you get
 
 - Leaflet map of live FixMyStreet reports (Railway RSS) plus approved community tips
-- **Map views** instead of a wall of layer pills (Overview / Events / Streets / Housing / Travel / Green), with More layers when needed
-- Town Council notices and public events as pins plus a thin What’s on list
+- Individual **layer pills** always visible, plus optional view shortcuts (Overview / Events / Streets / Housing / Travel / Green)
+- Town Council notices and public events as pins, with two separate lists at the bottom (What’s on, Town Council Notices)
 - Every popup labelled **FixMyStreet** or **Community tip**
 - Stats, prioritised needs, recurring issues, timeframe filter, newest-reports strip, top needs this week / stale signal
 - Community tip form (optional street, category, map pin, photo URL, FMS/Facebook link)
