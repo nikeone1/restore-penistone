@@ -1,5 +1,5 @@
-import { Fragment, useEffect, useRef } from 'react';
-import { geoJSON as leafletGeoJSON, type Layer } from 'leaflet';
+import { Fragment, useEffect, useRef, type ReactNode } from 'react';
+import { geoJSON as leafletGeoJSON, type CircleMarker as LeafletCircleMarker, type Layer } from 'leaflet';
 import { CircleMarker, GeoJSON, MapContainer, Polyline, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { PENISTONE, isMapped } from '../lib/api';
 import { TYPE_COLOR, TYPE_LABEL, formatWhen, streetLabel } from '../lib/analytics';
@@ -65,6 +65,41 @@ type Props = {
   showEvents?: boolean;
   selectedEventId?: string | null;
 };
+
+function CivicPanes() {
+  const map = useMap();
+  useEffect(() => {
+    if (!map.getPane('civicPane')) {
+      const pane = map.createPane('civicPane');
+      pane.style.zIndex = '450';
+    }
+  }, [map]);
+  return null;
+}
+
+function CivicPin({
+  selected,
+  center,
+  radius,
+  pathOptions,
+  children
+}: {
+  selected: boolean;
+  center: [number, number];
+  radius: number;
+  pathOptions: { color: string; weight: number; fillColor: string; fillOpacity: number };
+  children: ReactNode;
+}) {
+  const ref = useRef<LeafletCircleMarker | null>(null);
+  useEffect(() => {
+    if (selected) ref.current?.openPopup();
+  }, [selected]);
+  return (
+    <CircleMarker ref={ref} pane="civicPane" center={center} radius={radius} pathOptions={pathOptions}>
+      {children}
+    </CircleMarker>
+  );
+}
 
 function ClickCatcher({ enabled, onPick }: { enabled: boolean; onPick?: (lat: number, lng: number) => void }) {
   useMapEvents({
@@ -230,6 +265,7 @@ export function IssueMap({
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <ClickCatcher enabled={pickMode} onPick={onPick} />
+          <CivicPanes />
           {wards && <FitWardsOnce wards={wards} />}
           {panTarget && <PanToNotice lat={panTarget.lat} lng={panTarget.lng} />}
           {showWards &&
@@ -661,8 +697,9 @@ export function IssueMap({
               .map((notice) => {
                 const selected = notice.id === selectedNoticeId;
                 return (
-                  <CircleMarker
+                  <CivicPin
                     key={notice.id}
+                    selected={selected}
                     center={[notice.lat, notice.lng]}
                     radius={selected ? 11 : 8}
                     pathOptions={{
@@ -690,7 +727,7 @@ export function IssueMap({
                         Open official notice
                       </a>
                     </Popup>
-                  </CircleMarker>
+                  </CivicPin>
                 );
               })}
 
@@ -704,10 +741,11 @@ export function IssueMap({
                     ? `${formatNoticeDate(event.start)} – ${formatNoticeDate(event.end)}`
                     : formatNoticeDate(event.start);
                 return (
-                  <CircleMarker
+                  <CivicPin
                     key={event.id}
+                    selected={selected}
                     center={[event.lat, event.lng]}
-                    radius={selected ? 11 : 8}
+                    radius={selected ? 11 : 9}
                     pathOptions={{
                       color: selected ? '#9a3412' : '#b45309',
                       weight: selected ? 3 : 2,
@@ -734,7 +772,7 @@ export function IssueMap({
                         Open listing
                       </a>
                     </Popup>
-                  </CircleMarker>
+                  </CivicPin>
                 );
               })}
 
