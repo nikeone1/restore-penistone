@@ -2,23 +2,30 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CouncillorsPanel } from './components/CouncillorsPanel';
 import { Header } from './components/Header';
 import { IssueMap } from './components/IssueMap';
+import { MapViews } from './components/MapViews';
 import { ModPanel } from './components/ModPanel';
 import { NeedsPanel } from './components/NeedsPanel';
+import { WhatsOnStrip } from './components/WhatsOnStrip';
 import { RecurringPanel } from './components/RecurringPanel';
 import { StatsPanel } from './components/StatsPanel';
 import { TipForm } from './components/TipForm';
 import { WeatherWidget } from './components/WeatherWidget';
 import { WeeklyBrief } from './components/WeeklyBrief';
 import { loadApprovedTips, loadReports } from './lib/api';
+import { DEFAULT_LAYERS, VIEW_LAYERS, viewForLayers, type LayerFlags, type LayerKey, type ViewId } from './lib/layers';
 import { TIMEFRAME_LABEL, TIMEFRAMES, filterByTimeframe, timeframeCounts, type Timeframe } from './lib/recency';
 import { staleReports } from './lib/stale';
 import type {
   AirStation,
   CollisionRecord,
+  CommunityEvent,
+  CouncilNotice,
+  CouncilNoticesPayload,
   Councillor,
   CouncillorsPayload,
   EcoWork,
   EcoWorksPayload,
+  EventsPayload,
   FeedSource,
   FloodArea,
   FloodWarning,
@@ -43,30 +50,24 @@ export default function App() {
   const [pickMode, setPickMode] = useState(false);
   const [pickPoint, setPickPoint] = useState<{ lat: number; lng: number } | null>(null);
   const [hmos, setHmos] = useState<HmoRecord[]>([]);
-  const [showHmos, setShowHmos] = useState(true);
   const [planning, setPlanning] = useState<PlanningApp[]>([]);
-  const [showPlanning, setShowPlanning] = useState(false);
   const [planningHmo, setPlanningHmo] = useState<PlanningApp[]>([]);
-  const [showPlanningHmo, setShowPlanningHmo] = useState(false);
   const [floodAreas, setFloodAreas] = useState<FloodArea[]>([]);
   const [floodWarnings, setFloodWarnings] = useState<FloodWarning[]>([]);
-  const [showFlood, setShowFlood] = useState(false);
   const [collisions, setCollisions] = useState<CollisionRecord[]>([]);
-  const [showCollisions, setShowCollisions] = useState(false);
   const [trafficCams, setTrafficCams] = useState<TrafficCamera[]>([]);
-  const [showTrafficCams, setShowTrafficCams] = useState(true);
   const [prow, setProw] = useState<GeoJSON.FeatureCollection | null>(null);
-  const [showProw, setShowProw] = useState(false);
   const [airStations, setAirStations] = useState<AirStation[]>([]);
-  const [showAir, setShowAir] = useState(false);
   const [wards, setWards] = useState<WardCollection | null>(null);
-  const [showWards, setShowWards] = useState(true);
-  const [showStale, setShowStale] = useState(true);
   const [councillors, setCouncillors] = useState<Councillor[]>([]);
   const [findMemberUrl, setFindMemberUrl] = useState('https://barnsleymbc.moderngov.co.uk/mgFindMember.aspx');
-  const [showCouncillors, setShowCouncillors] = useState(true);
   const [ecoWorks, setEcoWorks] = useState<EcoWork[]>([]);
-  const [showEco, setShowEco] = useState(true);
+  const [notices, setNotices] = useState<CouncilNotice[]>([]);
+  const [events, setEvents] = useState<CommunityEvent[]>([]);
+  const [selectedNoticeId, setSelectedNoticeId] = useState<string | null>(null);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const [layers, setLayers] = useState<LayerFlags>(DEFAULT_LAYERS);
+  const [moreLayers, setMoreLayers] = useState(false);
   const [timeframe, setTimeframe] = useState<Timeframe>('all');
 
   const refreshTips = useCallback(() => {
@@ -139,6 +140,14 @@ export default function App() {
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: EcoWorksPayload) => setEcoWorks(data.works || []))
       .catch(() => setEcoWorks([]));
+    fetch('/data/council-notices-penistone.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: CouncilNoticesPayload) => setNotices(data.notices || []))
+      .catch(() => setNotices([]));
+    fetch('/data/events-penistone.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: EventsPayload) => setEvents(data.events || []))
+      .catch(() => setEvents([]));
     fetch('https://environment.data.gov.uk/flood-monitoring/id/floods?lat=53.525&long=-1.628&dist=25', { signal: ctrl.signal })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: { items?: Array<Record<string, unknown>> }) => {
@@ -174,6 +183,16 @@ export default function App() {
   const stale = useMemo(() => staleReports(timed), [timed]);
   const selected = combined.find((r) => r.id === selectedId) ?? null;
   const timeCounts = useMemo(() => timeframeCounts(combined), [combined]);
+
+  const view = viewForLayers(layers);
+
+  const applyView = useCallback((id: ViewId) => {
+    setLayers(VIEW_LAYERS[id]);
+  }, []);
+
+  const toggleLayer = useCallback((key: LayerKey) => {
+    setLayers((prev) => ({ ...prev, [key]: !prev[key] }));
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -211,31 +230,79 @@ export default function App() {
           pickPoint={pickPoint}
           onPick={(lat, lng) => setPickPoint({ lat, lng })}
           hmos={hmos}
-          showHmos={showHmos}
+          showHmos={layers.hmos}
           planning={planning}
-          showPlanning={showPlanning}
+          showPlanning={layers.planning}
           planningHmo={planningHmo}
-          showPlanningHmo={showPlanningHmo}
+          showPlanningHmo={layers.planningHmo}
           floodAreas={floodAreas}
           floodWarnings={floodWarnings}
-          showFlood={showFlood}
+          showFlood={layers.flood}
           collisions={collisions}
-          showCollisions={showCollisions}
+          showCollisions={layers.collisions}
           trafficCams={trafficCams}
-          showTrafficCams={showTrafficCams}
+          showTrafficCams={layers.trafficCams}
           prow={prow}
-          showProw={showProw}
+          showProw={layers.prow}
           airStations={airStations}
-          showAir={showAir}
+          showAir={layers.air}
           wards={wards}
-          showWards={showWards}
+          showWards={layers.wards}
           stale={stale}
-          showStale={showStale}
+          showStale={layers.stale}
           councillors={councillors}
-          showCouncillors={showCouncillors}
+          showCouncillors={layers.councillors}
           ecoWorks={ecoWorks}
-          showEco={showEco}
+          showEco={layers.eco}
+          notices={notices}
+          showNotices={layers.notices}
+          selectedNoticeId={selectedNoticeId}
+          events={events}
+          showEvents={layers.events}
+          selectedEventId={selectedEventId}
         />
+
+        <MapViews
+          view={view}
+          onView={applyView}
+          layers={layers}
+          onToggleLayer={toggleLayer}
+          moreOpen={moreLayers}
+          onToggleMore={() => setMoreLayers((v) => !v)}
+          counts={{
+            stale: String(stale.length),
+            councillors: String(councillors.length),
+            notices: String(notices.length),
+            events: String(events.length),
+            hmos: String(hmos.length),
+            planning: String(planning.length),
+            planningHmo: String(planningHmo.length),
+            flood: `${floodWarnings.length}/${floodAreas.length}`,
+            collisions: String(collisions.length),
+            trafficCams: String(trafficCams.length),
+            air: String(airStations.length),
+            eco: String(ecoWorks.length)
+          }}
+        />
+
+        {(layers.notices || layers.events) && (
+          <WhatsOnStrip
+            notices={notices}
+            events={events}
+            showNotices={layers.notices}
+            showEvents={layers.events}
+            selectedNoticeId={selectedNoticeId}
+            selectedEventId={selectedEventId}
+            onSelectNotice={(notice) => {
+              setSelectedNoticeId(notice.id);
+              setSelectedEventId(null);
+            }}
+            onSelectEvent={(event) => {
+              setSelectedEventId(event.id);
+              setSelectedNoticeId(null);
+            }}
+          />
+        )}
 
         <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-line bg-paper px-4 py-3 text-sm">
           <span className="font-semibold text-moss">Timeframe</span>
@@ -253,81 +320,6 @@ export default function App() {
           ))}
           <span className="text-xs text-ink/55">
             Newest first in lists. Map pins fade by age (today strongest, then this week, last 30 days, older faded). Type colour stays. Stale (orange halo) is still-open after 14 days — not the same as old.
-          </span>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-line bg-paper px-4 py-3 text-sm">
-          <span className="font-semibold text-moss">Layers</span>
-          <button
-            type="button"
-            onClick={() => setShowWards((v) => !v)}
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${showWards ? 'bg-[#1d4ed8] text-paper' : 'bg-stone text-ink/70'}`}
-          >
-            Wards
-          </button>
-          <button
-            type="button"
-            onClick={() => setShowStale((v) => !v)}
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${showStale ? 'bg-[#c2410c] text-paper' : 'bg-stone text-ink/70'}`}
-          >
-            Stale {stale.length}
-          </button>
-          <button
-            type="button"
-            onClick={() => setShowCouncillors((v) => !v)}
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${showCouncillors ? 'bg-[#2f4a34] text-paper' : 'bg-stone text-ink/70'}`}
-          >
-            Councillors {councillors.length}
-          </button>
-          <button
-            type="button"
-            onClick={() => setShowHmos((v) => !v)}
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${showHmos ? 'bg-[#5b2c6f] text-paper' : 'bg-stone text-ink/70'}`}
-          >
-            HMO {hmos.length}
-          </button>
-          <button
-            type="button"
-            onClick={() => setShowPlanning((v) => !v)}
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${showPlanning ? 'bg-[#1a5276] text-paper' : 'bg-stone text-ink/70'}`}
-          >
-            Planning {planning.length}
-          </button>
-          <button
-            type="button"
-            onClick={() => setShowPlanningHmo((v) => !v)}
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${showPlanningHmo ? 'bg-[#6c3483] text-paper' : 'bg-stone text-ink/70'}`}
-          >
-            HMO planning {planningHmo.length}
-          </button>
-          <button
-            type="button"
-            onClick={() => setShowFlood((v) => !v)}
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${showFlood ? 'bg-[#2874a6] text-paper' : 'bg-stone text-ink/70'}`}
-          >
-            Flood {floodWarnings.length}/{floodAreas.length}
-          </button>
-          <button type="button" onClick={() => setShowCollisions((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${showCollisions ? 'bg-[#922b21] text-paper' : 'bg-stone text-ink/70'}`}>
-            Collisions {collisions.length}
-          </button>
-          <button type="button" onClick={() => setShowTrafficCams((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${showTrafficCams ? 'bg-[#ca6f1e] text-paper' : 'bg-stone text-ink/70'}`}>
-            Traffic cams {trafficCams.length}
-          </button>
-          <button type="button" onClick={() => setShowProw((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${showProw ? 'bg-[#196f3d] text-paper' : 'bg-stone text-ink/70'}`}>
-            Paths
-          </button>
-          <button type="button" onClick={() => setShowAir((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${showAir ? 'bg-[#0e6655] text-paper' : 'bg-stone text-ink/70'}`}>
-            Air {airStations.length}
-          </button>
-          <button
-            type="button"
-            onClick={() => setShowEco((v) => !v)}
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${showEco ? 'bg-[#15803d] text-paper' : 'bg-stone text-ink/70'}`}
-          >
-            Eco works {ecoWorks.length}
-          </button>
-          <span className="text-xs text-ink/55">
-            Traffic cams are National Highways motorway CCTV (not town-centre cameras). Stale = open reports older than 14 days. Eco works = public council / biodiversity plans · approximate locations · not live contractor GPS.
           </span>
         </div>
 
@@ -362,7 +354,8 @@ export default function App() {
           <span className="font-display text-sm text-moss">Restore</span>
           {' · '}
           Penistone Insight Hub · FixMyStreet via Railway · community tips stored on this Worker ·
-          weather from Open-Meteo · ward boundaries MapIt / OS / ONS · ecological works from published Barnsley TPT / biodiversity documents (approximate) · Facebook posts are pasted by a person from the Restore brief ·
+          weather from Open-Meteo · ward boundaries MapIt / OS / ONS · ecological works from published Barnsley TPT / biodiversity documents (approximate) ·
+          council notices and events from public Penistone Town Council / Paramount / Barnsley listings · Facebook posts are pasted by a person from the Restore brief ·
           not affiliated with Barnsley Council
         </p>
       </footer>

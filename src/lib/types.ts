@@ -219,3 +219,44 @@ export type EcoWorksPayload = {
   works: EcoWork[];
 };
 
+export type CouncilNotice = {
+  id: string;
+  title: string;
+  date: string;
+  summary: string;
+  sourceUrl: string;
+  area?: string;
+  lat?: number;
+  lng?: number;
+};
+
+export type CouncilNoticesPayload = {
+  source: string;
+  sourceUrl: string;
+  extractedAt: string;
+  note: string;
+  notices: CouncilNotice[];
+};
+
+export type CommunityEvent = {
+  id: string;
+  title: string;
+  start: string;
+  end?: string;
+  place: string;
+  area?: string;
+  lat?: number;
+  lng?: number;
+  summary: string;
+  source: string;
+  sourceUrl: string;
+};
+
+export type EventsPayload = {
+  source: string;
+  sourceUrl: string;
+  extractedAt: string;
+  note: string;
+  events: CommunityEvent[];
+};
+
