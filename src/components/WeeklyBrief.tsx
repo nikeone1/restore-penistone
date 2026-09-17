@@ -35,7 +35,7 @@ export function WeeklyBrief({ reports, selected, onSelect }: Props) {
     const href = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = href;
-    a.download = `restore-brief-${new Date().toISOString().slice(0, 10)}.txt`;
+    a.download = `penistone-brief-${new Date().toISOString().slice(0, 10)}.txt`;
     a.click();
     URL.revokeObjectURL(href);
   }
@@ -44,12 +44,11 @@ export function WeeklyBrief({ reports, selected, onSelect }: Props) {
     <section className="rounded-2xl border border-line bg-paper p-4 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h2 className="font-display text-xl text-moss">Restore brief</h2>
+          <h2 className="font-display text-xl text-moss">Weekly brief</h2>
           <p className="mt-1 text-sm text-ink/60">
-            Weekly intel for a person to paste into Facebook groups. Restore never posts to Facebook itself.
+            Weekly intel for a person to paste into Facebook groups. This hub never posts to Facebook itself.
           </p>
         </div>
-        <span className="rounded-full bg-moss px-3 py-1 text-xs font-semibold tracking-wide text-paper">RESTORE</span>
       </div>
 
       {onSelect && (

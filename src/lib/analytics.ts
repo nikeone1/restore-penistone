@@ -185,14 +185,14 @@ export function weeklySummary(reports: Report[]): string {
   const streetBit = topStreet
     ? ` Most pressing: ${TYPE_LABEL[topStreet.type].toLowerCase()} around ${topStreet.loc} (${topStreet.count} reports).`
     : '';
-  return `Restore — Penistone Insight Hub update: ${reports.length} live FixMyStreet issue${reports.length === 1 ? '' : 's'} (${parts.join(', ') || 'no category breakdown'}).${streetBit} Neighbours can add photos and updates on FixMyStreet. #Penistone #Restore`;
+  return `Penistone Insight Hub update: ${reports.length} live FixMyStreet issue${reports.length === 1 ? '' : 's'} (${parts.join(', ') || 'no category breakdown'}).${streetBit} Neighbours can add photos and updates on FixMyStreet. #Penistone`;
 }
 
 export function issuePost(report: Report): string {
   const where = streetLabel(report.loc);
-  const via = report.origin === 'community' ? 'a Restore community tip' : 'FixMyStreet';
+  const via = report.origin === 'community' ? 'a community tip' : 'FixMyStreet';
   const link = report.url ? ` ${report.url}` : '';
-  return `Restore | Penistone: ${report.title} near ${where}. From ${via}${report.severity === 'high' ? ' — flagged as high severity' : ''}.${link} #Penistone #Restore`;
+  return `Penistone: ${report.title} near ${where}. From ${via}${report.severity === 'high' ? ' — flagged as high severity' : ''}.${link} #Penistone`;
 }
 
 export function topNeedsThisWeek(reports: Report[]): NeedItem[] {
@@ -218,7 +218,7 @@ export function restoreBrief(reports: Report[]): string {
   const dated = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
   const lines = [
-    `RESTORE BRIEF — Penistone Insight Hub`,
+    `WEEKLY BRIEF — Penistone Insight Hub`,
     dated,
     '',
     `FixMyStreet (live Railway feed): ${fms.length} reports${typeLine ? ` — ${typeLine}` : ''}.`,
@@ -255,7 +255,7 @@ export function restoreBrief(reports: Report[]): string {
     lines.push('');
   }
 
-  lines.push('Restore does not post to Facebook. A person should paste this brief into local groups.');
-  lines.push('#Penistone #Restore');
+  lines.push('This hub does not post to Facebook. A person should paste this brief into local groups.');
+  lines.push('#Penistone');
   return lines.join('\n');
 }

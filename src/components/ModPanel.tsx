@@ -47,7 +47,7 @@ export function ModPanel({ onChanged }: Props) {
       {open && (
         <div className="mt-3 grid gap-3">
           <p className="text-sm text-ink/60">
-            Enter the Restore moderation code. It is sent only to the approve endpoint — it is not stored in the public app bundle.
+            Enter the shared moderation code. It is sent only to the approve endpoint — it is not stored in the public app bundle.
           </p>
           <div className="flex flex-col gap-2 sm:flex-row">
             <input
@@ -55,7 +55,7 @@ export function ModPanel({ onChanged }: Props) {
               autoComplete="off"
               value={secret}
               onChange={(e) => setSecret(e.target.value)}
-              placeholder="RESTORE_MOD_SECRET"
+              placeholder="Shared code"
               className="flex-1 rounded-xl border border-line bg-stone/40 px-3 py-2 text-sm"
             />
             <button type="button" onClick={load} className="rounded-full bg-moss px-4 py-2 text-sm font-semibold text-paper">

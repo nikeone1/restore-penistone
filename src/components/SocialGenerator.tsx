@@ -30,10 +30,9 @@ export function SocialGenerator({ reports, selected }: Props) {
     <section className="rounded-2xl border border-line bg-paper p-4 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h2 className="font-display text-xl text-moss">Share from Restore</h2>
-          <p className="mt-1 text-sm text-ink/60">Ready-to-post text for residents&apos; groups and local pages. Always badged Restore.</p>
+          <h2 className="font-display text-xl text-moss">Share</h2>
+          <p className="mt-1 text-sm text-ink/60">Ready-to-post text for residents&apos; groups and local pages.</p>
         </div>
-        <span className="rounded-full bg-moss px-3 py-1 text-xs font-semibold tracking-wide text-paper">RESTORE</span>
       </div>
 
       <div className="mt-3 flex gap-2">

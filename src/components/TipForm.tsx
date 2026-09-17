@@ -35,7 +35,7 @@ export function TipForm({ pickMode, pickPoint, onTogglePick }: Props) {
     });
     if (result.ok) {
       setStatus('ok');
-      setMessage('Thanks. Restore has your tip as pending — it appears on the map only after a moderator approves it.');
+      setMessage('Thanks. Your tip is pending — it appears on the map only after a moderator approves it.');
       setDesc('');
       setLoc('');
       setArea('');
@@ -52,8 +52,8 @@ export function TipForm({ pickMode, pickPoint, onTogglePick }: Props) {
     <section className="rounded-2xl border border-line bg-paper p-4 shadow-sm">
       <h2 className="font-display text-xl text-moss">Send a community tip</h2>
       <p className="mt-1 text-sm text-ink/60">
-        Neighbours can flag something Restore should watch. We store a link if you add one — we never fetch or scrape Facebook.
-        Tips stay off the map until a Restore moderator approves them.
+        Neighbours can flag something this hub should watch. We store a link if you add one — we never fetch or scrape Facebook.
+        Tips stay off the map until a moderator approves them.
       </p>
       <form className="mt-4 grid gap-3" onSubmit={onSubmit}>
         <label className="grid gap-1 text-sm">
@@ -113,7 +113,7 @@ export function TipForm({ pickMode, pickPoint, onTogglePick }: Props) {
           <span className="text-ink/55">
             {pickPoint
               ? `Pin ${pickPoint.lat.toFixed(4)}, ${pickPoint.lng.toFixed(4)}`
-              : 'If you skip this, Restore uses the town centre as an approximate pin.'}
+              : 'If you skip this, the map uses the town centre as an approximate pin.'}
           </span>
         </div>
         <button
