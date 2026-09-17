@@ -16,7 +16,7 @@ export function StatsPanel({ reports, activeType, onType }: Props) {
   return (
     <section className="rounded-2xl border border-line bg-paper p-4 shadow-sm">
       <h2 className="font-display text-xl text-moss">What is being reported</h2>
-      <p className="mt-1 text-sm text-ink/60">Counts from the live FixMyStreet feed. Tap a category to filter the map.</p>
+      <p className="mt-1 text-sm text-ink/60">Counts from the live FixMyStreet feed (honours the timeframe filter). Tap a category to filter the map.</p>
 
       <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-6">
         <button

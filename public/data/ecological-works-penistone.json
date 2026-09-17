@@ -1,0 +1,130 @@
+{
+  "source": "Barnsley Council public documents (TPT active travel scheme and Biodiversity Duty Report)",
+  "sourceUrl": "https://www.barnsley.gov.uk/services/roads-travel-and-parking/transport-projects/",
+  "extractedAt": "2026-09-17",
+  "note": "Public council / biodiversity plans · approximate locations · not live contractor GPS. Curated from published pages and PDFs; paraphrased, not a live works feed. Friends of the Earth meadow listings omitted — no public site geocode without private addresses.",
+  "works": [
+    {
+      "id": "eco-tpt-penistone-wortley-ats",
+      "title": "Penistone to Wortley TPT Active Travel Scheme",
+      "status": "planned",
+      "summary": "Barnsley’s published Trans Pennine Trail scheme between Penistone and Wortley lists hedgerow planting and other biodiversity improvements together with path widening, access-barrier changes, surfacing and drainage. The council transport page (2026) describes the project as in development, with construction outlined as about six months from autumn 2026 after a summer funding-approval step — a published programme, not a start confirmation.",
+      "source": "Barnsley Council — Penistone to Wortley TPT scheme pack",
+      "sourceUrl": "https://www.barnsley.gov.uk/media/ttmnrytl/penistone-to-wortley-tpt-scheme.pdf",
+      "area": "Penistone to Wortley (TPT)",
+      "lat": 53.51,
+      "lng": -1.58,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-1.6328, 53.5249],
+          [-1.6227, 53.5256],
+          [-1.607, 53.5195],
+          [-1.597, 53.5138],
+          [-1.575, 53.508],
+          [-1.5647, 53.5069],
+          [-1.548, 53.4995],
+          [-1.5376, 53.4914]
+        ]
+      }
+    },
+    {
+      "id": "eco-glowworm-thurgoland",
+      "title": "Glow-worm sensitive vegetation, Thurgoland TPT",
+      "status": "ongoing",
+      "summary": "Barnsley’s Biodiversity Duty Report records routine vegetation clearance on the Trans Pennine Trail phased to protect the glow-worm population at Thurgoland. The Barnsley Biodiversity Plan describes this former-railway Local Wildlife Site as the borough’s only known glow-worm colony and advises not cutting through the June–August glowing season. Pin is approximate on the public trail, not a private address.",
+      "source": "Barnsley Biodiversity Duty Report; Barnsley Biodiversity Plan (glowworm)",
+      "sourceUrl": "https://www.barnsley.gov.uk/media/hybhoxcq/biodiversity-duty-report.pdf",
+      "area": "Thurgoland (TPT Local Wildlife Site)",
+      "lat": 53.5055,
+      "lng": -1.5635
+    },
+    {
+      "id": "eco-wildflower-dunford-penistone",
+      "title": "Wildflower meadows, Dunford to Penistone TPT",
+      "status": "ongoing",
+      "summary": "The Biodiversity Duty Report lists wildflower meadow management on the TPT between Dunford and Penistone as ongoing (alongside the Thurgoland vegetation work). Public trail guides describe species-rich grassland on former railway land on this stretch. This is a corridor trace, not a mapped contractor plot.",
+      "source": "Barnsley Biodiversity Duty Report (Trans Pennine Trail actions)",
+      "sourceUrl": "https://www.barnsley.gov.uk/media/hybhoxcq/biodiversity-duty-report.pdf",
+      "area": "Dunford Bridge to Penistone (TPT)",
+      "lat": 53.521,
+      "lng": -1.698,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-1.7633, 53.5179],
+          [-1.748, 53.5192],
+          [-1.72, 53.521],
+          [-1.698, 53.522],
+          [-1.6718, 53.5244],
+          [-1.65, 53.525],
+          [-1.6328, 53.5249]
+        ]
+      }
+    },
+    {
+      "id": "eco-tpt-trees-habitat",
+      "title": "TPT tree thinning retained as habitat",
+      "status": "ongoing",
+      "summary": "On the Trans Pennine Trail the council records trees being thinned where needed for biodiversity reasons rather than neighbouring property requests, with fallen or thinned timber kept on site as habitat log piles or dead hedging. Hedge-laying training for volunteers is also noted. Borough TPT practice; marker is a representative public trail location at Oxspring.",
+      "source": "Barnsley Biodiversity Duty Report (Trans Pennine Trail actions)",
+      "sourceUrl": "https://www.barnsley.gov.uk/media/hybhoxcq/biodiversity-duty-report.pdf",
+      "area": "Oxspring (TPT, representative)",
+      "lat": 53.5138,
+      "lng": -1.597
+    },
+    {
+      "id": "eco-lowland-heath-dunford-thurgoland",
+      "title": "Lowland heath, Dunford Bridge to Thurgoland TPT",
+      "status": "planned",
+      "summary": "Forward actions in the duty report (next reporting period from 2026) include improving existing lowland heath along the TPT between Dunford Bridge and Thurgoland, creating new heath where possible, and a maintenance plan for TPT heathland sites. This is a published intention, not a dated works order.",
+      "source": "Barnsley Biodiversity Duty Report — next reporting period",
+      "sourceUrl": "https://www.barnsley.gov.uk/media/hybhoxcq/biodiversity-duty-report.pdf",
+      "area": "Dunford Bridge to Thurgoland (TPT)",
+      "lat": 53.516,
+      "lng": -1.66,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-1.7633, 53.5179],
+          [-1.698, 53.522],
+          [-1.6328, 53.5249],
+          [-1.597, 53.5138],
+          [-1.5647, 53.5069]
+        ]
+      }
+    },
+    {
+      "id": "eco-glowworm-plan-penistone-wortley",
+      "title": "Glow-worm protection management plan",
+      "status": "planned",
+      "summary": "Among TPT section plans for the next duty period, the council lists a glow-worm protection management plan as part of the Penistone to Wortley stretch. That is additional to the ongoing phased vegetation work already recorded at Thurgoland. Approximate location at the known public TPT site.",
+      "source": "Barnsley Biodiversity Duty Report — next reporting period",
+      "sourceUrl": "https://www.barnsley.gov.uk/media/hybhoxcq/biodiversity-duty-report.pdf",
+      "area": "Penistone to Wortley section (Thurgoland TPT)",
+      "lat": 53.5038,
+      "lng": -1.557
+    },
+    {
+      "id": "eco-tpt-hedgerow-infill",
+      "title": "Hedgerow planting along TPT boundaries",
+      "status": "planned",
+      "summary": "The duty report’s forward TPT actions include planting or infilling hedgerow along trail boundaries where appropriate, to improve biodiversity and reduce trespass onto adjacent farmland. The Penistone–Wortley active-travel overview separately lists hedgerow planting among scheme elements. Approximate corridor only.",
+      "source": "Barnsley Biodiversity Duty Report; TPT Penistone–Wortley scheme overview",
+      "sourceUrl": "https://www.barnsley.gov.uk/media/hybhoxcq/biodiversity-duty-report.pdf",
+      "area": "Penistone to Wortley (TPT boundaries)",
+      "lat": 53.514,
+      "lng": -1.59,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-1.6328, 53.5249],
+          [-1.6227, 53.5256],
+          [-1.597, 53.5138],
+          [-1.5647, 53.5069],
+          [-1.5376, 53.4914]
+        ]
+      }
+    }
+  ]
+}

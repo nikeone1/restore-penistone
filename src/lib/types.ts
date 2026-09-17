@@ -192,3 +192,30 @@ export type StaleReport = {
   ts: number;
 };
 
+export type EcoWorkStatus = 'planned' | 'ongoing';
+
+export type EcoWorkGeometry =
+  | { type: 'Point'; coordinates: [number, number] }
+  | { type: 'LineString'; coordinates: [number, number][] };
+
+export type EcoWork = {
+  id: string;
+  title: string;
+  status: EcoWorkStatus;
+  summary: string;
+  source: string;
+  sourceUrl: string;
+  area: string;
+  lat: number;
+  lng: number;
+  geometry?: EcoWorkGeometry;
+};
+
+export type EcoWorksPayload = {
+  source: string;
+  sourceUrl: string;
+  extractedAt: string;
+  note: string;
+  works: EcoWork[];
+};
+

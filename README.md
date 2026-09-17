@@ -37,7 +37,7 @@ Toggle **HMO** on the map. Data is from Barnsley’s public licensed HMO PDF ([r
 
 - Leaflet map of live FixMyStreet reports (Railway RSS) plus approved community tips
 - Every popup labelled **FixMyStreet** or **Community tip**
-- Stats, prioritised needs, recurring issues, top needs this week / stale signal
+- Stats, prioritised needs, recurring issues, timeframe filter, newest-reports strip, top needs this week / stale signal
 - Community tip form (optional street, category, map pin, photo URL, FMS/Facebook link)
 - Weekly Restore brief (copy + `.txt` download)
 
@@ -81,3 +81,20 @@ Toggle **Stale** (on by default; count on the button). Open FixMyStreet reports 
 ## Councillor / casework pack
 
 The **Councillors** panel lists sitting Penistone East and West members from the public Barnsley ModernGov directory (`public/data/councillors-penistone.json`, as of 2026-09 after the East by-election). Mailto/tel and “Open council profile” only. **Public Barnsley councillor contacts · not a marked register · no electors.** Map pins sit at approximate ward centroids when the Councillors layer is on. Report popups can name that ward’s councillors via a point-in-polygon check on the MapIt shapes.
+
+## Timeframes / newest first
+
+**Timeframe** chips: Today · This week · Older · All (default **All**, newest first). Filters the map, stats, Needs, Recurring and Restore brief together.
+
+- Lists of FixMyStreet + approved community tips sort **newest first**. Needs stays priority-ranked and shows a clear **latest** relative time, plus a **Newest reports** strip and a Newest tab.
+- Map pins from the last **7 days** are larger with a moss ring (“hotter”). Older pins shrink and fade. The **Stale** layer is separate: still-open after 14 / 45 days (orange halo). New is not stale.
+- Relative times use `formatRelative` in `src/lib/recency.ts` on top of existing `ts` / `formatWhen` / `reportTimestamp` helpers.
+
+## Planned ecological works
+
+Toggle **Eco works** (on by default). Green markers and dashed corridor lines from `public/data/ecological-works-penistone.json` — a short curated set from **public Barnsley documents**, not a live contractor feed.
+
+- Penistone–Wortley TPT Active Travel Scheme (hedgerow planting and other biodiversity improvements): [scheme PDF](https://www.barnsley.gov.uk/media/ttmnrytl/penistone-to-wortley-tpt-scheme.pdf) and [transport projects](https://www.barnsley.gov.uk/services/roads-travel-and-parking/transport-projects/)
+- TPT glow-worm vegetation at Thurgoland, wildflower meadows Dunford–Penistone, trees retained as habitat, plus planned heath / hedgerow / glow-worm management plan: [Biodiversity Duty Report](https://www.barnsley.gov.uk/media/hybhoxcq/biodiversity-duty-report.pdf) (glow-worm context also on [barnsleybiodiversity.org.uk](http://barnsleybiodiversity.org.uk/glowworm.html))
+
+Popups carry title, planned/ongoing status, a short paraphrase, and a link to the official source. Honesty line: **Public council / biodiversity plans · approximate locations · not live contractor GPS.** No private Facebook scrapes; Friends of the Earth meadow listings skipped (no public site without a private address).

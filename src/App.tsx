@@ -10,12 +10,15 @@ import { TipForm } from './components/TipForm';
 import { WeatherWidget } from './components/WeatherWidget';
 import { WeeklyBrief } from './components/WeeklyBrief';
 import { loadApprovedTips, loadReports } from './lib/api';
+import { TIMEFRAME_LABEL, TIMEFRAMES, filterByTimeframe, timeframeCounts, type Timeframe } from './lib/recency';
 import { staleReports } from './lib/stale';
 import type {
   AirStation,
   CollisionRecord,
   Councillor,
   CouncillorsPayload,
+  EcoWork,
+  EcoWorksPayload,
   FeedSource,
   FloodArea,
   FloodWarning,
@@ -62,6 +65,9 @@ export default function App() {
   const [councillors, setCouncillors] = useState<Councillor[]>([]);
   const [findMemberUrl, setFindMemberUrl] = useState('https://barnsleymbc.moderngov.co.uk/mgFindMember.aspx');
   const [showCouncillors, setShowCouncillors] = useState(true);
+  const [ecoWorks, setEcoWorks] = useState<EcoWork[]>([]);
+  const [showEco, setShowEco] = useState(true);
+  const [timeframe, setTimeframe] = useState<Timeframe>('all');
 
   const refreshTips = useCallback(() => {
     loadApprovedTips()
@@ -129,6 +135,10 @@ export default function App() {
         if (data.findMemberUrl) setFindMemberUrl(data.findMemberUrl);
       })
       .catch(() => setCouncillors([]));
+    fetch('/data/ecological-works-penistone.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: EcoWorksPayload) => setEcoWorks(data.works || []))
+      .catch(() => setEcoWorks([]));
     fetch('https://environment.data.gov.uk/flood-monitoring/id/floods?lat=53.525&long=-1.628&dist=25', { signal: ctrl.signal })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: { items?: Array<Record<string, unknown>> }) => {
@@ -156,12 +166,14 @@ export default function App() {
   }, []);
 
   const combined = useMemo(() => [...reports, ...tips], [reports, tips]);
+  const timed = useMemo(() => filterByTimeframe(combined, timeframe), [combined, timeframe]);
   const visible = useMemo(
-    () => (activeType === 'all' ? combined : combined.filter((r) => r.type === activeType)),
-    [combined, activeType]
+    () => (activeType === 'all' ? timed : timed.filter((r) => r.type === activeType)),
+    [timed, activeType]
   );
   const stale = useMemo(() => staleReports(combined), [combined]);
   const selected = combined.find((r) => r.id === selectedId) ?? null;
+  const timeCounts = useMemo(() => timeframeCounts(combined), [combined]);
 
   return (
     <div className="min-h-screen">
@@ -221,7 +233,28 @@ export default function App() {
           showStale={showStale}
           councillors={councillors}
           showCouncillors={showCouncillors}
+          ecoWorks={ecoWorks}
+          showEco={showEco}
         />
+
+        <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-line bg-paper px-4 py-3 text-sm">
+          <span className="font-semibold text-moss">Timeframe</span>
+          {TIMEFRAMES.map((key) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setTimeframe(key)}
+              className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                timeframe === key ? 'bg-moss text-paper' : 'bg-stone text-ink/70'
+              }`}
+            >
+              {TIMEFRAME_LABEL[key]} {timeCounts[key]}
+            </button>
+          ))}
+          <span className="text-xs text-ink/55">
+            Newest first in lists. Map pins from the last 7 days are larger with a moss ring; older pins fade. Stale (orange) is still-open after 14 days — not the same as new.
+          </span>
+        </div>
 
         <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-line bg-paper px-4 py-3 text-sm">
           <span className="font-semibold text-moss">Layers</span>
@@ -286,12 +319,19 @@ export default function App() {
           <button type="button" onClick={() => setShowAir((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${showAir ? 'bg-[#0e6655] text-paper' : 'bg-stone text-ink/70'}`}>
             Air {airStations.length}
           </button>
+          <button
+            type="button"
+            onClick={() => setShowEco((v) => !v)}
+            className={`rounded-full px-3 py-1 text-xs font-semibold ${showEco ? 'bg-[#15803d] text-paper' : 'bg-stone text-ink/70'}`}
+          >
+            Eco works {ecoWorks.length}
+          </button>
           <span className="text-xs text-ink/55">
-            Traffic cams are National Highways motorway CCTV (not town-centre cameras). Stale = open reports older than 14 days.
+            Traffic cams are National Highways motorway CCTV (not town-centre cameras). Stale = open reports older than 14 days. Eco works = public council / biodiversity plans · approximate locations · not live contractor GPS.
           </span>
         </div>
 
-        <StatsPanel reports={combined} activeType={activeType} onType={setActiveType} />
+        <StatsPanel reports={timed} activeType={activeType} onType={setActiveType} />
 
         <CouncillorsPanel councillors={councillors} findMemberUrl={findMemberUrl} />
 
@@ -306,12 +346,12 @@ export default function App() {
 
         <div className="grid gap-4 lg:grid-cols-2">
           <WeatherWidget />
-          <NeedsPanel reports={combined} onSelect={(r) => setSelectedId(r.id)} />
+          <NeedsPanel reports={timed} onSelect={(r) => setSelectedId(r.id)} />
         </div>
 
         <div className="grid gap-4 lg:grid-cols-2">
-          <RecurringPanel reports={combined} onSelect={(r) => setSelectedId(r.id)} />
-          <WeeklyBrief reports={combined} selected={selected} />
+          <RecurringPanel reports={timed} onSelect={(r) => setSelectedId(r.id)} />
+          <WeeklyBrief reports={timed} selected={selected} onSelect={(r) => setSelectedId(r.id)} />
         </div>
 
         <ModPanel onChanged={refreshTips} />
@@ -322,7 +362,7 @@ export default function App() {
           <span className="font-display text-sm text-moss">Restore</span>
           {' · '}
           Penistone Insight Hub · FixMyStreet via Railway · community tips stored on this Worker ·
-          weather from Open-Meteo · ward boundaries MapIt / OS / ONS · Facebook posts are pasted by a person from the Restore brief ·
+          weather from Open-Meteo · ward boundaries MapIt / OS / ONS · ecological works from published Barnsley TPT / biodiversity documents (approximate) · Facebook posts are pasted by a person from the Restore brief ·
           not affiliated with Barnsley Council
         </p>
       </footer>

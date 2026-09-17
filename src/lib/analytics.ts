@@ -208,7 +208,7 @@ export function staleNeeds(reports: Report[]): NeedItem[] {
 
 export function restoreBrief(reports: Report[]): string {
   const fms = reports.filter((r) => r.origin !== 'community');
-  const tips = reports.filter((r) => r.origin === 'community');
+  const tips = reports.filter((r) => r.origin === 'community').sort((a, b) => (b.ts || 0) - (a.ts || 0));
   const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const week = reports.filter((r) => r.ts >= weekAgo);
   const weekNeeds = topNeedsThisWeek(reports);
@@ -250,7 +250,7 @@ export function restoreBrief(reports: Report[]): string {
   if (tips.length) {
     lines.push('Approved community tips:');
     tips.slice(0, 8).forEach((tip) => {
-      lines.push(`- ${tip.title} — ${streetLabel(tip.loc)}${tip.url ? ` (${tip.url})` : ''}`);
+      lines.push(`- ${tip.title} — ${streetLabel(tip.loc)} (${formatWhen(tip.ts)})${tip.url ? ` (${tip.url})` : ''}`);
     });
     lines.push('');
   }
