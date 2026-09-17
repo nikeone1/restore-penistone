@@ -9,6 +9,7 @@ import { WARD_STYLE, councillorsForWard, wardCentroids, wardForPoint } from '../
 import type {
   AirStation,
   CollisionRecord,
+  CouncilNotice,
   Councillor,
   EcoWork,
   FloodArea,
@@ -56,6 +57,9 @@ type Props = {
   showCouncillors?: boolean;
   ecoWorks?: EcoWork[];
   showEco?: boolean;
+  notices?: CouncilNotice[];
+  showNotices?: boolean;
+  selectedNoticeId?: string | null;
 };
 
 function ClickCatcher({ enabled, onPick }: { enabled: boolean; onPick?: (lat: number, lng: number) => void }) {
@@ -90,6 +94,20 @@ function FitWardsOnce({ wards }: { wards: WardCollection | null }) {
     }
   }, [map, wards]);
   return null;
+}
+
+function PanToNotice({ lat, lng }: { lat: number; lng: number }) {
+  const map = useMap();
+  useEffect(() => {
+    map.flyTo([lat, lng], Math.max(map.getZoom(), 14), { duration: 0.55 });
+  }, [map, lat, lng]);
+  return null;
+}
+
+function formatNoticeDate(iso: string): string {
+  const parsed = new Date(`${iso}T12:00:00`);
+  if (Number.isNaN(parsed.getTime())) return iso;
+  return parsed.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 function bindWardPopup(feature: { properties?: Partial<WardProperties> | null }, layer: Layer) {
@@ -137,7 +155,8 @@ export function IssueMap({
   wards = null, showWards = false,
   stale = [], showStale = false,
   councillors = [], showCouncillors = false,
-  ecoWorks = [], showEco = false
+  ecoWorks = [], showEco = false,
+  notices = [], showNotices = false, selectedNoticeId = null
 }: Props) {
   const mapped = [...reports.filter(isMapped)].sort((a, b) => {
     const da = reportAgeDays(a) ?? 9999;
@@ -158,7 +177,9 @@ export function IssueMap({
     (showWards && Boolean(wards)) ||
     (showStale && stale.length > 0) ||
     (showCouncillors && centroids.length > 0) ||
-    (showEco && ecoWorks.length > 0);
+    (showEco && ecoWorks.length > 0) ||
+    (showNotices && notices.length > 0);
+  const selectedNotice = notices.find((notice) => notice.id === selectedNoticeId);
 
   return (
     <section className="overflow-hidden rounded-2xl border border-line bg-paper shadow-sm">
@@ -175,6 +196,7 @@ export function IssueMap({
             {showWards ? ' · wards' : ''}
             {showStale ? ` · ${stale.length} stale open` : ''}
             {showEco ? ` · ${ecoWorks.length} eco works` : ''}
+            {showNotices ? ` · ${notices.length} notices` : ''}
             {' '}· layers labelled separately
           </p>
         </div>
@@ -195,6 +217,12 @@ export function IssueMap({
           />
           <ClickCatcher enabled={pickMode} onPick={onPick} />
           {wards && <FitWardsOnce wards={wards} />}
+          {showNotices &&
+            selectedNotice &&
+            selectedNotice.lat != null &&
+            selectedNotice.lng != null && (
+              <PanToNotice lat={selectedNotice.lat} lng={selectedNotice.lng} />
+            )}
           {showWards &&
             wards?.features.map((feature) => (
               <GeoJSON
@@ -618,6 +646,45 @@ export function IssueMap({
               );
             })}
 
+          {showNotices &&
+            notices
+              .filter((notice): notice is CouncilNotice & { lat: number; lng: number } => notice.lat != null && notice.lng != null)
+              .map((notice) => {
+                const selected = notice.id === selectedNoticeId;
+                return (
+                  <CircleMarker
+                    key={notice.id}
+                    center={[notice.lat, notice.lng]}
+                    radius={selected ? 11 : 8}
+                    pathOptions={{
+                      color: selected ? '#115e59' : '#0f766e',
+                      weight: selected ? 3 : 2,
+                      fillColor: selected ? '#5eead4' : '#14b8a6',
+                      fillOpacity: 0.92
+                    }}
+                  >
+                    <Popup className="restore-popup">
+                      <p className="text-[11px] font-semibold uppercase tracking-wide text-[#0f766e]">Council notice</p>
+                      <p className="mt-1 inline-block rounded-full bg-[#0f766e] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
+                        Penistone Town Council
+                      </p>
+                      <p className="mt-1 font-semibold leading-snug">{notice.title}</p>
+                      <p className="mt-1 text-sm text-ink/70">{notice.summary}</p>
+                      {notice.area && <p className="mt-1 text-xs text-ink/50">{notice.area}</p>}
+                      <p className="text-xs text-ink/50">{formatNoticeDate(notice.date)}</p>
+                      <a
+                        className="mt-1 inline-block text-sm font-semibold text-moss underline decoration-line underline-offset-2"
+                        href={notice.sourceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Open official notice
+                      </a>
+                    </Popup>
+                  </CircleMarker>
+                );
+              })}
+
           {pickPoint && (
             <CircleMarker
               center={[pickPoint.lat, pickPoint.lng]}
@@ -626,7 +693,7 @@ export function IssueMap({
             />
           )}
         </MapContainer>
-        {(showWards || showStale || mapped.length > 0 || showEco) && (
+        {(showWards || showStale || mapped.length > 0 || showEco || showNotices) && (
           <div className="pointer-events-none absolute bottom-3 left-3 z-[400] max-w-[220px] rounded-xl border border-line bg-paper/95 px-3 py-2 text-[11px] shadow-sm">
             {showWards && (
               <>
@@ -687,6 +754,17 @@ export function IssueMap({
                   Planned
                 </p>
                 <p className="mt-1 text-[10px] leading-snug text-ink/45">Approximate public plans · not contractor GPS</p>
+              </>
+            )}
+            {showNotices && (
+              <>
+                <p className={`font-semibold text-ink/70 ${showWards || showStale || mapped.length > 0 || showEco ? 'mt-2' : ''}`}>
+                  Council notices
+                </p>
+                <p className="mt-1 flex items-center gap-2">
+                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#14b8a6]" />
+                  Town council page
+                </p>
               </>
             )}
           </div>

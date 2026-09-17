@@ -1,0 +1,238 @@
+{
+  "source": "Penistone Town Council public News/Notices page",
+  "sourceUrl": "https://penistonetowncouncil.gov.uk/news-notices/",
+  "extractedAt": "2026-09-17",
+  "note": "Curated from the public council News/Notices listing (not Facebook/X). Dates are the event or restriction start stated on each notice, or the dated title. Pins are approximate street/venue locations, not worksite GPS. Refresh by copying currently listed public items from the source page into this file.",
+  "notices": [
+    {
+      "id": "ptc-westfield-ave-thurlstone-2026-08",
+      "title": "Road Closure — Westfield Ave, Thurlstone, 31/08/2026 – 06/09/2026",
+      "date": "2026-08-31",
+      "summary": "Westfield Avenue closed from house numbers 18 to 28 from 31 August 2026 for about one week for a new electric supply. Diversion via Royd Moor Road / Westfield Lane. Issued by Barnsley Council; promoter OCU Group.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/road-closure-westfield-ave-thurlstone-31-08-2026-06-09-2026/",
+      "area": "Thurlstone",
+      "lat": 53.52894,
+      "lng": -1.65248
+    },
+    {
+      "id": "ptc-wildlife-rural-crime-2026-08-20",
+      "title": "Wildlife & Rural Crime Engagement Meeting – Thursday 20/08/2026",
+      "date": "2026-08-20",
+      "summary": "Barnsley Neighbourhoods Police invited the public to a Wildlife and Rural Crime Engagement meeting at 6.30pm on 20 August 2026 at St John’s Community Centre, Church Street. Local officers, PCSOs and the Motorcycle and Rural Crime Team.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/wildlife-rural-crime-engagement-meeting-thursday-20-08-2026/",
+      "area": "Penistone town centre",
+      "lat": 53.52657,
+      "lng": -1.62926
+    },
+    {
+      "id": "ptc-hannah-kitching-life-peer",
+      "title": "Congratulations to Cllr Hannah Kitching",
+      "date": "2026-08-01",
+      "summary": "Penistone Town Council congratulated the Town Mayor, Cllr Hannah Kitching, on being created a life peer (Baroness Kitching) in a Liberal Democrat awards list, for long and continuing public service.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/congratualtions-to-cllr-hannah-kitching/",
+      "area": "Penistone town centre",
+      "lat": 53.5255,
+      "lng": -1.62847
+    },
+    {
+      "id": "ptc-penistone-station-proposals",
+      "title": "Proposals to improve Penistone Station — your input",
+      "date": "2026-06-15",
+      "summary": "Barnsley Council sought feedback on a fully accessible footbridge with lifts, about 100 park-and-ride spaces off Lairds Way, removing the existing platform crossing, and reconfiguring the west car park. Public engagement 15 June–6 July 2026; planning and outline business case aimed at autumn 2026, construction from spring 2027.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/proposals-to-improve-penistone-station-your-input/",
+      "area": "Penistone town centre",
+      "lat": 53.52563,
+      "lng": -1.62268
+    },
+    {
+      "id": "ptc-road-closures-penistone-10k-2026-06-21",
+      "title": "Road Closures – 21st June, 2026",
+      "date": "2026-06-21",
+      "summary": "Rolling closures 9.30–11.00am on 21 June 2026 for the Penistone 10k (Penistone Footpath Runners). Affected streets include Church View Road and Crescent, Victoria Street, Wilson Avenue, Dransfield Avenue, Ward Street, Green Road, Castle Lane, Long Lane, Oxspring Road, Mortimer Road, Joan Royd Lane, Brockholes Lane, Hartcliffe Road, Cross Lane, Hill Side Road and Eastfield Avenue. Issued by Barnsley Council.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/road-closures-21st-june-2026/",
+      "area": "Penistone town centre",
+      "lat": 53.52598,
+      "lng": -1.63023
+    },
+    {
+      "id": "ptc-leapings-lane-thurlstone-2026-06",
+      "title": "Road Closure — Leapings Lane, Thurlstone, 08–11/06/2026",
+      "date": "2026-06-08",
+      "summary": "Leapings Lane closed from Leapings Cottage to Leapings Lodge from 8 June 2026 for about three days to repair blocked telecoms ducting. Resident access maintained. Issued by Barnsley Council; promoter Rapid Response Telecoms.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/road-closure-leadings-lane-thurlstone-08-11-06-2026/",
+      "area": "Thurlstone",
+      "lat": 53.52471,
+      "lng": -1.65625
+    },
+    {
+      "id": "ptc-millennium-patchwork",
+      "title": "The Penistone Millennium Patchwork – information request",
+      "date": "2026-06-01",
+      "summary": "The town council asked for photos or memories of the Millennium Patchwork for a new history section timed with Town Hall renovations. Contact the Town Clerk at the Resource Centre or clerk@pentowncouncil.gov.uk.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/the-penistone-millennium-patchwork-information-request/",
+      "area": "Penistone town centre",
+      "lat": 53.5255,
+      "lng": -1.62847
+    },
+    {
+      "id": "ptc-hill-side-lane-thurlstone-2026-06-04",
+      "title": "Road Closure — Hill Side Lane, Thurlstone, 04/06/2026",
+      "date": "2026-06-04",
+      "summary": "Hill Side Lane closed from Hartcliffe Lane to Cross Lane on 4 June 2026 for about one day for telecoms work. Diversion via Hornthwaite Hill Road, Rock Side Road, Manchester Road, Birks Lane and Shore Hall Lane. Issued by Barnsley Council.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/road-closure-hill-side-lane-thurlstone-04-06-2026/",
+      "area": "Thurlstone",
+      "lat": 53.52075,
+      "lng": -1.66079
+    },
+    {
+      "id": "ptc-penistone-historical-timeline",
+      "title": "Penistone Historical Timeline",
+      "date": "2026-06-01",
+      "summary": "Penistone Line Partnership and the Archive and Heritage Group installed a four-panel heritage timeline on Platform 1 at Penistone Station, covering notable local people from the 15th century to today.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/penistone-historical-timeline/",
+      "area": "Penistone town centre",
+      "lat": 53.52563,
+      "lng": -1.62268
+    },
+    {
+      "id": "ptc-church-view-rd-2026-05",
+      "title": "Road Closure — Church View Rd, Penistone, 26/05 – 02/06/2026",
+      "date": "2026-05-26",
+      "summary": "Church View Road closed from Victoria Street to Eastfield Avenue from 26 May 2026 for about one week for carriageway patching. Diversion via Eastfield Avenue, Shrewsbury Road, Market Place, St Mary’s Street, Market Street, High Street and Victoria Street. BMBC Highways.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/road-closure-church-view-rd-penistone-26-05-02-06-2026/",
+      "area": "Penistone town centre",
+      "lat": 53.52449,
+      "lng": -1.62565
+    },
+    {
+      "id": "ptc-south-yorkshire-buses",
+      "title": "South Yorkshire Buses — have your say",
+      "date": "2026-03-25",
+      "summary": "SYMCA survey (25 March–17 May 2026) on first bus improvements when services come under public control from September 2027: reliability, simpler timetables, evening and weekend services, and links to hospitals, work, shops and schools. southyorkshire-ca.gov.uk/improving-bus-services or Traveline 0800 952 0002.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/south-yorkshire-buses-have-your-say/",
+      "area": "Penistone (borough-wide)",
+      "lat": 53.52598,
+      "lng": -1.63023
+    },
+    {
+      "id": "ptc-pact-meetings-2026",
+      "title": "Upcoming PACT Meetings 2026 (updated)",
+      "date": "2026-04-21",
+      "summary": "Partners and Communities Together meetings now cover Penistone East, Penistone West and Dodworth. 2026 dates: 30 April and 3 September at the Polyfox Centre, Dodworth; 2 July and 3 December at St John’s Community Centre, Penistone. Public invited to raise ASB and neighbourhood crime.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/upcoming-pact-meetings-2026/",
+      "area": "Penistone East & West",
+      "lat": 53.52657,
+      "lng": -1.62926
+    },
+    {
+      "id": "ptc-notice-of-election-2026-05-07",
+      "title": "Notice of Election — 7th May 2026",
+      "date": "2026-05-07",
+      "summary": "Local elections on 7 May 2026. The council notice points to the official Barnsley notice and to gov.uk voter registration.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/notice-of-election-7th-may-2026/",
+      "area": "Penistone (all town wards)",
+      "lat": 53.5255,
+      "lng": -1.62847
+    },
+    {
+      "id": "ptc-local-elections-2026-05-07",
+      "title": "Local Elections — 7th May 2026",
+      "date": "2026-05-07",
+      "summary": "Voters elect town councillors (Penistone central 6 seats, Cubley & Spring Vale 4, Thurlstone & Millhouse Green 3, Hoylandswaine 2) and Barnsley councillors for Penistone East and West. Nominations 31 March–4pm 9 April 2026, packs returned by hand to Barnsley Town Hall.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/local-elections-7th-may-2026/",
+      "area": "Penistone (all town wards)",
+      "lat": 53.5255,
+      "lng": -1.62847
+    },
+    {
+      "id": "ptc-cross-lane-thurlstone-2026-03",
+      "title": "Road Closure — Cross Lane, Thurlstone, 23-28/03/2026",
+      "date": "2026-03-23",
+      "summary": "Cross Lane closed from Hornthwaite Hill Road to Cross Royd Farm Shop from 23 March 2026 for about five days for a new electric connection. Diversion via Hartcliff Road, Chapel Lane, The Green, High Street, St Mary’s Street, Bridge Street, Thurlstone Road, Rock Side Road and Hornthwaite Hill Road.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/road-closure-cross-lane-thurlstone-23-28-03-2026/",
+      "area": "Thurlstone",
+      "lat": 53.51815,
+      "lng": -1.65062
+    },
+    {
+      "id": "ptc-royd-moor-rd-2026-03-30",
+      "title": "Road Closure — Royd Moor Rd, Thurlstone, 30/03/2026",
+      "date": "2026-03-30",
+      "summary": "Royd Moor Road closed from Windsor Avenue to Royd Moor Hall Farm on 30 March 2026 for about one day for telecoms work. Diversion via Royd Lane / Manchester Road / Towngate.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/road-closure-royd-moor-rd-thurlstone-30-03-2026/",
+      "area": "Thurlstone",
+      "lat": 53.52947,
+      "lng": -1.64991
+    },
+    {
+      "id": "ptc-rockside-thurlstone-2026-03-24",
+      "title": "Road Closure — Rockside, Thurlstone, 24-27/3/2026",
+      "date": "2026-03-24",
+      "summary": "Rockside Road closed from Hornthwaite Hill Road to Hornthwaite Close from 24 March 2026 for about three days to repair blocked telecoms ducting. Diversion via Manchester Road, Birks Lane, Shore Hall Lane, Hill Side Lane and Hornthwaite Hill Road. (Council slug still reads 2016.)",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/road-closure-rockside-thusrltone-24-27-3-2016/",
+      "area": "Thurlstone",
+      "lat": 53.52668,
+      "lng": -1.64765
+    },
+    {
+      "id": "ptc-annual-town-assembly-2026-03-09",
+      "title": "Annual Town Assembly — 09/03/2026",
+      "date": "2026-03-09",
+      "summary": "Forum for Penistone electors (not a council meeting) at 6pm on Monday 9 March 2026 in the Council Chamber, Town Hall, Shrewsbury Road. Agenda: previous minutes, Town Clerk presentation, matters raised by electors.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/annual-town-assembly-09-03-2026/",
+      "area": "Penistone town centre",
+      "lat": 53.5255,
+      "lng": -1.62847
+    },
+    {
+      "id": "ptc-royd-moor-rd-2026-03-06",
+      "title": "Road Closure — Royd Moor Rd, Thurlstone, 06—11/03/2026",
+      "date": "2026-03-06",
+      "summary": "Royd Moor Road closed from 100 metres west of Royd Moor House Farm to 100 metres east of Clare Royd from 6 March 2026 for about five days for telecoms ducting. Diversion via Royd Lane / Manchester Road / Towngate.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/temporary-road-closure-royd-moor-rd-thurlstone-06-11-03-2026/",
+      "area": "Thurlstone",
+      "lat": 53.52947,
+      "lng": -1.64991
+    },
+    {
+      "id": "ptc-councillor-vacancy-2026-01-27",
+      "title": "Councillor Vacancy — 27th Jan 2026",
+      "date": "2026-01-27",
+      "summary": "Casual vacancy in Penistone Ward after Jason Barton’s resignation. Because it fell within six months of the ordinary election, it was to be filled on 7 May 2026 rather than by a separate by-election.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/councillor-vacancy-27th-jan-2026/",
+      "area": "Penistone Ward",
+      "lat": 53.52598,
+      "lng": -1.63023
+    },
+    {
+      "id": "ptc-lea-lane-millhouse-2026-01",
+      "title": "Speed Restriction — Lea Lane, Millhouse Green, 6—9 Jan 2026",
+      "date": "2026-01-06",
+      "summary": "Temporary 40mph on Lee Lane from Whams Road to Hollin Lane from 6 January 2026 for about three days for telecoms ducting. Issued by Barnsley Council.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/speed-restriction-lea-lane-millhouse-green-6-9-jan-2026/",
+      "area": "Millhouse Green",
+      "lat": 53.52651,
+      "lng": -1.68435
+    },
+    {
+      "id": "ptc-bridge-st-penistone-2025-12-16",
+      "title": "Road Closure — Bridge St, Penistone 16th Dec 2025",
+      "date": "2025-12-16",
+      "summary": "Yorkshire Water closed Bridge Street in the town centre after a burst main (Barnsley Environment & Transport note, 26 December 2025). Low vehicles diverted via A628 Barnsley Road and A629 Oxspring / Thurgoland; high vehicles via A628 Thurlstone Road / Manchester Road and Hartcliffe.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/road-closure-bridge-st-penistone-16th-dec-2025/",
+      "area": "Penistone town centre",
+      "lat": 53.52893,
+      "lng": -1.63397
+    },
+    {
+      "id": "ptc-hoylandswaine-renald-lane-2025-12",
+      "title": "Speed Restriction — Hoylandswaine, 8th-15th Dec",
+      "date": "2025-12-08",
+      "summary": "Temporary 40mph on Renald Lane from New Road to Firs Lane from 8 December 2025 for about one week for highway drainage repairs. BMBC Environmental Services.",
+      "sourceUrl": "https://penistonetowncouncil.gov.uk/speed-restriction-hoylandswaine-8th-15th-dec/",
+      "area": "Hoylandswaine",
+      "lat": 53.53733,
+      "lng": -1.60169
+    }
+  ]
+}

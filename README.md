@@ -18,6 +18,26 @@ On the site: expand **Moderator (shared code)** at the bottom, enter that code, 
 
 Facebook: Restore never posts. Copy or download the weekly **Restore brief** and paste it into groups yourself. Facebook URLs on tips are stored as links only — never fetched.
 
+## Map views
+
+Five **map views** replace the old wall of layer pills. FixMyStreet reports, community tips and recency stay on the map in every view.
+
+- **Overview** (default) — wards, council notices, councillors, stale open reports, eco works
+- **Streets & reports** — stale, collisions, notices
+- **Housing** — licensed HMOs, planning, HMO planning
+- **Travel & roads** — traffic cams, collisions, public paths, notices
+- **Green & flood** — eco works, flood, paths, air quality
+
+**More layers** still exposes every overlay for power users. It stays collapsed by default.
+
+## Town Council notices
+
+Toggle is on in **Overview**, **Streets & reports** and **Travel & roads** (and via More layers). Teal map pins plus a thin list from `public/data/council-notices-penistone.json` — a curated snapshot of the public [News/Notices](https://penistonetowncouncil.gov.uk/news-notices/) page (~23 items: road closures, vacancies, station plans, PACT, elections, etc.).
+
+Popups paraphrase the official notice and link to it. Pins use an approximate street or venue, not worksite GPS. **No Facebook or X scraping.**
+
+**Refresh:** open the council News/Notices page, copy currently listed public items into the JSON (`id`, `title`, `date`, `summary`, `sourceUrl`, optional `lat`/`lng` and `area`). Keep paraphrases short; do not paste private or social-only posts. Nominatim / OSM is fine for public street centroids.
+
 ## Planning overlays (separated)
 
 - **Planning** — general Penistone/S36 applications (extensions, etc.) in `planning-penistone.json`
@@ -36,6 +56,8 @@ Toggle **HMO** on the map. Data is from Barnsley’s public licensed HMO PDF ([r
 ## What you get
 
 - Leaflet map of live FixMyStreet reports (Railway RSS) plus approved community tips
+- **Map views** instead of a wall of layer pills (Overview / Streets / Housing / Travel / Green), with More layers when needed
+- Town Council notices as teal pins and a thin list (curated from the public notices page)
 - Every popup labelled **FixMyStreet** or **Community tip**
 - Stats, prioritised needs, recurring issues, timeframe filter, newest-reports strip, top needs this week / stale signal
 - Community tip form (optional street, category, map pin, photo URL, FMS/Facebook link)
