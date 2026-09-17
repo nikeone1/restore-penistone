@@ -5,7 +5,7 @@ import { IssueMap } from './components/IssueMap';
 import { MapViews } from './components/MapViews';
 import { ModPanel } from './components/ModPanel';
 import { NeedsPanel } from './components/NeedsPanel';
-import { NoticesStrip } from './components/NoticesStrip';
+import { WhatsOnStrip } from './components/WhatsOnStrip';
 import { RecurringPanel } from './components/RecurringPanel';
 import { StatsPanel } from './components/StatsPanel';
 import { TipForm } from './components/TipForm';
@@ -18,12 +18,14 @@ import { staleReports } from './lib/stale';
 import type {
   AirStation,
   CollisionRecord,
+  CommunityEvent,
   CouncilNotice,
   CouncilNoticesPayload,
   Councillor,
   CouncillorsPayload,
   EcoWork,
   EcoWorksPayload,
+  EventsPayload,
   FeedSource,
   FloodArea,
   FloodWarning,
@@ -61,7 +63,9 @@ export default function App() {
   const [findMemberUrl, setFindMemberUrl] = useState('https://barnsleymbc.moderngov.co.uk/mgFindMember.aspx');
   const [ecoWorks, setEcoWorks] = useState<EcoWork[]>([]);
   const [notices, setNotices] = useState<CouncilNotice[]>([]);
+  const [events, setEvents] = useState<CommunityEvent[]>([]);
   const [selectedNoticeId, setSelectedNoticeId] = useState<string | null>(null);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [layers, setLayers] = useState<LayerFlags>(DEFAULT_LAYERS);
   const [moreLayers, setMoreLayers] = useState(false);
   const [timeframe, setTimeframe] = useState<Timeframe>('all');
@@ -140,6 +144,10 @@ export default function App() {
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: CouncilNoticesPayload) => setNotices(data.notices || []))
       .catch(() => setNotices([]));
+    fetch('/data/events-penistone.json', { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: EventsPayload) => setEvents(data.events || []))
+      .catch(() => setEvents([]));
     fetch('https://environment.data.gov.uk/flood-monitoring/id/floods?lat=53.525&long=-1.628&dist=25', { signal: ctrl.signal })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data: { items?: Array<Record<string, unknown>> }) => {
@@ -249,6 +257,9 @@ export default function App() {
           notices={notices}
           showNotices={layers.notices}
           selectedNoticeId={selectedNoticeId}
+          events={events}
+          showEvents={layers.events}
+          selectedEventId={selectedEventId}
         />
 
         <MapViews
@@ -262,6 +273,7 @@ export default function App() {
             stale: String(stale.length),
             councillors: String(councillors.length),
             notices: String(notices.length),
+            events: String(events.length),
             hmos: String(hmos.length),
             planning: String(planning.length),
             planningHmo: String(planningHmo.length),
@@ -273,11 +285,22 @@ export default function App() {
           }}
         />
 
-        {layers.notices && (
-          <NoticesStrip
+        {(layers.notices || layers.events) && (
+          <WhatsOnStrip
             notices={notices}
-            selectedId={selectedNoticeId}
-            onSelect={(notice) => setSelectedNoticeId(notice.id)}
+            events={events}
+            showNotices={layers.notices}
+            showEvents={layers.events}
+            selectedNoticeId={selectedNoticeId}
+            selectedEventId={selectedEventId}
+            onSelectNotice={(notice) => {
+              setSelectedNoticeId(notice.id);
+              setSelectedEventId(null);
+            }}
+            onSelectEvent={(event) => {
+              setSelectedEventId(event.id);
+              setSelectedNoticeId(null);
+            }}
           />
         )}
 
@@ -332,7 +355,7 @@ export default function App() {
           {' · '}
           Penistone Insight Hub · FixMyStreet via Railway · community tips stored on this Worker ·
           weather from Open-Meteo · ward boundaries MapIt / OS / ONS · ecological works from published Barnsley TPT / biodiversity documents (approximate) ·
-          council notices from the public Penistone Town Council News/Notices page · Facebook posts are pasted by a person from the Restore brief ·
+          council notices and events from public Penistone Town Council / Paramount / Barnsley listings · Facebook posts are pasted by a person from the Restore brief ·
           not affiliated with Barnsley Council
         </p>
       </footer>

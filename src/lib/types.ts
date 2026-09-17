@@ -238,3 +238,25 @@ export type CouncilNoticesPayload = {
   notices: CouncilNotice[];
 };
 
+export type CommunityEvent = {
+  id: string;
+  title: string;
+  start: string;
+  end?: string;
+  place: string;
+  area?: string;
+  lat?: number;
+  lng?: number;
+  summary: string;
+  source: string;
+  sourceUrl: string;
+};
+
+export type EventsPayload = {
+  source: string;
+  sourceUrl: string;
+  extractedAt: string;
+  note: string;
+  events: CommunityEvent[];
+};
+

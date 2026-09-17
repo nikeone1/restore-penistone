@@ -3,6 +3,7 @@ export const LAYER_KEYS = [
   'stale',
   'councillors',
   'notices',
+  'events',
   'hmos',
   'planning',
   'planningHmo',
@@ -22,7 +23,12 @@ export const MAP_VIEWS = [
   {
     id: 'overview',
     label: 'Overview',
-    hint: 'Wards, notices, councillors, stale, eco works'
+    hint: 'Wards, notices, events, councillors, stale, eco works'
+  },
+  {
+    id: 'events',
+    label: 'Events',
+    hint: 'What’s on plus council notices'
   },
   {
     id: 'streets',
@@ -55,6 +61,7 @@ export const LAYER_META: Record<LayerKey, { label: string; activeClass: string }
   stale: { label: 'Stale', activeClass: 'bg-[#c2410c] text-paper' },
   councillors: { label: 'Councillors', activeClass: 'bg-[#2f4a34] text-paper' },
   notices: { label: 'Notices', activeClass: 'bg-[#0f766e] text-paper' },
+  events: { label: 'Events', activeClass: 'bg-[#b45309] text-paper' },
   hmos: { label: 'HMO', activeClass: 'bg-[#5b2c6f] text-paper' },
   planning: { label: 'Planning', activeClass: 'bg-[#1a5276] text-paper' },
   planningHmo: { label: 'HMO planning', activeClass: 'bg-[#6c3483] text-paper' },
@@ -71,6 +78,7 @@ const off: LayerFlags = {
   stale: false,
   councillors: false,
   notices: false,
+  events: false,
   hmos: false,
   planning: false,
   planningHmo: false,
@@ -89,7 +97,14 @@ export const VIEW_LAYERS: Record<ViewId, LayerFlags> = {
     stale: true,
     councillors: true,
     notices: true,
+    events: true,
     eco: true
+  },
+  events: {
+    ...off,
+    wards: true,
+    events: true,
+    notices: true
   },
   streets: {
     ...off,

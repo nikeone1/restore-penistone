@@ -9,6 +9,7 @@ import { WARD_STYLE, councillorsForWard, wardCentroids, wardForPoint } from '../
 import type {
   AirStation,
   CollisionRecord,
+  CommunityEvent,
   CouncilNotice,
   Councillor,
   EcoWork,
@@ -60,6 +61,9 @@ type Props = {
   notices?: CouncilNotice[];
   showNotices?: boolean;
   selectedNoticeId?: string | null;
+  events?: CommunityEvent[];
+  showEvents?: boolean;
+  selectedEventId?: string | null;
 };
 
 function ClickCatcher({ enabled, onPick }: { enabled: boolean; onPick?: (lat: number, lng: number) => void }) {
@@ -156,7 +160,8 @@ export function IssueMap({
   stale = [], showStale = false,
   councillors = [], showCouncillors = false,
   ecoWorks = [], showEco = false,
-  notices = [], showNotices = false, selectedNoticeId = null
+  notices = [], showNotices = false, selectedNoticeId = null,
+  events = [], showEvents = false, selectedEventId = null
 }: Props) {
   const mapped = [...reports.filter(isMapped)].sort((a, b) => {
     const da = reportAgeDays(a) ?? 9999;
@@ -178,8 +183,16 @@ export function IssueMap({
     (showStale && stale.length > 0) ||
     (showCouncillors && centroids.length > 0) ||
     (showEco && ecoWorks.length > 0) ||
-    (showNotices && notices.length > 0);
+    (showNotices && notices.length > 0) ||
+    (showEvents && events.length > 0);
   const selectedNotice = notices.find((notice) => notice.id === selectedNoticeId);
+  const selectedEvent = events.find((event) => event.id === selectedEventId);
+  const panTarget =
+    selectedEvent && selectedEvent.lat != null && selectedEvent.lng != null
+      ? { lat: selectedEvent.lat, lng: selectedEvent.lng }
+      : selectedNotice && selectedNotice.lat != null && selectedNotice.lng != null
+        ? { lat: selectedNotice.lat, lng: selectedNotice.lng }
+        : null;
 
   return (
     <section className="overflow-hidden rounded-2xl border border-line bg-paper shadow-sm">
@@ -197,6 +210,7 @@ export function IssueMap({
             {showStale ? ` · ${stale.length} stale open` : ''}
             {showEco ? ` · ${ecoWorks.length} eco works` : ''}
             {showNotices ? ` · ${notices.length} notices` : ''}
+            {showEvents ? ` · ${events.length} events` : ''}
             {' '}· layers labelled separately
           </p>
         </div>
@@ -217,12 +231,7 @@ export function IssueMap({
           />
           <ClickCatcher enabled={pickMode} onPick={onPick} />
           {wards && <FitWardsOnce wards={wards} />}
-          {showNotices &&
-            selectedNotice &&
-            selectedNotice.lat != null &&
-            selectedNotice.lng != null && (
-              <PanToNotice lat={selectedNotice.lat} lng={selectedNotice.lng} />
-            )}
+          {panTarget && <PanToNotice lat={panTarget.lat} lng={panTarget.lng} />}
           {showWards &&
             wards?.features.map((feature) => (
               <GeoJSON
@@ -685,6 +694,50 @@ export function IssueMap({
                 );
               })}
 
+          {showEvents &&
+            events
+              .filter((event): event is CommunityEvent & { lat: number; lng: number } => event.lat != null && event.lng != null)
+              .map((event) => {
+                const selected = event.id === selectedEventId;
+                const when =
+                  event.end && event.end !== event.start
+                    ? `${formatNoticeDate(event.start)} – ${formatNoticeDate(event.end)}`
+                    : formatNoticeDate(event.start);
+                return (
+                  <CircleMarker
+                    key={event.id}
+                    center={[event.lat, event.lng]}
+                    radius={selected ? 11 : 8}
+                    pathOptions={{
+                      color: selected ? '#9a3412' : '#b45309',
+                      weight: selected ? 3 : 2,
+                      fillColor: selected ? '#fdba74' : '#f59e0b',
+                      fillOpacity: 0.92
+                    }}
+                  >
+                    <Popup className="restore-popup">
+                      <p className="text-[11px] font-semibold uppercase tracking-wide text-[#b45309]">Event</p>
+                      <p className="mt-1 inline-block rounded-full bg-[#b45309] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-paper">
+                        {event.source}
+                      </p>
+                      <p className="mt-1 font-semibold leading-snug">{event.title}</p>
+                      <p className="mt-1 text-sm text-ink/70">{event.summary}</p>
+                      <p className="mt-1 text-xs text-ink/50">{event.place}</p>
+                      {event.area && <p className="text-xs text-ink/50">{event.area}</p>}
+                      <p className="text-xs text-ink/50">{when}</p>
+                      <a
+                        className="mt-1 inline-block text-sm font-semibold text-moss underline decoration-line underline-offset-2"
+                        href={event.sourceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Open listing
+                      </a>
+                    </Popup>
+                  </CircleMarker>
+                );
+              })}
+
           {pickPoint && (
             <CircleMarker
               center={[pickPoint.lat, pickPoint.lng]}
@@ -693,7 +746,7 @@ export function IssueMap({
             />
           )}
         </MapContainer>
-        {(showWards || showStale || mapped.length > 0 || showEco || showNotices) && (
+        {(showWards || showStale || mapped.length > 0 || showEco || showNotices || showEvents) && (
           <div className="pointer-events-none absolute bottom-3 left-3 z-[400] max-w-[220px] rounded-xl border border-line bg-paper/95 px-3 py-2 text-[11px] shadow-sm">
             {showWards && (
               <>
@@ -764,6 +817,17 @@ export function IssueMap({
                 <p className="mt-1 flex items-center gap-2">
                   <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#14b8a6]" />
                   Town council page
+                </p>
+              </>
+            )}
+            {showEvents && (
+              <>
+                <p className={`font-semibold text-ink/70 ${showWards || showStale || mapped.length > 0 || showEco || showNotices ? 'mt-2' : ''}`}>
+                  Events
+                </p>
+                <p className="mt-1 flex items-center gap-2">
+                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#f59e0b]" />
+                  Public what’s on
                 </p>
               </>
             )}

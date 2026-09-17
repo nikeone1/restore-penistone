@@ -20,15 +20,18 @@ Facebook: Restore never posts. Copy or download the weekly **Restore brief** and
 
 ## Map views
 
-Five **map views** replace the old wall of layer pills. FixMyStreet reports, community tips and recency stay on the map in every view.
+A small set of **map views** replace the old wall of layer pills. FixMyStreet reports, community tips and recency stay on the map in every view.
 
-- **Overview** (default) — wards, council notices, councillors, stale open reports, eco works
+- **Overview** (default) — wards, council notices, events, councillors, stale open reports, eco works
+- **Events** — what’s on plus council notices
 - **Streets & reports** — stale, collisions, notices
 - **Housing** — licensed HMOs, planning, HMO planning
 - **Travel & roads** — traffic cams, collisions, public paths, notices
 - **Green & flood** — eco works, flood, paths, air quality
 
 **More layers** still exposes every overlay for power users. It stays collapsed by default.
+
+See [docs/CONSTITUENCY-BLUEPRINT.md](docs/CONSTITUENCY-BLUEPRINT.md) to copy this hub to another UK constituency.
 
 ## Town Council notices
 
@@ -37,6 +40,14 @@ Toggle is on in **Overview**, **Streets & reports** and **Travel & roads** (and 
 Popups paraphrase the official notice and link to it. Pins use an approximate street or venue, not worksite GPS. **No Facebook or X scraping.**
 
 **Refresh:** open the council News/Notices page, copy currently listed public items into the JSON (`id`, `title`, `date`, `summary`, `sourceUrl`, optional `lat`/`lng` and `area`). Keep paraphrases short; do not paste private or social-only posts. Nominatim / OSM is fine for public street centroids.
+
+## Events / what’s on
+
+Amber map pins plus the same thin **What’s on** list as notices (`public/data/events-penistone.json`). Default **on** in Overview and in the **Events** view.
+
+Seeded from public pages only: Penistone Town Council (PACT, town assembly, Remembrance pattern), [Penistone Paramount What’s On](https://www.penistoneparamount.co.uk/whatson/live), [Barnsley local markets](https://www.barnsley.gov.uk/services/markets/local-markets/) (Thursday market, Super Saturdays, seasonal markets), [Barnsley events](https://my.barnsley.gov.uk/events/50436/gel-plate-printing) filtered to Penistone Library, [Penistone Show](https://penistoneshow.com/), [Norman Cole Penistone 10k](https://pfrac.co.uk/races/penistone-10k). **No Facebook/X scraping.** Skip TBC items.
+
+**Refresh weekly:** Paramount listings, Barnsley markets calendar, borough What’s On (Penistone only), council notices for PACT / Remembrance / races. Fields: `id`, `title`, `start`, optional `end`, `place`, `area`, optional `lat`/`lng`, `summary`, `source`, `sourceUrl`.
 
 ## Planning overlays (separated)
 
@@ -56,8 +67,8 @@ Toggle **HMO** on the map. Data is from Barnsley’s public licensed HMO PDF ([r
 ## What you get
 
 - Leaflet map of live FixMyStreet reports (Railway RSS) plus approved community tips
-- **Map views** instead of a wall of layer pills (Overview / Streets / Housing / Travel / Green), with More layers when needed
-- Town Council notices as teal pins and a thin list (curated from the public notices page)
+- **Map views** instead of a wall of layer pills (Overview / Events / Streets / Housing / Travel / Green), with More layers when needed
+- Town Council notices and public events as pins plus a thin What’s on list
 - Every popup labelled **FixMyStreet** or **Community tip**
 - Stats, prioritised needs, recurring issues, timeframe filter, newest-reports strip, top needs this week / stale signal
 - Community tip form (optional street, category, map pin, photo URL, FMS/Facebook link)
