@@ -18,11 +18,11 @@ export function Header({ status, count, community, updated, feed }: Props) {
       <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-start gap-3">
           <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-moss text-paper" aria-hidden>
-            <span className="font-display text-lg font-semibold">R</span>
+            <span className="font-display text-lg font-semibold">P</span>
           </div>
           <div>
-            <p className="font-display text-2xl leading-none text-moss">Restore</p>
-            <p className="text-sm text-ink/70">Penistone Insight Hub · East &amp; West wards</p>
+            <p className="font-display text-2xl leading-none text-moss">Penistone Insight Hub</p>
+            <p className="text-sm text-ink/70">East &amp; West wards</p>
           </div>
         </div>
         <div className="text-sm text-ink/75 sm:text-right">

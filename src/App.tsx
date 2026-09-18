@@ -207,7 +207,7 @@ export default function App() {
       <main className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4 pb-16">
         {status === 'loading' && (
           <div className="rounded-2xl border border-dashed border-line bg-paper px-4 py-8 text-sm text-ink/60">
-            Restore is up. Pulling live FixMyStreet reports for Penistone East and West…
+            Pulling live FixMyStreet reports for Penistone East and West…
           </div>
         )}
         {status === 'error' && (
@@ -352,11 +352,11 @@ export default function App() {
 
       <footer className="border-t border-line bg-paper/80 px-4 py-6 text-center text-xs text-ink/55">
         <p>
-          <span className="font-display text-sm text-moss">Restore</span>
+          <span className="font-display text-sm text-moss">Penistone Insight Hub</span>
           {' · '}
-          Penistone Insight Hub · FixMyStreet via Railway · community tips stored on this Worker ·
+          FixMyStreet via Railway · community tips stored on this Worker ·
           weather from Open-Meteo · ward boundaries MapIt / OS / ONS · ecological works from published Barnsley TPT / biodiversity documents (approximate) ·
-          council notices and events from public Penistone Town Council / Paramount / Barnsley listings · Facebook posts are pasted by a person from the Restore brief ·
+          council notices and events from public Penistone Town Council / Paramount / Barnsley listings · Facebook posts are pasted by a person from the weekly brief ·
           not affiliated with Barnsley Council
         </p>
       </footer>
